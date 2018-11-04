@@ -16,7 +16,7 @@ interface IProps
 }
 
 @observer
-export default class Input extends React.Component<IProps, {}> {
+export default class Button extends React.Component<IProps, {}> {
 	constructor(props: IProps)
 	{
 		super(props);

@@ -3,8 +3,40 @@ import asyncComponent from '@/components/asyncComponent';
 
 export default [
   {
-    component: asyncComponent(() => import('../containers/block')),
+    component: asyncComponent(() => import('../containers/nns')),
+    path: '/nns',
+  },
+  {
+    component: asyncComponent(() => import('../containers/asset/assetinfo')),
+    path: '/asset',
+  },
+  {
+    component: asyncComponent(() => import('../containers/asset')),
+    path: '/assets',
+  },
+  {
+    component: asyncComponent(() => import('../containers/address/addressinfo')),
+    path: '/address',
+  },
+  {
+    component: asyncComponent(() => import('../containers/address')),
+    path: '/addresses',
+  },
+  {
+    component: asyncComponent(() => import('../containers/transaction/traninfo')),
+    path: '/transaction',
+  },
+  {
+    component: asyncComponent(() => import('../containers/transaction')),
+    path: '/transactions',
+  },
+  {
+    component: asyncComponent(() => import('../containers/block/blockinfo')),
     path: '/block',
+  },
+  {
+    component: asyncComponent(() => import('../containers/block')),
+    path: '/blocks',
   },
   {
     component: asyncComponent(() => import('../containers/notfound')),

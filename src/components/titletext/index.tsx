@@ -4,10 +4,11 @@ import './index.less';
 import classnames from 'classnames';
 
 interface Iprops {
-  text:string,
+  text:string;
   isTableTitle?:boolean;
   isInfoTitle?:boolean;
-  img?:string
+  img?:string;
+  isInline?:boolean;
 }
 export default class TitleText extends React.Component<Iprops,any> {
   public render () {
@@ -20,9 +21,20 @@ export default class TitleText extends React.Component<Iprops,any> {
           }
           {this.props.text}
         </h3>
-        <div className="right">
-          {this.props.children}
-        </div>    
+        {
+          !!!this.props.isInline && (
+            <div className="right">
+              {this.props.children}
+            </div> 
+          )
+        }
+        {
+          this.props.isInline && (
+            <div className="inline-select">
+              {this.props.children}
+            </div>
+          )
+        } 
       </div>
     )
   }
