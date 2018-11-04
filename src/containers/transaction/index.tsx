@@ -9,11 +9,26 @@ import './index.less'
 
 class Transactions extends React.Component {
     public options = [
-        "all",
-        "contract",
-        "claim",
-        "invocation",
-        "miner"
+        {
+            id: 'all',
+            name: "all",
+        },
+        {
+            id: 'contract',
+            name: "contract",
+        },
+        {
+            id: 'claim',
+            name: "claim",
+        },
+        {
+            id: 'invocation',
+            name: "invocation",
+        },
+        {
+            id: 'miner',
+            name: "miner",
+        }
     ]
     public tableTh = [
         "Type",
@@ -83,11 +98,14 @@ class Transactions extends React.Component {
             createdTime: "2018/04/17 | 16:17"
         }
     ]
+    public onCallback = (item) => {
+        console.log(item)
+    }
     public render() {
         return (
             <div className="transaction-page">
                 <TitleText text="Transactions" img={require('@/img/transactions.png')} isInline={true}>
-                    <Select options={this.options} text="Type" />
+                    <Select options={this.options} text="Type" onCallback={this.onCallback}/>
                 </TitleText>
                 <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
             </div>

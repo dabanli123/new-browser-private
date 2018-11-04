@@ -1,57 +1,101 @@
 // 输入框组件
 import * as React from 'react';
 import { observer } from 'mobx-react';
-// import classnames from 'classnames';
+import EventHandler from '@/utils/event';
+import classnames from 'classnames';
 import './index.less';
-
+interface IOptions {
+	id: string | number,
+	name: string
+}
 interface IProps
 {
-	options:string[],
+	options:IOptions[],
 	text:string,
-	onClick?: (event: any) => void,
+	onCallback?: (event: any) => void,
 	style?: object,
+	placeholder?:string,
+}
+
+interface IState{
+	options:IOptions,
+	expand:boolean
 }
 
 @observer
-export default class Select extends React.Component<IProps, {}> {
-	constructor(props: IProps)
-	{
-		super(props);
+export default class Select extends React.Component<IProps, IState> {
+	public state = {
+		// 选择的项
+		options:{id: '', name: ''},
+		expand: false,
 	}
-	// 监控输入内容
-	public onClick = (event: any) =>
-	{
-		if (this.props.onClick)
-		{
-			this.props.onClick(event.target.value);
+	public componentDidMount() {
+		if(!this.props.placeholder) {
+			this.setState({
+				options:this.props.options[0]
+			});
+			if(this.props.onCallback) {
+				this.props.onCallback(this.props.options[0]);
+			}
+		}
+
+		// 注册全局点击事件，以便点击其他区域时，隐藏展开的内容
+		EventHandler.add(this.globalClick);
+	}
+	// 全局点击
+	public globalClick = () => {
+		this.setState({ expand: false });
+	}
+	// 选择选项
+	public onSelect = (item) => {
+
+		this.setState({ options: item, expand: false });
+
+		if(this.props.onCallback) {
+			this.props.onCallback(item);
 		}
 	}
+	// 展开
+	public onExpand = (e) => {
+		// 取反
+		const expand = !this.state.expand;
+	
+		this.setState({
+		  expand: expand
+		});
+	
+		e.stopPropagation();
+	  }
+	public componentWillUnmount() {
+		//  组件释放remove click处理
+		EventHandler.remove(this.globalClick);
+	  }
 
 	public render()
 	{
-		// const btnClassName = classnames('button-group',
-		// 	{
-		// 		'search-btn': this.props.search ? this.props.search : false,
-		// 		'bg-btn': this.props.bgBtn ? this.props.bgBtn : false,
-		// 		'mobile-btn': this.props.mobileBtn ? this.props.mobileBtn : false
-		// 	})
+		const selectBox = classnames('select-box', {'disNone': !this.state.expand})
+		const { options = [] } = this.props;
+		let showName:string = this.props.placeholder || options[0][name];
+		if(this.state.options && this.state.options.name) {
+			showName =   this.state.options.name
+		}
 		return (
 			<div className="select-wrapper"
-				onClick={this.onClick}
+				onClick={this.onExpand}
 				style={this.props.style}
 			>
 				<div className="select-type">{this.props.text}</div>
 				<div className="selected-text">
-					<span>all</span>
+					<span>{showName}</span>
 					<span className="triangle" />
 				</div>
-				<div className="select-box">
+				<div className={selectBox}>
 					<ul>
-						<li>sdf</li>
-						<li>sdf</li>
-						<li>sdf</li>
-						<li>sdf</li>
-						<li>sdf</li>
+						{
+							options.map((v, i) => {
+								return <li key={i} className='option' onClick={this.onSelect.bind(this, v)}>{v.name}</li>;
+							})
+						}
 					</ul>
 				</div>
 			</div>

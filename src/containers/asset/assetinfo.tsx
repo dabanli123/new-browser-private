@@ -6,51 +6,70 @@ import TitleText from '@/components/titletext/index';
 import Table from '@/components/Table/Table';
 import './index.less'
 
-class TransactionInfo extends React.Component
+class AssetInfo extends React.Component
 {
   public tableTh = [
+    "Rank",
     "Address",
-    "Asset"
+    "Amount"
   ]
   public tableData = [
     {
-      address: 'ANUTf3uNmeJqMQGoAZbm8m2ytrSajSwfRR',
-      asset: "12345678.23456778 GAS"
+        rank:"1",
+        address: 'ANUTf3uNmeJqMQGoAZbm8m2ytrSajSwfRR',
+        amount: "12345678.23456778 GAS"
     },
     {
+        rank:"1",
         address: 'ANUTf3uNmeJqMQGoAZbm8m2ytrSajSwfRR',
-        asset: "12345678.23456778 GAS"
+        amount: "12345678.23456778 GAS"
     },
     {
+        rank:"1",
         address: 'ANUTf3uNmeJqMQGoAZbm8m2ytrSajSwfRR',
-        asset: "12345678.23456778 GAS"
+        amount: "12345678.23456778 GAS"
     },
     {
+        rank:"1",
         address: 'ANUTf3uNmeJqMQGoAZbm8m2ytrSajSwfRR',
-        asset: "12345678.23456778 GAS"
+        amount: "12345678.23456778 GAS"
     },
     {
+        rank:"1",
         address: 'ANUTf3uNmeJqMQGoAZbm8m2ytrSajSwfRR',
-        asset: "12345678.23456778 GAS"
+        amount: "12345678.23456778 GAS"
+    },
+    {
+        rank:"1",
+        address: 'ANUTf3uNmeJqMQGoAZbm8m2ytrSajSwfRR',
+        amount: "12345678.23456778 GAS"
     }
   ]
   public render()
   {
     return (
-      <div className="transactioninfo-page">
+      <div className="assetinfo-page">
         <div className="goback-wrapper">
             <span className="goback-text">&lt;&lt;  Go back</span>
         </div>
         <div className="info-content">
-            <TitleText text="Transaction information" isInfoTitle={true}/>
+            <TitleText text="Asset information" isInfoTitle={true}/>
             <div className="info-list">
                 <ul>
                     <li>
                         <span className="type-name">
-                            TXid
+                            Asset
                         </span>
                         <span className="type-content">
-                            0xf0a62e7c3a1c232adb016ccb7682e7b4f745f2b9002ef9c8ed853320d8a16419
+                            NEO
+                        </span>
+                    </li>
+                    <li>
+                        <span className="type-name">
+                        Hash
+                        </span>
+                        <span className="type-content">
+                        0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b
                         </span>
                     </li>
                     <li>
@@ -58,65 +77,43 @@ class TransactionInfo extends React.Component
                         Type
                         </span>
                         <span className="type-content">
-                        Miner
+                        Governing Token
                         </span>
                     </li>
                     <li>
                         <span className="type-name">
-                        Network Fee
+                        Available
                         </span>
                         <span className="type-content">
-                        0 GAS
+                        100000
                         </span>
                     </li>
                     <li>
                         <span className="type-name">
-                        System Fee
+                            Precision
                         </span>
                         <span className="type-content">
-                        0 GAS
+                            0
                         </span>
                     </li>
                     <li>
                         <span className="type-name">
-                            Size
+                            Admin
                         </span>
                         <span className="type-content">
-                            10 bytes
-                        </span>
-                    </li>
-                    <li>
-                        <span className="type-name">
-                            Height
-                        </span>
-                        <span className="type-content">
-                            <a href="">2880572</a>
-                        </span>
-                    </li>
-                    <li>
-                        <span className="type-name">
-                            Time
-                        </span>
-                        <span className="type-content">
-                        Tue, 23 Oct 2018 02:58:27 GMT
+                        Abf2qMs1pzQb8kYk9RuxtUb9jtRKJVuBJt
                         </span>
                     </li>
                 </ul>
             </div>
         </div>
-        <div className="transactioninfo-input-output">
-            <div className="input-wrapper">
-                <TitleText text="Input"/>
-                <Table tableTh={this.tableTh} tableData={this.tableData}/>
-            </div>
-            <div className="output-wrapper">
-                <TitleText text="Output"/>
-                <Table tableTh={this.tableTh} tableData={this.tableData}/>
-            </div>
+        <div className="asset-balance-rank">
+            <TitleText text="Balance rank"/>
+            <Table tableTh={this.tableTh} tableData={this.tableData}/>
         </div>
       </div>
     );
   }
 }
 
-export default TransactionInfo;
+export default AssetInfo;
