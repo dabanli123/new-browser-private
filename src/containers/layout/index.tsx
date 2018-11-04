@@ -2,6 +2,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import Header from '@/components/header';
+import HeaderMobile from '@/components/header/headerMobile';
 import Footer from '@/components/footer'
 // import {zh_CN, en_US} from '@/language';
 // import store from '@/store/common';
@@ -38,11 +39,12 @@ export default class LayoutIndex extends React.Component<any, any> {
   public render() {
     return (
       <div className="layout-container">
-        <Header />
+        <Header history={this.context.router.history} />
+        <HeaderMobile />
         <div className="layout-main">
           {this.props.children}
         </div>
-        <Footer/>
+        <Footer />
       </div>
     );
   }

@@ -7,7 +7,7 @@
 4. Typescript
 5. ant-design
 
-## 启动
+## 启动（测试网）
 
 ```shell
 npm install / yarn add
@@ -15,6 +15,10 @@ npm install / yarn add
 
 ```shell
 npm start / yarn start
+```
+## 启动（主网）
+```shell
+npm run startpub
 ```
 ## 打包发布
 ```shell

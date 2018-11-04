@@ -57,6 +57,7 @@
   },
   "scripts": {
     "start": "cross-env REACT_APP_SERVER_ENV=DEV node scripts/start.js",
+    "startpub": "cross-env REACT_APP_SERVER_ENV=PUB node scripts/start.js",
     "test": "cross-env REACT_APP_SERVER_ENV=DEV node scripts/build.js",
     "pub": "cross-env REACT_APP_SERVER_ENV=PUB node scripts/build.js",
     "build": "npm run pub && npm run test"

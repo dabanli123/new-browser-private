@@ -1,0 +1,139 @@
+.header-mobile-container {
+  height:48px;
+  background: @main-color;
+  position: relative;
+
+  .header-wrapper {
+    width:100%;
+    padding:0 .15rem;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height:100%;
+    .nav {
+      width:20px;
+    }
+  
+    .logo {
+      flex:1;
+      text-align: center;
+      img {
+        width:100px;
+      }
+    }
+    .language {
+      font-size:18px;
+      color:#fff;
+    }
+  }
+
+  .menu-wrapper {
+    width:100%;
+    position: absolute;
+    top:0;
+    left:0;
+    background: @main-color;
+    padding:15px 0;
+    box-sizing: border-box;
+
+    .close {
+      width:19px;
+      height:19px;
+      padding:0 15px;
+      img {
+        width:100%;
+      }
+    }
+
+    .list-box {
+      margin-top:20px;
+
+      &:not(:nth-of-type(2)) {
+        border-top:3px solid #fff;
+        margin-top:0;
+      }
+
+      .list {
+        padding: 0 50px;
+        height:44px;
+        border-bottom:1px solid #fff;
+        line-height: 44px;
+        font-size:14px;
+        color:#fff;
+        position: relative;
+
+        span {
+          em {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border: 5px solid transparent;
+            border-top: 5px solid #fff;
+            border-radius: 2px;
+            margin-left:5px;
+            position: relative;
+            top:3px;
+          }
+        }
+
+        input[type="checkbox"] {
+          width:0;
+          height:0;
+          position: absolute;
+          opacity: 0;
+          &:checked ~ .child{
+            display: block;
+          }
+        }
+
+        .child {
+          width:121px;
+          background: #FFFFFF;
+          border: 1px solid #B2B2B2;
+          border-radius: 3px; 
+          position: absolute;
+          left:50px;
+          top:35px;
+          z-index: 1;
+          display: none;
+          span {
+            display: block;
+            height:40px;
+            line-height: 40px;
+            font-size:12px;
+            padding:0 15px;
+            box-sizing: border-box;
+            color:#333;
+          }
+        }
+
+        &:last-child {
+          border:none;
+        }
+      }
+
+      .search-box {
+        margin:15px 15px 0;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        height:36px;
+
+        input {
+          flex:1;
+          height:100%;
+          border:none;
+          text-indent: 15px;
+          background: none;
+          color:#fff;
+        }
+
+        img {
+          width:20px;
+          margin-right:15px;
+        }
+      }
+    }
+  }
+}

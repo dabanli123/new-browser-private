@@ -71,8 +71,13 @@
                         border: 1px solid @text-fff;
                         border-radius: 100px;
                         text-align: center;                        
-                        display: flex;
                         position: relative;
+                        label {
+                            display: flex;
+                            width:100%;
+                            height:100%;
+
+                        }
                         .language-content{
                             flex:1;
                             font-size: 12px;
@@ -106,6 +111,16 @@
                                 border-top: 5px solid @text-fff;
                             }
                         }
+
+                        input[type="checkbox"] {
+                            width:0;
+                            height:0;
+                            position: absolute;
+                            opacity: 0;
+                            &:checked ~ .select-wrap {
+                                display: block;
+                            }
+                        }
                     }
                 }
             }
@@ -128,6 +143,16 @@
                     border-top: 5px solid @text-fff;
                     border-radius: 2px;
                     margin: 10px 5px 0 5px;
+                }
+            }
+
+            input[type="checkbox"] {
+                width:0;
+                height:0;
+                position: absolute;
+                opacity: 0;
+                &:checked ~ .select-wrap {
+                    display: block;
                 }
             }
         }
