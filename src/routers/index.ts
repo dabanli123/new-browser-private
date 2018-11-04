@@ -10,7 +10,7 @@ export default [
     component: asyncComponent(() => import('../containers/notfound')),
     path: '/:any',
   },
-  { 
+  {
     component: asyncComponent(() => import('../containers/home')),
     exact: true,
     path: '/',
