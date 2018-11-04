@@ -13,7 +13,7 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const tsImportPluginFactory = require('ts-import-plugin');
-const theme = require('../package.json').theme;
+const packagejson = require('../package.json');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -98,7 +98,7 @@ module.exports = {
       '.jsx',
     ],
     alias: {
-      
+
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -110,7 +110,9 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
-      new TsconfigPathsPlugin({ configFile: paths.appTsConfig }),
+      new TsconfigPathsPlugin({
+        configFile: paths.appTsConfig
+      }),
     ],
   },
   module: {
@@ -147,7 +149,7 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              
+
               compact: true,
             },
           },
@@ -156,22 +158,20 @@ module.exports = {
           {
             test: /\.(ts|tsx)$/,
             include: paths.appSrc,
-            use: [
-              {
-                loader: require.resolve('ts-loader'),
-                options: {
-                  // disable type checker - we will use it in fork plugin
-                  transpileOnly: true,
-                  getCustomTransformers: () => ({
-                    before: [ tsImportPluginFactory({
-                      libraryDirectory: 'es',
-                      libraryName: 'antd',
-                      style: true,
-                    }) ]
-                  })
-                },
+            use: [{
+              loader: require.resolve('ts-loader'),
+              options: {
+                // disable type checker - we will use it in fork plugin
+                transpileOnly: true,
+                getCustomTransformers: () => ({
+                  before: [tsImportPluginFactory({
+                    libraryDirectory: 'es',
+                    libraryName: 'antd',
+                    style: true,
+                  })]
+                })
               },
-            ],
+            }, ],
           },
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
@@ -193,7 +193,7 @@ module.exports = {
                 options: {
                   // Necessary for external CSS imports to work
                   // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss', 
+                  ident: 'postcss',
                   plugins: () => [
                     require('postcss-flexbugs-fixes'),
                     autoprefixer({
@@ -202,7 +202,7 @@ module.exports = {
                         'last 4 versions',
                         'Firefox ESR',
                         'not ie < 9', // React doesn't support IE8 anyway 
-                        'Chrome >= 35', 
+                        'Chrome >= 35',
                         'Safari >= 7.1',
                         'Firefox >= 31',
                         'Opera >= 12'
@@ -215,7 +215,7 @@ module.exports = {
               {
                 loader: require.resolve('less-loader'), // compiles Less to CSS
                 options: {
-                  modifyVars: theme,
+                  modifyVars: process.env.REACT_APP_SERVER_ENV === 'DEV' ? packagejson.testtheme : packagejson.maintheme,
                   javascriptEnabled: true
                 }
               }
@@ -246,7 +246,7 @@ module.exports = {
                         'last 4 versions',
                         'Firefox ESR',
                         'not ie < 9', // React doesn't support IE8 anyway 
-                        'Chrome >= 35', 
+                        'Chrome >= 35',
                         'Safari >= 7.1',
                         'Firefox >= 31',
                         'Opera >= 12'

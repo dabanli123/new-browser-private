@@ -57,10 +57,9 @@
   },
   "scripts": {
     "start": "cross-env REACT_APP_SERVER_ENV=DEV node scripts/start.js",
-    "uat": "cross-env REACT_APP_SERVER_ENV=UAT node scripts/build.js",
-    "pre": "cross-env REACT_APP_SERVER_ENV=PRE node scripts/build.js",
+    "test": "cross-env REACT_APP_SERVER_ENV=DEV node scripts/build.js",
     "pub": "cross-env REACT_APP_SERVER_ENV=PUB node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "build": "npm run pub && npm run test"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -144,7 +143,40 @@
       "pathRewrite": {}
     }
   },
-  "theme": {
-    "brand-primary": "#22A4FF"
+  "maintheme": {
+    "main-color": "#5F86FB",
+    "linear-color": "#5DC6FD",
+    "text-link": "#5F86FB",
+    "link-hover": "#B6C9FF",
+    "btn-hover": "#B6C9FF",
+    "box-shadowColor": "#3491e8",
+    "btn-shadowColor": "#4F49DB",
+
+    "nns-peirod": "#2DDE4F",
+    "nns-overtime": "#FB985F",
+    "notallow": "#B2B2B2",
+    "text-color": "#333",
+    "text-fff": "#fff",
+    "background": "#F6F6F6",
+    "line-color": "#ECECEC",
+    "hearder-line": "#B6C9FF"
+  },
+  "testtheme": {
+    "main-color": "#151A1E",
+    "linear-color": "#666666",
+    "text-link": "#2DDE4F",
+    "link-hover": "#6BEC83",
+    "btn-hover": "#535558",
+    "box-shadowColor": "#1E1E1E",
+    "btn-shadowColor": "#1F1F1F",
+
+    "nns-peirod": "#2DDE4F",
+    "nns-overtime": "#FB985F",
+    "notallow": "#B2B2B2",
+    "text-color": "#333",
+    "text-fff": "#fff",
+    "background": "#F6F6F6",
+    "line-color": "#ECECEC",
+    "hearder-line": "#B6C9FF"
   }
 }

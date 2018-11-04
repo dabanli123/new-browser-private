@@ -22,13 +22,11 @@ addLocaleData([...en, ...zh]);
 // 初始化请求
 
 
-const ObserverRender = observer(() =>
-{
+const ObserverRender = observer(() => {
   let messages = en_US;
   let locale = 'en';
 
-  if (store['common'].language === 'zh')
-  {
+  if (store['common'].language === 'zh') {
     messages = zh_CN;
     locale = 'zh';
   }
@@ -39,17 +37,30 @@ const ObserverRender = observer(() =>
       messages={messages}
     >
       {
-        renderRoutes(routes) 
+        renderRoutes(routes)
       }
     </IntlProvider>
   )
 });
 
-export default () =>
-{
+export default () => {
+  if (process.env.REACT_APP_SERVER_ENV === 'DEV') {
+    return (
+      <Provider {...store}>
+        <BrowserRouter basename="test">
+          <Layout>
+            <Switch>
+              <ObserverRender />
+            </Switch>
+          </Layout>
+        </BrowserRouter>
+      </Provider>
+    );
+  }
+
   return (
     <Provider {...store}>
-      <BrowserRouter>
+      <BrowserRouter >
         <Layout>
           <Switch>
             <ObserverRender />
