@@ -1,3 +1,4 @@
+@import '../../color/maincolor.less';
 .table-wrap{
     // border: 1px solid red;
     background: #FFFFFF;
@@ -33,7 +34,26 @@
                     span{
                         flex: 1;
                         font-size: 14px;
-                        font-family: NotoSansHans-Regular;                
+                        font-family: NotoSansHans-Regular;  
+                        &.img-text {
+                            text-align: left;
+                            text-indent: 15px;   
+                        }
+                                             
+                        a{
+                            color: @text-link;
+                            &:hover{
+                                color:@link-hover;
+                                text-decoration: underline;
+                            }
+                        } 
+                        img{
+                            width: 20px;
+                            height: 20px;
+                            vertical-align: middle;
+                            margin-right: 5px;
+                            border: none;
+                        }             
                     }
                 }
             }

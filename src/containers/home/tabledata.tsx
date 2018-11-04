@@ -85,7 +85,7 @@ class TableData extends React.Component
 
   public renderBlock = (value, key) => {
     if(key === 'height') {
-      return <span><img src={require('@/img/height.png')} alt=""/><a href="http://www.baidu.com">{value}</a></span>
+      return <span className="img-text"><img src={require('@/img/height.png')} alt=""/><a href="http://www.baidu.com">{value}</a></span>
     }
 
     return null;
@@ -97,7 +97,7 @@ class TableData extends React.Component
     }
 
     if(key === 'height') {
-      return <span><img src={this.imgs[value]} alt=""/>{value}</span>
+      return <span className="img-text"><img src={this.imgs[value]} alt=""/>{value}</span>
     }
 
     return null;

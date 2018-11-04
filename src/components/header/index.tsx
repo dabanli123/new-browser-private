@@ -4,30 +4,28 @@ import * as React from 'react';
 // import Button from '@/components/Button/Button';
 import './index.less';
 
-export default class Header extends React.Component
-{
+export default class Header extends React.Component {
   public state = {
-    inputValue:'',
-    inputPlaceHolder:'Search for block height/hash/address or transaction id'
+    inputValue: '',
+    inputPlaceHolder: 'Search for block height/hash/address or transaction id'
   }
-  public onChange = (value:string)=>{
+  public onChange = (value: string) => {
     this.setState({
-      inputValue:value
+      inputValue: value
     })
     console.log(value)
   }
-  public onFocus = ()=>{
+  public onFocus = () => {
     this.setState({
-      inputPlaceHolder:''
+      inputPlaceHolder: ''
     })
   }
-  public onBlur = ()=>{
+  public onBlur = () => {
     this.setState({
-      inputPlaceHolder:'Search for block height/hash/address or transaction id'
+      inputPlaceHolder: 'Search for block height/hash/address or transaction id'
     })
   }
-  public render()
-  {
+  public render() {
     return (
       <div className="header-wrap">
         <div className="header-content">
@@ -41,8 +39,8 @@ export default class Header extends React.Component
                 <div className="select-box">
                   <div className="select-content">
                     <span>Mainnet</span>
-                      <span className="triangle" />
-                  </div>                  
+                    <span className="triangle" />
+                  </div>
                   <div className="select-wrap" id="selectlang">
                     <ul>
                       <li><a href="#">Mainnet</a></li>
@@ -57,7 +55,7 @@ export default class Header extends React.Component
                     <span className="lang-text">中</span>
                     <img src={require('@/img/ch.png')} alt="ch.png" />
                   </div>
-                  <span className="middle-line"/>
+                  <span className="middle-line" />
                   <div className="triangle-wrap">
                     <div className="triangle" />
                   </div>
@@ -78,8 +76,8 @@ export default class Header extends React.Component
                 <div className="select-box">
                   <div className="select-content">
                     <span>Browse</span>
-                      <span className="triangle" />
-                  </div>                  
+                    <span className="triangle" />
+                  </div>
                   <div className="select-wrap" id="selectlang">
                     <ul>
                       <li><a href="#">Blocks</a></li>
