@@ -3,11 +3,10 @@
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-import Table from '@/components/Table/Table';
+// import Table from '@/components/Table/Table';
 import './index.less'
 
-class Address extends React.Component
-{
+class Address extends React.Component {
   public tableTh = [
     "Address",
     "First transaction time",
@@ -65,18 +64,17 @@ class Address extends React.Component
     }
   ]
   public renderAddress = (value, key) => {
-    if(key === 'address') {
+    if (key === 'address') {
       return <span className="img-text"><a href="http://www.baidu.com">{value}</a></span>
     }
 
     return null;
   }
-  public render()
-  {
+  public render() {
     return (
       <div className="address-page">
         <TitleText text="Addressses" img={require('@/img/address.png')} />
-        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} render={this.renderAddress}/>
+        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} render={this.renderAddress}/> */}
       </div>
     );
   }

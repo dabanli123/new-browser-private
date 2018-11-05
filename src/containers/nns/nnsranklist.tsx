@@ -3,11 +3,10 @@
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-import Table from '@/components/Table/Table';
+// import Table from '@/components/Table/Table';
 import './index.less'
 
-class NNSBeing extends React.Component
-{
+class NNSBeing extends React.Component {
   public options = [
     {
       id: 'time',
@@ -96,12 +95,11 @@ class NNSBeing extends React.Component
   // {
   //     console.log(item)
   // }
-  public render()
-  {
+  public render() {
     return (
       <div className="nnsrank-page">
         <TitleText text="Most valuable domain name rank" img={require('@/img/rank.png')} isTableTitle={true} />
-        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
+        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
       </div>
     );
   }

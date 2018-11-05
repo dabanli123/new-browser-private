@@ -3,12 +3,11 @@
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-import Table from '@/components/Table/Table';
+// import Table from '@/components/Table/Table';
 import Select from '@/components/select'
 import './index.less'
 
-class NNSBeing extends React.Component
-{
+class NNSBeing extends React.Component {
   public options = [
     {
       id: 'time',
@@ -93,18 +92,16 @@ class NNSBeing extends React.Component
 
   //   return null;
   // }
-  public onCallback = (item) =>
-  {
+  public onCallback = (item) => {
     console.log(item)
   }
-  public render()
-  {
+  public render() {
     return (
       <div className="nnsbeing-page">
         <TitleText text="Live auctions" img={require('@/img/myauction.png')} isTableTitle={true} isInline={true}>
           <Select options={this.options} text="Ordered by" onCallback={this.onCallback} style={{ minWidth: "186px" }} />
         </TitleText>
-        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
+        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
       </div>
     );
   }

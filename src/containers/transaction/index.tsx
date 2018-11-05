@@ -3,7 +3,7 @@
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-import Table from '@/components/Table/Table';
+// import Table from '@/components/Table/Table';
 import Select from '@/components/select';
 import './index.less'
 
@@ -105,9 +105,9 @@ class Transactions extends React.Component {
         return (
             <div className="transaction-page">
                 <TitleText text="Transactions" img={require('@/img/transactions.png')} isInline={true}>
-                    <Select options={this.options} text="Type" onCallback={this.onCallback}/>
+                    <Select options={this.options} text="Type" onCallback={this.onCallback} />
                 </TitleText>
-                <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
+                {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
             </div>
         );
     }

@@ -5,7 +5,6 @@
 2. React-router
 3. Mobx
 4. Typescript
-5. ant-design
 
 ## 启动（测试网）
 

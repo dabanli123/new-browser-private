@@ -3,13 +3,12 @@
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-import Table from '@/components/Table/Table';
+// import Table from '@/components/Table/Table';
 import DomainInfo from './domaininfo';
 import AuctionInfo from './auctioninfo';
 import '../index.less'
 
-class NNSInfo extends React.Component
-{  
+class NNSInfo extends React.Component {
   public tableTh = [
     "Domain name",
     "TXid",
@@ -84,29 +83,27 @@ class NNSInfo extends React.Component
 
   //   return null;
   // }
-  public onCallback = (item) =>
-  {
+  public onCallback = (item) => {
     console.log(item)
   }
-  public render()
-  {
+  public render() {
     return (
       <div className="nnsinfo-page">
         <div className="goback-wrapper">
-            <span className="goback-text">&lt;&lt;  Go back</span>
+          <span className="goback-text">&lt;&lt;  Go back</span>
         </div>
         <div className="info-content">
-            <DomainInfo/>
+          <DomainInfo />
         </div>
         <div className="info-content">
-            <AuctionInfo/>
+          <AuctionInfo />
         </div>
         <TitleText text="Transfer information" isInline={true} />
-        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
-        <TitleText text="Bid rank"  isInline={true} />
-        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
+        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
+        <TitleText text="Bid rank" isInline={true} />
+        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
         <TitleText text="Bid information" isInline={true} />
-        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
+        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
       </div>
     );
   }

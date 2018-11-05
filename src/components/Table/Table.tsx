@@ -5,25 +5,26 @@ import Page from '@/components/Page'
 // import classnames from 'classnames';
 import './index.less';
 
-interface IProps
-{
-  tableTh: string[];
+interface ITh {
+  name: string,
+  key: string
+}
+interface IProps {
+  tableTh: ITh[];
   tableData: object[];
-  isHasPage?:boolean;
-  render?:(v:string, k, item) => JSX.Element | null;
+  isHasPage?: boolean;
+  render?: (v: string, k, item) => JSX.Element | null;
   // normalTable?: boolean;
 }
 
 @observer
 export default class Table extends React.Component<IProps, {}> {
-  constructor(props: IProps)
-  {
+  private tableThKeys = this.props.tableTh.map(v => v.key)
+
+  constructor(props: IProps) {
     super(props);
   }
-
-
-  public render()
-  {
+  public render() {
     // const tableClassName = classnames('table-wrap', { 'list-table': this.props.normalTable ? this.props.normalTable : false });
     return (
       <div className="table-wrap">
@@ -32,9 +33,8 @@ export default class Table extends React.Component<IProps, {}> {
           <div className="table-th">
             <ul>
               {
-                this.props.tableTh.map((item, index) =>
-                {
-                  return <li key={index}>{item}</li>
+                this.props.tableTh.map((item, index) => {
+                  return <li key={index}>{item.name}</li>
                 })
               }
             </ul>
@@ -42,21 +42,23 @@ export default class Table extends React.Component<IProps, {}> {
           <div className="table-body">
             <ul>
               {
-                this.props.tableData.map((item: object, index: number) =>
-                {
+                this.props.tableData.map((item: object, index: number) => {
+                  const newItem = {};
+                  this.tableThKeys.forEach((v) => {
+                    newItem[v] = item[v];
+                  })
                   return (
                     <li key={index}>
                       {
-                        Object.keys(item).map((k: string, i: number) =>
-                        {
-                          if(!this.props.render) {
-                            return <span key={i}>{item[k]}</span>
+                        Object.keys(newItem).map((k: string, i: number) => {
+                          if (!this.props.render) {
+                            return <span key={i}>{newItem[k]}</span>
                           }
-                          const renderHtml = this.props.render(item[k], k, item);
-                          if(!renderHtml) {
-                            return <span key={i}>{item[k]}</span>
+                          const renderHtml = this.props.render(newItem[k], k, newItem);
+                          if (!renderHtml) {
+                            return <span key={i}>{newItem[k]}</span>
                           }
-                          return renderHtml
+                          return <React.Fragment key={i}>{renderHtml}</React.Fragment>
                         })
                       }
                     </li>
@@ -75,17 +77,22 @@ export default class Table extends React.Component<IProps, {}> {
           <div className="table-body">
             <ul>
               {
-                this.props.tableData.map((item: object, index: number) =>
-                {
+                this.props.tableData.map((item: object, index: number) => {
+                  const newItem = {};
+                  this.tableThKeys.forEach((v) => {
+                    newItem[v] = item[v];
+                  })
                   return (
                     <li key={index}>
                       {
-                        Object.keys(item).map((k: string, i: number) =>
-                        {
+                        Object.keys(newItem).map((k: string, i: number) => {
+                          if (!this.tableThKeys.includes(k)) {
+                            return null;
+                          }
                           return (
                             <div className="table-line" key={i}>
                               <span className="line-title">{k}</span>
-                              <span className="line-content">{item[k]}</span>
+                              <span className="line-content">{newItem[k]}</span>
                             </div>
                           )
                         })

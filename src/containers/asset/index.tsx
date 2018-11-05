@@ -3,7 +3,7 @@
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-import Table from '@/components/Table/Table';
+// import Table from '@/components/Table/Table';
 import Select from '@/components/select';
 import './index.less'
 
@@ -43,56 +43,56 @@ class Assets extends React.Component {
             id: "439a...ed7d",
             type: "Token",
             available: "1024",
-            precision:"8"
+            precision: "8"
         },
         {
             asset: 'Hello AntShares Mainnet',
             id: "439a...ed7d",
             type: "Token",
             available: "1024",
-            precision:"8"
+            precision: "8"
         },
         {
             asset: 'Hello AntShares Mainnet',
             id: "439a...ed7d",
             type: "Token",
             available: "1024",
-            precision:"8"
+            precision: "8"
         },
         {
             asset: 'Hello AntShares Mainnet',
             id: "439a...ed7d",
             type: "Token",
             available: "1024",
-            precision:"8"
+            precision: "8"
         },
         {
             asset: 'Hello AntShares Mainnet',
             id: "439a...ed7d",
             type: "Token",
             available: "1024",
-            precision:"8"
+            precision: "8"
         },
         {
             asset: 'Hello AntShares Mainnet',
             id: "439a...ed7d",
             type: "Token",
             available: "1024",
-            precision:"8"
+            precision: "8"
         },
         {
             asset: 'Hello AntShares Mainnet',
             id: "439a...ed7d",
             type: "Token",
             available: "1024",
-            precision:"8"
+            precision: "8"
         },
         {
             asset: 'Hello AntShares Mainnet',
             id: "439a...ed7d",
             type: "Token",
             available: "1024",
-            precision:"8"
+            precision: "8"
         }
     ]
     public onCallback = (item) => {
@@ -100,21 +100,21 @@ class Assets extends React.Component {
     }
 
     public renderAsset = (value, key) => {
-        if(key === 'asset') {
-          return <span><a href="http://www.baidu.com">{value}</a></span>
-        }
-        if(key === 'id') {
+        if (key === 'asset') {
             return <span><a href="http://www.baidu.com">{value}</a></span>
-          }
+        }
+        if (key === 'id') {
+            return <span><a href="http://www.baidu.com">{value}</a></span>
+        }
         return null;
-      }
+    }
     public render() {
         return (
             <div className="asset-page">
                 <TitleText text="Assets" img={require('@/img/assets.png')} isInline={true}>
-                    <Select options={this.options} text="Type" onCallback={this.onCallback}/>
+                    <Select options={this.options} text="Type" onCallback={this.onCallback} />
                 </TitleText>
-                <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} render={this.renderAsset}/>
+                {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} render={this.renderAsset}/> */}
             </div>
         );
     }

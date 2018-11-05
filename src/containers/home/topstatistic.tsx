@@ -2,20 +2,20 @@
  * 主页布局
  */
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import Button from '@/components/Button/Button'
 import './index.less'
 import { IHomeProps } from './interface/home.interface';
 
-class Topstatistic extends React.Component<IHomeProps,any>
+@observer
+class Topstatistic extends React.Component<IHomeProps, any>
 {
-  public componentDidMount()
-  {
+  public componentDidMount() {
     this.props.home.getBlockHeight();
     this.props.home.getTxCount('');
     this.props.home.getAddrCount();
   }
-  public render()
-  {
+  public render() {
     return (
       <div className="index-statistic">
         <div className="statistic-box">

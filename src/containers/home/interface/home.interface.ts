@@ -1,37 +1,42 @@
 import { RouteComponentProps } from 'react-router-dom';
-export interface IHomeStore
-{
+export interface IHomeStore {
     blockHeight: string,
     txCount: string,
     addrCount: string,
-    blockList:IBlock[],
+    blockList: IBlock[],
+    transList: ITransList[],
     getBlockHeight: () => void,
     getTxCount: (type: string) => void,
     getAddrCount: () => void,
-    getBlockList: (size:number,page:number) => void,
-    getTransList: (size:number,page:number,type:string) => void
+    getBlockList: (size: number, page: number) => void,
+    getTransList: (size: number, page: number, type: string) => void
 }
-export interface IHomeProps extends RouteComponentProps
-{
+export interface IHomeProps extends RouteComponentProps {
     intl: any,
     home: IHomeStore
 }
 export interface IBlock {
-    index:number,
-    size:number,
-    time:number,
-    txcount:number
+    index: number,
+    size: number,
+    time: number,
+    txcount: number
 }
 export interface ITransaction {
     txid: string,
     type: string,
-    net_fee:string,
+    net_fee: string,
     gas: string,
     size: number,
     blockindex: number,
     version: number,
     vin: IVin[],
     vout: IOut[],
+}
+export interface ITransList {
+    type: string,
+    txid: string,
+    blockindex: string,
+    size: number
 }
 export interface IVin {
     txid: string;

@@ -7,7 +7,7 @@ import Search from './search';
 import Button from '@/components/Button/Button'
 import Select from '@/components/select'
 import TitleText from '@/components/titletext/index';
-import Table from '@/components/Table/Table';
+// import Table from '@/components/Table/Table';
 import './index.less'
 
 class NNS extends React.Component {
@@ -34,56 +34,56 @@ class NNS extends React.Component {
             txid: "0x4b...5698",
             highestbid: "0.1CGAS",
             highestbidder: "AQ1d...z775",
-            stage:"Auction period"
+            stage: "Auction period"
         },
         {
             domain: 'paycomsoftware.neo',
             txid: "0x4b...5698",
             highestbid: "0.1CGAS",
             highestbidder: "AQ1d...z775",
-            stage:"Auction period"
+            stage: "Auction period"
         },
         {
             domain: 'paycomsoftware.neo',
             txid: "0x4b...5698",
             highestbid: "0.1CGAS",
             highestbidder: "AQ1d...z775",
-            stage:"Auction period"
+            stage: "Auction period"
         },
         {
             domain: 'paycomsoftware.neo',
             txid: "0x4b...5698",
             highestbid: "0.1CGAS",
             highestbidder: "AQ1d...z775",
-            stage:"Auction period"
+            stage: "Auction period"
         },
         {
             domain: 'paycomsoftware.neo',
             txid: "0x4b...5698",
             highestbid: "0.1CGAS",
             highestbidder: "AQ1d...z775",
-            stage:"Auction period"
+            stage: "Auction period"
         },
         {
             domain: 'paycomsoftware.neo',
             txid: "0x4b...5698",
             highestbid: "0.1CGAS",
             highestbidder: "AQ1d...z775",
-            stage:"Auction period"
+            stage: "Auction period"
         },
         {
             domain: 'paycomsoftware.neo',
             txid: "0x4b...5698",
             highestbid: "0.1CGAS",
             highestbidder: "AQ1d...z775",
-            stage:"Auction period"
+            stage: "Auction period"
         },
         {
             domain: 'paycomsoftware.neo',
             txid: "0x4b...5698",
             highestbid: "0.1CGAS",
             highestbidder: "AQ1d...z775",
-            stage:"Auction period"
+            stage: "Auction period"
         }
     ]
     public onCallback = (item) => {
@@ -97,16 +97,16 @@ class NNS extends React.Component {
                     <Search />
                     <div className="being-wrapper">
                         <TitleText text="Live auctions" img={require('@/img/myauction.png')} isTableTitle={true} isInline={true}>
-                            <Select options={this.options} text="Ordered by" onCallback={this.onCallback} style={{minWidth:"186px"}}/>
+                            <Select options={this.options} text="Ordered by" onCallback={this.onCallback} style={{ minWidth: "186px" }} />
                             <Button text="View all" />
                         </TitleText>
-                        <Table tableTh={this.tableTh} tableData={this.tableData} />
+                        {/* <Table tableTh={this.tableTh} tableData={this.tableData} /> */}
                     </div>
                     <div className="rank-wrapper">
                         <TitleText text="Most valuable domain name rank" img={require('@/img/rank.png')} isTableTitle={true} >
                             <Button text="View all" />
                         </TitleText>
-                        <Table tableTh={this.tableTh} tableData={this.tableData} />
+                        {/* <Table tableTh={this.tableTh} tableData={this.tableData} /> */}
                     </div>
                 </div>
             </div>

@@ -3,11 +3,10 @@
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-import Table from '@/components/Table/Table';
+// import Table from '@/components/Table/Table';
 import './index.less'
 
-class Block extends React.Component
-{
+class Block extends React.Component {
   public tableTh = [
     "Height",
     "Size",
@@ -76,12 +75,11 @@ class Block extends React.Component
       createdTime: "2018/04/17 | 16:17"
     }
   ]
-  public render()
-  {
+  public render() {
     return (
       <div className="block-page">
         <TitleText text="Blocks" img={require('@/img/blocks.png')} />
-        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true}/>
+        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true}/> */}
       </div>
     );
   }
