@@ -43,20 +43,16 @@ export default class Table extends React.Component<IProps, {}> {
             <ul>
               {
                 this.props.tableData.map((item: object, index: number) => {
-                  const newItem = {};
-                  this.tableThKeys.forEach((v) => {
-                    newItem[v] = item[v];
-                  })
                   return (
                     <li key={index}>
                       {
-                        Object.keys(newItem).map((k: string, i: number) => {
+                        this.tableThKeys.map((k: string, i: number) => {
                           if (!this.props.render) {
-                            return <span key={i}>{newItem[k]}</span>
+                            return <span key={i}>{item[k]}</span>
                           }
-                          const renderHtml = this.props.render(newItem[k], k, newItem);
+                          const renderHtml = this.props.render(item[k], k, item);
                           if (!renderHtml) {
-                            return <span key={i}>{newItem[k]}</span>
+                            return <span key={i}>{item[k]}</span>
                           }
                           return <React.Fragment key={i}>{renderHtml}</React.Fragment>
                         })
@@ -78,21 +74,14 @@ export default class Table extends React.Component<IProps, {}> {
             <ul>
               {
                 this.props.tableData.map((item: object, index: number) => {
-                  const newItem = {};
-                  this.tableThKeys.forEach((v) => {
-                    newItem[v] = item[v];
-                  })
                   return (
                     <li key={index}>
                       {
-                        Object.keys(newItem).map((k: string, i: number) => {
-                          if (!this.tableThKeys.includes(k)) {
-                            return null;
-                          }
+                        this.tableThKeys.map((k: string, i: number) => {
                           return (
                             <div className="table-line" key={i}>
                               <span className="line-title">{k}</span>
-                              <span className="line-content">{newItem[k]}</span>
+                              <span className="line-content">{item[k]}</span>
                             </div>
                           )
                         })
