@@ -8,8 +8,9 @@ interface IOpts {
   getAll?:boolean, // 是否获取所有返回结果
 }
 
-const baseCommonUrl: string = "https://api.nel.group/api/testnet";
-const baseUrl: string = "https://apiwallet.nel.group/api/testnet";
+const network: string = process.env.REACT_APP_SERVER_ENV === 'DEV'?'testnet':'mainnet'
+const baseCommonUrl: string = "https://api.nel.group/api/"+network;
+const baseUrl: string = "https://apiscan.nel.group/api/"+network;
 
 const makeRpcPostBody = (method: string, params: any): {} => {
     

@@ -14,33 +14,26 @@
             flex-wrap:wrap;
             .total-smallbox{
                 flex: 1;
-                width: 3rem;
+                width: 2.42rem;
                 height: 2.6rem;
-                min-width:300px;
+                min-width:242px;
                 min-height: 260px;
-                // background-image: linear-gradient(-180deg, #4AB6F6 1%, #6858ED 100%);
+                background-image: linear-gradient(-180deg, @background-linear 1%, @background-linear2 100%);
                 box-shadow: 0 2px 10px 0 @box-shadowColor;
                 border-radius: 3px;
-                margin-right: .9rem;
+                margin-right: .4rem;
                 margin-top: 1.23rem;
                 position: relative;
                 -webkit-transition: -webkit-transform 0.5s;
                 -moz-transition: -moz-transform 0.5s;
                 -ms-transition: -ms-transform 0.5s;
                 transition: transform 0.5s;
-                &:hover{
-                    -webkit-transform: translateY(-20px);
-                    -moz-transform: translateY(-20px);
-                    -ms-transform: translateY(-20px);
-                    transform: translateY(-20px);
-                }
-                img{
-                    width: 100%;
-                    height:100%;
-                }
+				justify-content: center;
+				align-items: center;
                 &:last-child{
                     margin-right: 0;
                 }
+
                 .total-content{
                     text-align: center;
                     color: @text-fff;
@@ -55,22 +48,18 @@
                     strong{
                         display: block;
                         font-weight: 500;
-                    }
-                    .total-data{
-                        font-size: 24px;
+                        color: @text-fff;
+                        font-size: 20px;
                         margin-bottom: .2rem;
-                    }
-                    .total-type{
-                        font-size:20px;
-                        margin-bottom: .25rem;
                         white-space: nowrap;
+                        text-align: center;
                     }
                 }
             }
         }
-        .mobile-total-box{
-            display: none;
-        }
+        // .mobile-total-box{
+        //     display: none;
+        // }
     }
     .nns-content{
         width: 10.88rem;
@@ -95,18 +84,18 @@
                 height: 20px;
             }
         }
-        .tabledata-page{
-            display: flex;
-            flex-wrap:wrap;
-            .block-table,.tran-table{
-                flex:1;
-                margin-right: 20px;
-            }
-            .tran-table{
-                margin-right: 0;
-            }
+        .being-wrapper,.rank-wrapper{
+            background:@text-fff;
         }
     }
+}
+.nnsbeing-page,.nnsrank-page,.nnsinfo-page{   
+    width: 10.88rem;
+    min-width: 1088px;
+    padding: 0 20px;
+    margin: 0 auto;
+    margin-top: 1.38rem;
+    margin-bottom: 1rem;
 }
 @media (min-width:2560px){
     .nns-page{
@@ -147,17 +136,6 @@
                     height: 20px;
                 }
             }
-            .tabledata-page{
-                display: flex;
-                flex-wrap:wrap;
-                .block-table,.tran-table{
-                    flex:1;
-                    margin-right: 20px;
-                }
-                .tran-table{
-                    margin-right: 0;
-                }
-            }
         }
     }
 }
@@ -170,9 +148,6 @@
         min-height: 198px;
         min-width: 375px;
         .total-box{
-            display: none;
-        }
-        .mobile-total-box{
             width: 3.45rem;
             min-width: 345px;
             margin: 0 auto;
@@ -196,10 +171,7 @@
                     margin-right: 0;
                 }
                 .total-content{
-                    // border: 1px solid red;
                     text-align: center;
-                    // height: .78rem;
-                    // min-height:78px;
                     color: @text-fff;
                     position: absolute;
                     top: 50%;
@@ -226,11 +198,6 @@
                         justify-content: space-around;
                         flex-direction: column;
                     }
-                    // .button-group{
-                    //     // position: absolute;
-                    //     // left: 0;
-                    //     // bottom: 0;
-                    // }
                 }
             }
         }
@@ -244,17 +211,7 @@
         .search-page{
             display: none;
         }
-        .tabledata-page{
-            display: flex;
-            flex-wrap:wrap;
-            .block-table,.tran-table{
-                flex:1;
-                margin-right: 20px;
-            }
-            .tran-table{
-                margin-right: 0;
-            }
-        }
+        
     }
 }
 

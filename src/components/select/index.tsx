@@ -14,7 +14,7 @@ interface IProps
 	text:string,
 	onCallback?: (event: any) => void,
 	style?: object,
-	placeholder?:string,
+	placeholder?:string
 }
 
 interface IState{
@@ -82,10 +82,9 @@ export default class Select extends React.Component<IProps, IState> {
 		return (
 			<div className="select-wrapper"
 				onClick={this.onExpand}
-				style={this.props.style}
 			>
 				<div className="select-type">{this.props.text}</div>
-				<div className="selected-text">
+				<div className="selected-text" style={this.props.style}>
 					<span>{showName}</span>
 					<span className="triangle" />
 				</div>

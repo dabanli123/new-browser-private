@@ -4,21 +4,12 @@
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
 import Table from '@/components/Table/Table';
-import Select from '@/components/select'
-import './index.less'
+import DomainInfo from './domaininfo';
+import AuctionInfo from './auctioninfo';
+import '../index.less'
 
-class NNSBeing extends React.Component
-{
-  public options = [
-    {
-      id: 'time',
-      name: "Auction-starting time",
-    },
-    {
-      id: 'price',
-      name: "Highest bid prices",
-    }
-  ]
+class NNSInfo extends React.Component
+{  
   public tableTh = [
     "Domain name",
     "TXid",
@@ -100,14 +91,25 @@ class NNSBeing extends React.Component
   public render()
   {
     return (
-      <div className="nnsbeing-page">
-        <TitleText text="Live auctions" img={require('@/img/myauction.png')} isTableTitle={true} isInline={true}>
-          <Select options={this.options} text="Ordered by" onCallback={this.onCallback} style={{ minWidth: "186px" }} />
-        </TitleText>
+      <div className="nnsinfo-page">
+        <div className="goback-wrapper">
+            <span className="goback-text">&lt;&lt;  Go back</span>
+        </div>
+        <div className="info-content">
+            <DomainInfo/>
+        </div>
+        <div className="info-content">
+            <AuctionInfo/>
+        </div>
+        <TitleText text="Transfer information" isInline={true} />
+        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
+        <TitleText text="Bid rank"  isInline={true} />
+        <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
+        <TitleText text="Bid information" isInline={true} />
         <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} />
       </div>
     );
   }
 }
 
-export default NNSBeing;
+export default NNSInfo;

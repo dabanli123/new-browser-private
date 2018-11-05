@@ -96,14 +96,14 @@ class NNS extends React.Component {
                 <div className="nns-content">
                     <Search />
                     <div className="being-wrapper">
-                        <TitleText text="Live auctions" img={require('@/img/myauction.png')} isInline={true}>
-                            <Select options={this.options} text="Ordered by" onCallback={this.onCallback} />
-                            {/* <Button text="View all" /> */}
+                        <TitleText text="Live auctions" img={require('@/img/myauction.png')} isTableTitle={true} isInline={true}>
+                            <Select options={this.options} text="Ordered by" onCallback={this.onCallback} style={{minWidth:"186px"}}/>
+                            <Button text="View all" />
                         </TitleText>
                         <Table tableTh={this.tableTh} tableData={this.tableData} />
                     </div>
-                    <div className="being-wrapper">
-                        <TitleText text="Most valuable domain name rank" img={require('@/img/rank.png')} >
+                    <div className="rank-wrapper">
+                        <TitleText text="Most valuable domain name rank" img={require('@/img/rank.png')} isTableTitle={true} >
                             <Button text="View all" />
                         </TitleText>
                         <Table tableTh={this.tableTh} tableData={this.tableData} />

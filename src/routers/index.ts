@@ -3,6 +3,18 @@ import asyncComponent from '@/components/asyncComponent';
 
 export default [
   {
+    component: asyncComponent(() => import('../containers/nns/nnsbeinglist')),
+    path: '/nnsbeing',
+  },
+  {
+    component: asyncComponent(() => import('../containers/nns/nnsranklist')),
+    path: '/nnsrank',
+  },
+  {
+    component: asyncComponent(() => import('../containers/nns/nnsinfo')),
+    path: '/nnsinfo',
+  },
+  {
     component: asyncComponent(() => import('../containers/nns')),
     path: '/nns',
   },

@@ -44,7 +44,6 @@ export default class Table extends React.Component<IProps, {}> {
               {
                 this.props.tableData.map((item: object, index: number) =>
                 {
-                  console.log(item)
                   return (
                     <li key={index}>
                       {
@@ -78,7 +77,6 @@ export default class Table extends React.Component<IProps, {}> {
               {
                 this.props.tableData.map((item: object, index: number) =>
                 {
-                  console.log(item)
                   return (
                     <li key={index}>
                       {
