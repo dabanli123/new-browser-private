@@ -44,7 +44,7 @@ export default [
   },
   {
     component: asyncComponent(() => import('../containers/block/blockinfo')),
-    path: '/block',
+    path: '/block/:index',
   },
   {
     component: asyncComponent(() => import('../containers/block')),

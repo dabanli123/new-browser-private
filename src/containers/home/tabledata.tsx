@@ -8,6 +8,9 @@ import Button from '@/components/Button/Button';
 import Table from '@/components/Table/Table';
 import './index.less';
 import { IHomeProps } from './interface/home.interface';
+import * as formatTime from 'utils/formatTime';
+import { toThousands } from '@/utils/numberTool'
+import { injectIntl } from 'react-intl';
 
 @observer
 class TableData extends React.Component<IHomeProps, any>
@@ -46,14 +49,6 @@ class TableData extends React.Component<IHomeProps, any>
       key: 'size'
     }
   ]
-  // public tableData = [
-  //   {
-  //     height: "contact",
-  //     size: "6276 bytes",
-  //     transactions: "12",
-  //     createdTime: "2018/04/17 | 16:17"
-  //   }
-  // ]
 
   public imgs = {
     contact: require('@/img/contract.png'),
@@ -67,46 +62,70 @@ class TableData extends React.Component<IHomeProps, any>
     agency: require('@/img/agency.png')
   }
 
-  public renderBlock = (value, key) => {
-    if (key === 'index') {
-      return <span className="img-text"><img src={require('@/img/height.png')} alt="" /><a href="http://www.baidu.com">{value}</a></span>
+  public renderBlock = (value, key) =>
+  {
+    if (key === 'index')
+    {
+      // console.log(this.props.history.location)
+      // const href = this.props.history.push('/block/index='+value);
+      return <span className="img-text"><img src={require('@/img/height.png')} alt="" /><a href="sdf">{toThousands(value.toString())}</a></span>
     }
 
+    if (key === 'time')
+    {
+      value = formatTime.format('yyyy/MM/dd | hh:mm:ss', value.toString(), this.props.intl.locale)
+      return <span className="small-font">{value}</span>
+    }
     return null;
   }
 
-  public renderTran = (value, key) => {
-    if (key === 'type') {
+  public renderTran = (value, key) =>
+  {
+    if (key === 'type')
+    {
       value = value.replace('Transaction', '')
       return <span className="img-text"><img src={this.imgs[value.toLowerCase()]} alt="" />{value}</span>
     }
 
-    if (key === 'txid') {
+    if (key === 'txid')
+    {
       value = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
-      return <span className="img-text"><a href="#">{value}</a></span>
+      return <span><a href="#">{value}</a></span>
     }
 
     return null;
   }
-  public componentDidMount() {
+  public onViewBlock = () =>
+  {
+    // const url =  process.env.REACT_APP_SERVER_ENV === 'DEV'? '/test/blocks': '/blocks/';
+    this.props.history.push('/blocks/');
+  }
+  public onViewTran = () =>
+  {
+    // const url = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/transactions' : '/transactions/';
+    this.props.history.push('/transactions/');
+  }
+  public componentDidMount()
+  {
     this.props.home.getBlockList(10, 1);
     this.props.home.getTransList(10, 1, '');
   }
 
-  public render() {
+  public render()
+  {
     return (
       <div className="tabledata-page">
         <div className="block-table">
           <Table tableTh={this.blockTableTh} tableData={this.props.home.blockList} render={this.renderBlock}>
             <TitleText text="Blocks" isTableTitle={true} img={require('@/img/blocks.png')}>
-              <Button text="View all" />
+              <Button text="View all" onClick={this.onViewBlock} />
             </TitleText>
           </Table>
         </div>
         <div className="tran-table">
           <Table tableTh={this.transTableTh} tableData={this.props.home.transList} render={this.renderTran}>
             <TitleText text="Transactions" isTableTitle={true} img={require('@/img/transactions.png')} >
-              <Button text="View all" />
+              <Button text="View all" onClick={this.onViewTran} />
             </TitleText>
           </Table>
         </div>
@@ -115,4 +134,4 @@ class TableData extends React.Component<IHomeProps, any>
   }
 }
 
-export default TableData;
+export default injectIntl(TableData);

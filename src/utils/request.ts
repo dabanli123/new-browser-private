@@ -8,7 +8,7 @@ interface IOpts {
   getAll?:boolean, // 是否获取所有返回结果
 }
 
-const network: string = process.env.REACT_APP_SERVER_ENV === 'DEV'?'testnet':'mainnet'
+const network: string = process.env.REACT_APP_SERVER_ENV === 'DEV'?'testnet':'mainnet';
 const baseCommonUrl: string = "https://api.nel.group/api/"+network;
 const baseUrl: string = "https://apiscan.nel.group/api/"+network;
 

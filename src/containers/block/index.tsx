@@ -2,87 +2,87 @@
  * 主页布局
  */
 import * as React from 'react';
+import { observer, inject } from 'mobx-react';
 import TitleText from '@/components/titletext/index';
-// import Table from '@/components/Table/Table';
+import Table from '@/components/Table/Table';
 import './index.less'
+import { IBlockProps } from './interface/block.interface';
+import * as formatTime from 'utils/formatTime';
+import { toThousands } from '@/utils/numberTool'
+import { injectIntl } from 'react-intl';
+import Page from '@/components/Page';
 
-class Block extends React.Component {
-  public tableTh = [
-    "Height",
-    "Size",
-    "Transactions",
-    "Created on"
-  ]
-  public tableData = [
+@inject('block')
+@observer
+class Block extends React.Component<IBlockProps, any> {
+  public blockTableTh = [
     {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
+      name: 'Height',
+      key: 'index'
     },
     {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
+      name: 'Size',
+      key: 'size'
     },
     {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
+      name: 'Transactions',
+      key: 'txcount'
     },
     {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
+      name: 'Created on',
+      key: 'time'
     }
   ]
-  public render() {
+  public state = {
+    currentPage:1,
+    pageSize:15
+  }
+  public async componentDidMount()
+  {
+    await this.props.block.getBlockHeight();
+    await this.props.block.getBlockList(this.state.pageSize,this.state.currentPage);
+  }
+  public renderBlock = (value, key) =>
+  {
+    if (key === 'index')
+    {
+      const href = this.props.history.location.pathname = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/block/' + value : '  /block/' + value;
+      return <span><img src={require('@/img/height.png')} alt="" /><a href={href}>{toThousands(value.toString())}</a></span>
+    }
+
+    if (key === 'time')
+    {
+      value = formatTime.format('yyyy/MM/dd | hh:mm:ss', value.toString(), this.props.intl.locale);
+      return <span className="small-font">{value}</span>
+    }
+    return null;
+  }
+  public onGoPage = (index:number) => {
+    this.setState({
+      currentPage:index
+    })
+    console.log(this.state);
+    
+  }
+  public render()
+  {
+    const blockheight = parseInt(this.props.block.blockHeight,10);    
     return (
       <div className="block-page">
         <TitleText text="Blocks" img={require('@/img/blocks.png')} />
-        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true}/> */}
+        <div className="block-table">
+          <Table 
+            tableTh={this.blockTableTh} 
+            tableData={this.props.block.blockList} 
+            totalCount={blockheight}
+            pageSize={this.state.pageSize}
+            render={this.renderBlock} 
+          />
+          <Page  totalCount={blockheight} pageSize={this.state.pageSize} currentPage={this.state.currentPage} onChange={this.onGoPage} />
+        </div>        
       </div>
     );
   }
 }
 
-export default Block;
+export default injectIntl(Block);

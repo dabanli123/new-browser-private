@@ -1,7 +1,6 @@
 // 输入框组件
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import Page from '@/components/Page'
 // import classnames from 'classnames';
 import './index.less';
 
@@ -12,9 +11,9 @@ interface ITh {
 interface IProps {
   tableTh: ITh[];
   tableData: object[];
-  isHasPage?: boolean;
   render?: (v: string, k, item) => JSX.Element | null;
-  // normalTable?: boolean;
+  totalCount?:number,
+  pageSize?:number
 }
 
 @observer
@@ -63,11 +62,6 @@ export default class Table extends React.Component<IProps, {}> {
               }
             </ul>
           </div>
-          {
-            this.props.isHasPage && (
-              <Page />
-            )
-          }
         </div>
         <div className="mobile-table-content">
           <div className="table-body">

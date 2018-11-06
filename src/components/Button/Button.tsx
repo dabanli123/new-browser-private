@@ -6,7 +6,7 @@ import './button.less';
 
 interface IProps
 {
-	onClick?: (event: any) => void,
+	onClick?: () => void,
 	style?: object,
 	disabled?: boolean,
 	text: string,
@@ -22,11 +22,11 @@ export default class Button extends React.Component<IProps, {}> {
 		super(props);
 	}
 	// 监控输入内容
-	public onClick = (event: any) =>
+	public onClick = () =>
 	{
 		if (this.props.onClick)
 		{
-			this.props.onClick(event.target.value);
+			this.props.onClick();
 		}
 	}
 
