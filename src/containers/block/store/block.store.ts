@@ -3,7 +3,7 @@ import * as Api from '../api/block.api'
 import { IBlockStore, IBlock, IBlockInfo } from '../interface/block.interface';
 
 class Block implements IBlockStore {
-    @observable public blockHeight: string = '0';
+    @observable public blockHeight: string = '';
     @observable public blockList: IBlock[] = [];
     @observable public blockInfo: IBlockInfo;
 
@@ -12,6 +12,7 @@ class Block implements IBlockStore {
         try {
             result = await Api.getblockcount();
         } catch (error) {
+            this.blockHeight = '0';
             return error;
         }
         this.blockHeight = result ? result[0].blockcount : '0';
@@ -33,11 +34,11 @@ class Block implements IBlockStore {
             result = await Api.getblock(index);
             // console.log(result);
         } catch (error) {
-            return error;
+            return false;
         }
         this.blockInfo = result ? result[0] : [];
         console.log(this.blockInfo);
-        
+
         return true;
     }
 }

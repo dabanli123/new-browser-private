@@ -6,12 +6,16 @@ import { observer, inject } from 'mobx-react';
 import TitleText from '@/components/titletext/index';
 import Table from '@/components/Table/Table';
 import './index.less'
-import { IBlockProps } from './interface/block.interface';
+import { IBlockProps, IBlockInfoState } from './interface/block.interface';
 import * as formatTime from 'utils/formatTime';
 import { injectIntl } from 'react-intl';
 @inject('block')
 @observer
-class BlockInfo extends React.Component<IBlockProps> {
+class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
+    public state = {
+        isTop: false,
+        isBottom: false
+    }
     public blockTransTableTh = [
         {
             name: 'Type',
@@ -39,43 +43,57 @@ class BlockInfo extends React.Component<IBlockProps> {
         enrollment: require('@/img/enrollment.png'),
         agency: require('@/img/agency.png')
     }
-    public async componentDidMount()
-    {
+    public componentDidMount() {
         const params = this.props.match.params;
-        await this.props.block.getBlockInfo(params["index"]);
+        this.getInfos(params["index"]);
     }
-    public onGoBack = () =>
-    {
+    public getInfos = (index) => {
+        return this.props.block.getBlockInfo(index);
+    }
+    public onGoBack = () => {
         this.props.history.push('/blocks/');
     }
-    public goPreviousBlock = () =>
-    {
+    public goPreviousBlock = async () => {
+        if (this.state.isTop) {
+            return false;
+        }
         const index = this.props.block.blockInfo ? this.props.block.blockInfo.index - 1 : 0
-        const href = this.props.history.location.pathname = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/block/' + index : '  /block/' + index;
-        return href;
+        this.props.history.push('/block/' + index)
+        const result = await this.getInfos(index);
+        const state = { isBottom: false };
+        if (!result) {
+            state['isTop'] = true;
+        }
+        this.setState(state);
+
+        return true;
     }
-    public goNextBlock = () =>
-    {
+    public goNextBlock = async () => {
+        if (this.state.isBottom) {
+            return false;
+        }
         const index = this.props.block.blockInfo ? this.props.block.blockInfo.index + 1 : 0
-        const href = this.props.history.location.pathname = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/block/' + index : '  /block/' + index;
-        return href;
+        this.props.history.push('/block/' + index)
+        const result = await this.getInfos(index);
+        const state = { isTop: false };
+        if (!result) {
+            state['isBottom'] = true;
+        }
+        this.setState(state);
+        return true;
     }
-    public renderTran = (value, key) =>
-    {
-        if (key === 'type')
-        {
+    public renderTran = (value, key) => {
+        if (key === 'type') {
             value = value.replace('Transaction', '')
             return <span className="tran-img-text"><img src={this.imgs[value.toLowerCase()]} alt="" />{value}</span>
         }
-        if (key === 'txid')
-        {
+        if (key === 'txid') {
             value = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
             return <span><a href="#">{value}</a></span>
         }
         return null;
     }
-    public render()
-    {
+    public render() {
         return (
             <div className="blockinfo-page">
                 <div className="goback-wrapper">
@@ -122,7 +140,7 @@ class BlockInfo extends React.Component<IBlockProps> {
                                     Previous Block
                         </span>
                                 <span className="type-content">
-                                    <a href={this.goPreviousBlock()}>{this.props.block.blockInfo && this.props.block.blockInfo.index - 1}</a>
+                                    <a onClick={this.goPreviousBlock} href="javascript:;">{this.props.block.blockInfo && this.props.block.blockInfo.index - 1}</a>
                                 </span>
                             </li>
                             <li>
@@ -130,7 +148,7 @@ class BlockInfo extends React.Component<IBlockProps> {
                                     Next Block
                         </span>
                                 <span className="type-content">
-                                    <a href={this.goNextBlock()}>{this.props.block.blockInfo && this.props.block.blockInfo.index + 1}</a>
+                                    <a onClick={this.goNextBlock} href="javascript:;">{this.props.block.blockInfo && this.props.block.blockInfo.index + 1}</a>
                                 </span>
                             </li>
                         </ul>

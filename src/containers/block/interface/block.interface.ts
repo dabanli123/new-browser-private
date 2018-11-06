@@ -4,9 +4,9 @@ export interface IBlockStore {
     blockHeight: string,
     blockList: IBlock[],
     blockInfo: IBlockInfo,
-    getBlockHeight: () => void,
-    getBlockList: (size: number, page: number) => void,
-    getBlockInfo: (index: number) => void
+    getBlockHeight: () => Promise<boolean>,
+    getBlockList: (size: number, page: number) => Promise<boolean>,
+    getBlockInfo: (index: number) => Promise<boolean>
 }
 export interface IBlockProps extends RouteComponentProps {
     intl: any,
@@ -33,4 +33,10 @@ export interface IBlockInfo {
         verification: string;
     };
     tx: ITransaction[];
+}
+
+
+export interface IBlockInfoState {
+    isTop: boolean,
+    isBottom: boolean
 }

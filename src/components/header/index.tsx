@@ -1,5 +1,6 @@
 // 标题组件
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import Input from '@/components/Input/Input';
 import Button from '@/components/Button/Button';
 import { History } from 'history'
@@ -80,8 +81,8 @@ export default class Header extends React.Component<IProps, IState>{
                   <input type="checkbox" id="MainnetCheckInput" />
                   <div className="select-wrap" id="selectlang">
                     <ul>
-                      <li><a href="#">Mainnet</a></li>
-                      <li><a href="#">Testnet</a></li>
+                      <li><a href="/">Mainnet</a></li>
+                      <li><a href="/test">Testnet</a></li>
                     </ul>
                   </div>
                 </div>
@@ -111,7 +112,7 @@ export default class Header extends React.Component<IProps, IState>{
           </div>
           <div className="header-menu">
             <ul>
-              <li><a href="#">Explorer</a></li>
+              <li><Link to="/">Explorer</Link></li>
               <li>
                 <div className="select-box">
                   <div className="select-content">
@@ -123,9 +124,9 @@ export default class Header extends React.Component<IProps, IState>{
                   <input type="checkbox" id="BrowseCheckInput" />
                   <div className="select-wrap" id="selectlang">
                     <ul>
-                      <li><a href="#">Blocks</a></li>
-                      <li><a href="#">Transactions</a></li>
-                      <li><a href="#">Addresses</a></li>
+                      <li><Link to="/blocks">Blocks</Link></li>
+                      <li><Link to="/transactions">Transactions</Link></li>
+                      <li><Link to="/addresses">Addresses</Link></li>
                     </ul>
                   </div>
                 </div>
