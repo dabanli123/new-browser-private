@@ -2,6 +2,12 @@
   height:48px;
   background: @main-color;
   position: relative;
+  display: none;
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index: 1;
 
   .header-wrapper {
     width:100%;
@@ -35,6 +41,7 @@
     background: @main-color;
     padding:15px 0;
     box-sizing: border-box;
+    z-index: 1;
 
     .close {
       width:19px;
@@ -76,16 +83,6 @@
           }
         }
 
-        input[type="checkbox"] {
-          width:0;
-          height:0;
-          position: absolute;
-          opacity: 0;
-          &:checked ~ .child{
-            display: block;
-          }
-        }
-
         .child {
           width:121px;
           background: #FFFFFF;
@@ -95,7 +92,6 @@
           left:50px;
           top:35px;
           z-index: 1;
-          display: none;
           span {
             display: block;
             height:40px;

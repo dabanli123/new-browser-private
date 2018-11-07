@@ -4,9 +4,13 @@
   left:0;
   right:0;
   bottom:0;
-  // .layout-main{
-  //   margin-top: 58px;
-  // }
+  .layout-main{
+    min-height: 100%;
+    padding-top:58px;
+    margin-bottom:-450px;
+    padding-bottom:450px;
+    box-sizing: border-box;
+  }
   .ant-layout-has-sider {
     height:100%;
   }
@@ -17,23 +21,6 @@
     top: 45px;
     height: 100%;
     z-index: 2;
-    // .nodata-wrap{
-    //     width: 1rem;
-    //     position: absolute;
-    //     top: 50%;
-    //     left: 50%;
-    //     -webkit-transform: translate(-50%,-95%);
-    //     transform: translate(-50%, -95%);
-    //     text-align: center;
-    //     font-size: 14px;
-    //     color: #A9A9A9;
-    //     line-height: 14px;
-    //     img{
-    //         width: .6rem;
-    //         height: .8rem;
-    //         margin-bottom: 20px;
-    //     }
-    // }
   }
 }
 
@@ -41,4 +28,9 @@
 @media screen and (max-width:1000px) {
   .header-wrap{display:none}
   .header-mobile-container {display: flex}
+  .layout-container .layout-main{
+    padding-top:48px;
+    margin-bottom:0;
+    padding-bottom:0;
+  }
 } 

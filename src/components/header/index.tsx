@@ -4,13 +4,17 @@ import { Link } from 'react-router-dom';
 import Input from '@/components/Input/Input';
 import Button from '@/components/Button/Button';
 import { History } from 'history'
+import EventHandler from 'utils/event';
 import './index.less';
 
 interface IState {
   isShowSearch: boolean,
   inputValue: string,
   inputPlaceHolder: string,
-  isShowSearchBtn: boolean
+  isShowSearchBtn: boolean,
+  isShowBrowse: boolean,
+  isShowEnv: boolean,
+  isShowLanguage: boolean
 }
 
 interface IProps {
@@ -22,6 +26,9 @@ export default class Header extends React.Component<IProps, IState>{
     isShowSearch: false,
     isShowSearchBtn: false,
     inputValue: '',
+    isShowBrowse: false,
+    isShowEnv: false,
+    isShowLanguage: false,
     inputPlaceHolder: 'Search for block height/hash/address or transaction id'
   }
   public componentDidMount() {
@@ -37,6 +44,15 @@ export default class Header extends React.Component<IProps, IState>{
           isShowSearchBtn: true
         })
       }
+    })
+
+    EventHandler.add(this.globalClick);
+  }
+  public globalClick = () => {
+    this.setState({
+      isShowEnv:false,
+      isShowBrowse: false,
+      isShowLanguage:false,
     })
   }
   public onChange = (value: string) => {
@@ -60,6 +76,34 @@ export default class Header extends React.Component<IProps, IState>{
       isShowSearch: !this.state.isShowSearch
     })
   }
+  public toggleEnv = (e) => {
+    this.setState({
+      isShowEnv:!this.state.isShowEnv,
+      isShowBrowse: false,
+      isShowLanguage:false,
+    })
+    e.stopPropagation();
+  }
+  public toggleLanguage = (e) => {
+    this.setState({
+      isShowEnv:false,
+      isShowBrowse: false,
+      isShowLanguage:!this.state.isShowLanguage
+    })
+    e.stopPropagation();
+  }
+
+  public toggleBrowse= (e) => {
+    this.setState({
+      isShowEnv:false,
+      isShowBrowse: !this.state.isShowBrowse,
+      isShowLanguage:false
+    })
+    e.stopPropagation();
+  }
+  public componentWillUnmount() {
+    EventHandler.remove(this.globalClick);
+  }
   public render() {
     return (
       <div className="header-wrap">
@@ -73,23 +117,26 @@ export default class Header extends React.Component<IProps, IState>{
               <li>
                 <div className="select-box">
                   <div className="select-content">
-                    <label htmlFor="MainnetCheckInput">
+                    <label onClick={this.toggleEnv}>
                       <span>Mainnet</span>
                       <span className="triangle" />
                     </label>
                   </div>
-                  <input type="checkbox" id="MainnetCheckInput" />
-                  <div className="select-wrap" id="selectlang">
-                    <ul>
-                      <li><a href="/">Mainnet</a></li>
-                      <li><a href="/test">Testnet</a></li>
-                    </ul>
-                  </div>
+                  {
+                    this.state.isShowEnv && (
+                      <div className="select-wrap" id="selectlang" onClick={this.toggleEnv}>
+                        <ul>
+                          <li><a href="/">Mainnet</a></li>
+                          <li><a href="/test">Testnet</a></li>
+                        </ul>
+                      </div>
+                    )
+                  }
                 </div>
               </li>
               <li>
                 <div className="language-toggle" id="language">
-                  <label htmlFor="languageCheckInput">
+                  <label onClick={this.toggleLanguage}>
                     <div className="language-content">
                       <span className="lang-text">中</span>
                       <img src={require('@/img/ch.png')} alt="ch.png" />
@@ -99,13 +146,16 @@ export default class Header extends React.Component<IProps, IState>{
                       <div className="triangle" />
                     </div>
                   </label>
-                  <input type="checkbox" id="languageCheckInput" />
-                  <div className="select-wrap" id="selectlang">
-                    <ul>
-                      <li><a href="#">中文</a></li>
-                      <li><a href="#">English</a></li>
-                    </ul>
-                  </div>
+                  {
+                    this.state.isShowLanguage && (
+                      <div className="select-wrap" id="selectlang" onClick={this.toggleLanguage}>
+                        <ul>
+                          <li><a href="#">中文</a></li>
+                          <li><a href="#">English</a></li>
+                        </ul>
+                      </div>
+                    )
+                  }
                 </div>
               </li>
             </ul>
@@ -116,19 +166,22 @@ export default class Header extends React.Component<IProps, IState>{
               <li>
                 <div className="select-box">
                   <div className="select-content">
-                    <label htmlFor="BrowseCheckInput">
+                    <label onClick={this.toggleBrowse}>
                       <span>Browse</span>
                       <span className="triangle" />
                     </label>
                   </div>
-                  <input type="checkbox" id="BrowseCheckInput" />
-                  <div className="select-wrap" id="selectlang">
-                    <ul>
-                      <li><Link to="/blocks">Blocks</Link></li>
-                      <li><Link to="/transactions">Transactions</Link></li>
-                      <li><Link to="/addresses">Addresses</Link></li>
-                    </ul>
-                  </div>
+                  {
+                    this.state.isShowBrowse && (
+                      <div className="select-wrap" id="selectlang" onClick={this.toggleBrowse}>
+                        <ul>
+                          <li><Link to="/blocks">Blocks</Link></li>
+                          <li><Link to="/transactions">Transactions</Link></li>
+                          <li><Link to="/addresses">Addresses</Link></li>
+                        </ul>
+                      </div>
+                    )
+                  }
                 </div>
               </li>
               <li><Link to="/assets">Assets</Link></li>
