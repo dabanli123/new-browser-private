@@ -122,7 +122,7 @@ export default class Header extends React.Component<IProps, IState>{
                 <div className="select-box">
                   <div className="select-content">
                     <label onClick={this.toggleEnv}>
-                      <span>Mainnet</span>
+                      <span>{process.env.REACT_APP_SERVER_ENV === 'DEV' ? 'Testnet' : 'Mainnet'}</span>
                       <span className="triangle" />
                     </label>
                   </div>
