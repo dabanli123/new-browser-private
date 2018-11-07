@@ -32,6 +32,13 @@ class Page extends React.Component<IProps, IState>
         console.log(this.state);
 
     }
+    public UNSAFE_componentWillReceiveProps = (nextProps) => {
+        if (nextProps.totalCount !== this.props.totalCount) {
+            this.setState({
+                totalPage: nextProps.totalCount % nextProps.pageSize === 0 ? nextProps.totalCount / nextProps.pageSize : Math.ceil((nextProps.totalCount / nextProps.pageSize))
+            })
+        }
+    }
     // 上一页
     public onPrevClick = () => {
         const current = this.props.currentPage;
@@ -93,9 +100,11 @@ class Page extends React.Component<IProps, IState>
         })
         return true;
     }
+    // 跳转页
     public goPage = () => {
         this.pageTo(this.state.inputValue);
     }
+    // 回车跳转页
     public onInputKeyDown = (event: any) => {
         if (event.keyCode === 13) {
             this.pageTo(this.state.inputValue);

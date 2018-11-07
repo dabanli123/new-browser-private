@@ -7,9 +7,15 @@
     margin-bottom: 1rem;
 }
 .address-page{
-    .address-table{
+    .address-table-wrapper{
         background:@text-fff;
         box-shadow: 0 2px 10px 0 rgba(185,185,185,0.50);
         border-radius: 3px; 
+
+        .address-table {
+            .table-th li:first-child {
+                min-width:315px;
+            }
+        }
     }
 }

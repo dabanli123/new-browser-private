@@ -1,7 +1,7 @@
 // 输入框组件
 import * as React from 'react';
 import { observer } from 'mobx-react';
-// import classnames from 'classnames';
+import classnames from 'classnames';
 import './index.less';
 
 interface ITh {
@@ -12,8 +12,9 @@ interface IProps {
   tableTh: ITh[];
   tableData: object[];
   render?: (v: string, k, item) => JSX.Element | null;
-  totalCount?:number,
-  pageSize?:number
+  totalCount?: number,
+  pageSize?: number
+  className?: string
 }
 
 @observer
@@ -24,9 +25,12 @@ export default class Table extends React.Component<IProps, {}> {
     super(props);
   }
   public render() {
-    // const tableClassName = classnames('table-wrap', { 'list-table': this.props.normalTable ? this.props.normalTable : false });
+    let tableClassName = "table-wrap";
+    if (this.props.className) {
+      tableClassName = classnames('table-wrap', { [this.props.className]: !!this.props.className });
+    }
     return (
-      <div className="table-wrap">
+      <div className={tableClassName}>
         {this.props.children}
         <div className="table-content">
           <div className="table-th">

@@ -5,22 +5,23 @@ import { ITransaction } from '@/store/interface/common.interface';
 import { IBlockInfo } from '@/containers/block/interface/block.interface';
 
 class Transaction implements ITransactionsStore {
-    @observable public txCount: string = '0';
+    @observable public txCount: string = '';
     @observable public transList: ITransaction[] = [];
     @observable public tranInfo: ITransaction;
-    @observable public blockInfo:IBlockInfo;
+    @observable public blockInfo: IBlockInfo;
 
     @action public async getTxCount(type: string) {
         let result: any = null;
         try {
             result = await Api.gettxcount(type);
         } catch (error) {
+            this.txCount = '0';
             return false;
         }
         this.txCount = result ? result[0].txcount : '0';
         return true;
     }
-    
+
     @action public async getTransList(size: number, page: number, type: string) {
         let result: any = null;
         try {
