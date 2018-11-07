@@ -50,9 +50,9 @@ export default class Header extends React.Component<IProps, IState>{
   }
   public globalClick = () => {
     this.setState({
-      isShowEnv:false,
+      isShowEnv: false,
       isShowBrowse: false,
-      isShowLanguage:false,
+      isShowLanguage: false,
     })
   }
   public onChange = (value: string) => {
@@ -78,31 +78,35 @@ export default class Header extends React.Component<IProps, IState>{
   }
   public toggleEnv = (e) => {
     this.setState({
-      isShowEnv:!this.state.isShowEnv,
+      isShowEnv: !this.state.isShowEnv,
       isShowBrowse: false,
-      isShowLanguage:false,
+      isShowLanguage: false,
     })
     e.stopPropagation();
   }
   public toggleLanguage = (e) => {
     this.setState({
-      isShowEnv:false,
+      isShowEnv: false,
       isShowBrowse: false,
-      isShowLanguage:!this.state.isShowLanguage
+      isShowLanguage: !this.state.isShowLanguage
     })
     e.stopPropagation();
   }
 
-  public toggleBrowse= (e) => {
+  public toggleBrowse = (e) => {
     this.setState({
-      isShowEnv:false,
+      isShowEnv: false,
       isShowBrowse: !this.state.isShowBrowse,
-      isShowLanguage:false
+      isShowLanguage: false
     })
     e.stopPropagation();
   }
   public componentWillUnmount() {
     EventHandler.remove(this.globalClick);
+  }
+  public getPath = (base) => {
+    const locations = this.props.history.location;
+    window.location.href = `${location.origin}${base || ''}${locations.pathname}${locations.search}${locations.hash}`
   }
   public render() {
     return (
@@ -126,8 +130,8 @@ export default class Header extends React.Component<IProps, IState>{
                     this.state.isShowEnv && (
                       <div className="select-wrap" id="selectlang" onClick={this.toggleEnv}>
                         <ul>
-                          <li><a href="/">Mainnet</a></li>
-                          <li><a href="/test">Testnet</a></li>
+                          <li><a onClick={this.getPath.bind(this, '')}>Mainnet</a></li>
+                          <li><a onClick={this.getPath.bind(this, '/test')}>Testnet</a></li>
                         </ul>
                       </div>
                     )
