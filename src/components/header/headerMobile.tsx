@@ -1,18 +1,50 @@
 import * as React from 'react';
 import './headerMobile.less';
-
+import EventHandler from 'utils/event';
 interface IState {
-  isShowMenu: boolean
+  isShowMenu: boolean,
+  isShowBrowse: boolean,
+  isShowEnv: boolean,
 }
 
 
 export default class HeaderMobile extends React.Component<any, IState> {
   public state = {
-    isShowMenu: false
+    isShowMenu: false,
+    isShowBrowse: false,
+    isShowEnv: false,
   }
   public toggleMenu = () => {
     this.setState({
       isShowMenu: !this.state.isShowMenu
+    })
+  }
+  public toggleEnv = (e) => {
+    this.setState({
+      isShowEnv:!this.state.isShowEnv,
+      isShowBrowse: false,
+    })
+    e.stopPropagation();
+  }
+  public toggleBrowse= (e) => {
+    this.setState({
+      isShowEnv:false,
+      isShowBrowse: !this.state.isShowBrowse,
+    })
+    e.stopPropagation();
+  }
+
+  public componentDidMount() {
+    EventHandler.add(this.globalClick);
+  }
+  public componentWillUnmount() {
+    EventHandler.remove(this.globalClick);
+  }
+
+  public globalClick = () => {
+    this.setState({
+      isShowEnv:false,
+      isShowBrowse: false,
     })
   }
   public render() {
@@ -36,13 +68,16 @@ export default class HeaderMobile extends React.Component<any, IState> {
                   <span>Explorer</span>
                 </div>
                 <div className="list">
-                  <label htmlFor="BrowseCheckbox"><span>Browse <em /></span></label>
-                  <input type="checkbox" id="BrowseCheckbox" />
-                  <div className="child">
-                    <span>Blocks</span>
-                    <span>Transaction</span>
-                    <span>Address</span>
-                  </div>
+                  <label onClick={this.toggleBrowse}><span>Browse <em /></span></label>
+                  {
+                    this.state.isShowBrowse && (
+                      <div className="child" onClick={this.toggleBrowse}>
+                        <span>Blocks</span>
+                        <span>Transaction</span>
+                        <span>Address</span>
+                      </div>
+                    )
+                  }
                 </div>
                 <div className="list">
                   <span>Assets</span>
@@ -56,13 +91,15 @@ export default class HeaderMobile extends React.Component<any, IState> {
               </div>
               <div className="list-box">
                 <div className="list">
-                  <label htmlFor="MainnetCheckbox"><span>Mainnet<em /></span></label>
-                  <input type="checkbox" id="MainnetCheckbox" />
-                  <div className="child">
-                    <span>Blocks</span>
-                    <span>Transaction</span>
-                    <span>Address</span>
-                  </div>
+                  <label onClick={this.toggleEnv}><span>Mainnet<em /></span></label>
+                  {
+                    this.state.isShowEnv && (
+                      <div className="child" onClick={this.toggleEnv}>
+                        <span>Mainnet</span>
+                        <span>Testnet</span>
+                      </div>
+                    )
+                  }
                 </div>
                 <div className="list">
                   <span>API</span>

@@ -111,16 +111,6 @@
                                 border-top: 5px solid @text-fff;
                             }
                         }
-
-                        input[type="checkbox"] {
-                            width:0;
-                            height:0;
-                            position: absolute;
-                            opacity: 0;
-                            &:checked ~ .select-wrap {
-                                display: block;
-                            }
-                        }
                     }
                 }
             }
@@ -143,22 +133,14 @@
                     border-top: 5px solid @text-fff;
                     border-radius: 2px;
                     margin: 10px 5px 0 5px;
-                }
-            }
-
-            input[type="checkbox"] {
-                width:0;
-                height:0;
-                position: absolute;
-                opacity: 0;
-                &:checked ~ .select-wrap {
-                    display: block;
+                    position: relative;
+                    top:3px;
                 }
             }
         }
         // 下拉框
         .select-wrap{
-            display: none;
+
             position: absolute;
             top: 27px;
             left: -3px;
