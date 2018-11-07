@@ -28,7 +28,7 @@ export default [
   },
   {
     component: asyncComponent(() => import('../containers/address/addressinfo')),
-    path: '/address',
+    path: '/address/:address',
   },
   {
     component: asyncComponent(() => import('../containers/address')),
@@ -36,7 +36,7 @@ export default [
   },
   {
     component: asyncComponent(() => import('../containers/transaction/traninfo')),
-    path: '/transaction',
+    path: '/transaction/:txid',
   },
   {
     component: asyncComponent(() => import('../containers/transaction')),

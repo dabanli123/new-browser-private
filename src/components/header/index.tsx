@@ -69,7 +69,7 @@ export default class Header extends React.Component<IProps, IState>{
           </div>
           <div className="header-other">
             <ul>
-              <li><a href="#">API</a></li>
+              <li><a href="http://www.xiaoyaoji.cn/share/1H0gjTDtfk/" target="_blank">API</a></li>
               <li>
                 <div className="select-box">
                   <div className="select-content">
@@ -131,9 +131,13 @@ export default class Header extends React.Component<IProps, IState>{
                   </div>
                 </div>
               </li>
-              <li><a href="#">Assets</a></li>
-              <li><a href="#">NNS Event</a></li>
-              <li><a href="#">Wallet</a></li>
+              <li><Link to="/assets">Assets</Link></li>
+              <li><Link to="/nns">NNS Event</Link></li>
+              <li>
+                {
+                  process.env.REACT_APP_SERVER_ENV === 'DEV' ? <a href="https://testwallet.nel.group/" target="_blank">Wallet</a> : <a href="https://wallet.nel.group/" target="_blank">Wallet</a>
+                }
+              </li>
               {
                 this.state.isShowSearchBtn &&
                 <li onClick={this.onToggleSearch}>

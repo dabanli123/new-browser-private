@@ -9,6 +9,7 @@ export interface ITransaction {
   txid: string,
   type: string,
   net_fee: string,
+  sys_fee:string,
   gas: string,
   size: number,
   blockindex: number,

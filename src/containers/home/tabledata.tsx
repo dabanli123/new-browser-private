@@ -49,9 +49,9 @@ class TableData extends React.Component<IHomeProps, any>
       key: 'size'
     }
   ]
-
+  // img数据处理
   public imgs = {
-    contact: require('@/img/contract.png'),
+    contract: require('@/img/contract.png'),
     claim: require('@/img/claim.png'),
     invocation: require('@/img/invocation.png'),
     miner: require('@/img/miner.png'),
@@ -61,14 +61,19 @@ class TableData extends React.Component<IHomeProps, any>
     enrollment: require('@/img/enrollment.png'),
     agency: require('@/img/agency.png')
   }
-
+  // 初始
+  public componentDidMount()
+  {
+    this.props.home.getBlockList(10, 1);
+    this.props.home.getTransList(10, 1, '');
+  }
+  // 区块列表特殊处理
   public renderBlock = (value, key) =>
   {
     if (key === 'index')
     {
-      // console.log(this.props.history.location)
-      // const href = this.props.history.push('/block/index='+value);
-      return <span className="img-text"><img src={require('@/img/height.png')} alt="" /><a href="sdf">{toThousands(value.toString())}</a></span>
+      // const href = this.props.history.location.pathname =  '/block/' + value;
+      return <span className="img-text"><img src={require('@/img/height.png')} alt="" /><a onClick={this.toBlockInfo.bind(this, value)} href="javascript:;">{toThousands(value.toString())}</a></span>
     }
 
     if (key === 'time')
@@ -78,7 +83,7 @@ class TableData extends React.Component<IHomeProps, any>
     }
     return null;
   }
-
+  // 交易列表特殊处理
   public renderTran = (value, key) =>
   {
     if (key === 'type')
@@ -89,27 +94,35 @@ class TableData extends React.Component<IHomeProps, any>
 
     if (key === 'txid')
     {
-      value = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
-      return <span><a href="#">{value}</a></span>
+      const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+      return <span><a href="javascript:;" onClick={this.toTransInfo.bind(this, value)}>{txid}</a></span>
     }
-
+    if (key === 'size')
+    {
+      return <span>{value} bytes</span>
+    }
     return null;
   }
+  // 跳转到区块列表页
   public onViewBlock = () =>
   {
-    // const url =  process.env.REACT_APP_SERVER_ENV === 'DEV'? '/test/blocks': '/blocks/';
     this.props.history.push('/blocks/');
   }
+  // 跳转到交易列表页
   public onViewTran = () =>
   {
-    // const url = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/transactions' : '/transactions/';
     this.props.history.push('/transactions/');
   }
-  public componentDidMount()
+  // 跳转到区块详情页
+  public toBlockInfo = (index: string) =>
   {
-    this.props.home.getBlockList(10, 1);
-    this.props.home.getTransList(10, 1, '');
+    this.props.history.push('/block/' + index)
   }
+  // 跳转到交易详情页
+  public toTransInfo = (txid: string) =>
+  {
+    this.props.history.push('/transaction/' + txid)
+  }  
 
   public render()
   {

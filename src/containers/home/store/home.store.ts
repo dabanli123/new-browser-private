@@ -15,7 +15,7 @@ class Home implements IHomeStore {
         try {
             result = await Api.getblockcount();
         } catch (error) {
-            return error;
+            return false;
         }
         this.blockCount = result ? toThousands(result[0].blockcount) : '0';
         return true;
@@ -25,7 +25,7 @@ class Home implements IHomeStore {
         try {
             result = await Api.gettxcount(type);
         } catch (error) {
-            return error;
+            return false;
         }
         this.txCount = result ? toThousands(result[0].txcount) : '0';
         return true;
@@ -35,7 +35,7 @@ class Home implements IHomeStore {
         try {
             result = await Api.getaddrcount();
         } catch (error) {
-            return error;
+            return false;
         }
         this.addrCount = result ? toThousands(result[0].addrcount) : '0';
         return true;
@@ -46,7 +46,7 @@ class Home implements IHomeStore {
             result = await Api.getblocks(size, page);
             // console.log(result);
         } catch (error) {
-            return error;
+            return false;
         }
         this.blockList = result || [];
         return true;
@@ -57,7 +57,7 @@ class Home implements IHomeStore {
             result = await Api.getrawtransactions(size, page, type);
             // console.log(result);
         } catch (error) {
-            return error;
+            return false;
         }
 
         this.transList = result || [];

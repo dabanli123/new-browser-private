@@ -37,14 +37,15 @@ class Block extends React.Component<IBlockProps, any> {
     currentPage: 1,
     pageSize: 15
   }
+  // 初始化数据
   public componentDidMount() {
     this.props.block.getBlockHeight();
     this.props.block.getBlockList(this.state.pageSize, this.state.currentPage);
   }
+  // 列表特殊处理
   public renderBlock = (value, key) => {
     if (key === 'index') {
-      const href = this.props.history.location.pathname = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/block/' + value : '  /block/' + value;
-      return <span><img src={require('@/img/height.png')} alt="" /><a href={href}>{toThousands(value.toString())}</a></span>
+      return <span><img src={require('@/img/height.png')} alt="" /><a onClick={this.toBlockInfo.bind(this,value)} href="javascript:;">{toThousands(value.toString())}</a></span>
     }
 
     if (key === 'time') {
@@ -53,6 +54,12 @@ class Block extends React.Component<IBlockProps, any> {
     }
     return null;
   }
+  // 跳转到详情页
+  public toBlockInfo = (index: string) =>
+  {
+    this.props.history.push('/block/' + index)
+  }
+  // 翻页功能
   public onGoPage = (index: number) => {
     console.log(index)
     this.setState({
@@ -60,7 +67,6 @@ class Block extends React.Component<IBlockProps, any> {
     }, () => {
       this.props.block.getBlockList(this.state.pageSize, this.state.currentPage);
     })
-
   }
   public render() {
     if (!this.props.block.blockHeight) {
@@ -76,7 +82,12 @@ class Block extends React.Component<IBlockProps, any> {
             tableData={this.props.block.blockList}
             render={this.renderBlock}
           />
-          <Page totalCount={blockheight} pageSize={this.state.pageSize} currentPage={this.state.currentPage} onChange={this.onGoPage} />
+          <Page 
+            totalCount={blockheight} 
+            pageSize={this.state.pageSize} 
+            currentPage={this.state.currentPage} 
+            onChange={this.onGoPage} 
+          />
         </div>
       </div>
     );

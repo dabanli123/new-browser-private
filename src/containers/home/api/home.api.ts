@@ -53,6 +53,12 @@ export const getblocks = (size:number,page:number) => {
   return request(opts);
 }
 
+/**
+ * 获取交易详情
+ * @param size 每页条数
+ * @param page 当前页码
+ * @param type 交易类型
+ */
 export const getrawtransactions = (size:number,page:number,type:string) => {
   const opts = {
     method:'getrawtransactions',

@@ -5,11 +5,11 @@ export interface IHomeStore {
     addrCount: string,
     blockList: IBlock[],
     transList: ITransList[],
-    getBlockHeight: () => void,
-    getTxCount: (type: string) => void,
-    getAddrCount: () => void,
-    getBlockList: (size: number, page: number) => void,
-    getTransList: (size: number, page: number, type: string) => void
+    getBlockHeight: () => Promise<boolean>,
+    getTxCount: (type: string) => Promise<boolean>,
+    getAddrCount: () => Promise<boolean>,
+    getBlockList: (size: number, page: number) => Promise<boolean>,
+    getTransList: (size: number, page: number, type: string) => Promise<boolean>
 }
 export interface IHomeProps extends RouteComponentProps {
     intl: any,
