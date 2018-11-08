@@ -33,7 +33,7 @@ export const getaddrlist = (size:number,page:number) => {
  */
 export const getaddrinfo = (addr:string) => {
   const opts = {
-    method:'getaddrs',
+    method:'getaddr',
     params:[
       addr
     ],
@@ -41,6 +41,10 @@ export const getaddrinfo = (addr:string) => {
   }
   return request(opts);
 }
+/**
+ * 根据地址获取资产列表
+ * @param addr 当前地址
+ */
 export const getaddrbalance = (addr:string) => {
   const opts = {
     method:'getbalance',
@@ -51,6 +55,10 @@ export const getaddrbalance = (addr:string) => {
   }
   return request(opts);
 }
+/**
+ * 获取nep5资产
+ * @param nep5 nep5资产名
+ */
 export const getaddrnep5asset = (nep5:string) => {
   const opts = {
     method:'getallnep5assetofaddress',
@@ -62,7 +70,11 @@ export const getaddrnep5asset = (nep5:string) => {
   }
   return request(opts);
 }
-export const getaddrutxo = (addr:string) => {
+/**
+ * 根据地址获取utxo总数
+ * @param addr 当前地址
+ */
+export const getaddrutxocount = (addr:string) => {
   const opts = {
     method:'getutxo',
     params:[
@@ -72,4 +84,20 @@ export const getaddrutxo = (addr:string) => {
   }
   return request(opts);
 }
-
+/**
+ * 根据地址获取utxo列表
+ * @param addr 当前地址
+ * @param size 每页条数
+ * @param page 当前页码
+ */
+export const getaddrutxolist = (addr:string,page:number,size:number) => {
+  const opts = {
+    method:'getutxolistbyaddress',
+    params:[
+      addr,
+      page,
+      size
+    ]
+  }
+  return request(opts);
+}

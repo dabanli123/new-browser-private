@@ -2,29 +2,37 @@ footer：中英文链接是否区分
 header：中英文切换
 表格兼容
 首页：
-    1.block表格链接
+    1.block表格链接  done
     2.transaction表格链接
     3.search功能未实现
     4.header跳转链接 done
     5.兼容排版
 
 block详情模块：
-     1.交易表格链接
+     1.交易表格链接 done
      2.交易分页功能
 
 交易模块：
     1.刷新页面，页码变回0 ，以及筛选数据，页码变化不对 //done
+    2.更换接口请求   done
+    gettransactionlist
 
-交易详情
-    1.待定 等待接口
+交易详情 
+    1.待定 等待接口 getutxoinfo done
+    2.详情模块block的链接 done
+    3.若没有vin vout 怎么显示
 
 地址模块
     表格错位 done
 地址详情
+    balance列表(asset资产、nep5资产)
+    交易列表
+    utxo列表 接口待定
 
 asset模块
-    1.asset列表
-    2.nep5列表
+    1.asset列表 done
+    2.nep5列表 done
+    3.分页问题
 asset详情
 
 nns首页模块

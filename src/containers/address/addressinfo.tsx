@@ -2,80 +2,61 @@
  * 主页布局
  */
 import * as React from 'react';
+import { observer, inject } from 'mobx-react';
 import TitleText from '@/components/titletext/index';
 // import Table from '@/components/Table/Table';
 import './index.less'
-
-class AddressInfo extends React.Component {
+import { IAddressProps } from './interface/address.interface';
+import * as formatTime from 'utils/formatTime';
+import { injectIntl } from 'react-intl';
+import Page from '@/components/Page';
+@inject('address')
+@observer
+class AddressInfo extends React.Component<IAddressProps, {}> {
+  public state = {
+    address:'',
+    utxoPage: 1,
+    utxoSize: 15
+  }
   public tableTh = [
     "Type",
     "Txid",
     "Version",
     "Created on"
   ]
-  public tableData = [
-    {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    }
-  ]
-  public render() {
+  public async componentDidMount()
+  {
+    const params = this.props.match.params;
+    this.setState({
+      address:params["address"]
+    });
+    this.getInfos(params["address"]);
+    // await this.props.address.getAddrUtxoCount(params["address"]);
+    // if (this.props.address.addUtxoCount)
+    // {
+      this.getUtxoList(this.state.address);
+    // }
+  }
+  // 请求数据
+  public getInfos = (address) =>
+  {
+    return this.props.address.getAddressInfo(address);
+  }
+  // 获取utxo列表
+  public getUtxoList = (address:string) => {
+    return this.props.address.getAddrUtxoList(address, this.state.utxoSize, this.state.utxoPage)
+  }
+  // utxo翻页功能
+  public onUtxoPage = (index: number) => {
+    console.log(index)
+    this.setState({
+      currentPage: index
+    }, () => {
+      this.getUtxoList(this.state.address);
+    })
+  }
+  public render()
+  {
     return (
       <div className="addressinfo-page">
         <div className="goback-wrapper">
@@ -86,28 +67,18 @@ class AddressInfo extends React.Component {
           <div className="info-list">
             <ul>
               <li>
-                <span className="type-name">
-                  Address
-                        </span>
-                <span className="type-content">
-                  ASmJfHD6mxyMzbX2KFXdYHGZAUokQDDrht
-                        </span>
+                <span className="type-name">Address</span>
+                <span className="type-content">{this.props.address.addInfo && this.props.address.addInfo.addr}</span>
               </li>
               <li>
-                <span className="type-name">
-                  Created on
-                        </span>
+                <span className="type-name">Created on</span>
                 <span className="type-content">
-                  Mon, 09 Apr 2018 09:20:10 GMT
-                        </span>
+                  {this.props.address.addInfo && formatTime.format('yyyy/MM/dd | hh:mm:ss', this.props.address.addInfo.firstuse.blocktime.$date.toString(), this.props.intl.locale)}
+                </span>
               </li>
               <li>
-                <span className="type-name">
-                  Transactions
-                        </span>
-                <span className="type-content">
-                  88
-                        </span>
+                <span className="type-name">Transactions</span>
+                <span className="type-content">{this.props.address.addInfo && this.props.address.addInfo.txcount}</span>
               </li>
             </ul>
           </div>
@@ -122,11 +93,20 @@ class AddressInfo extends React.Component {
         </div>
         <div className="addressinfo-utxo-wrapper">
           <TitleText text="UTXO" />
-          {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true}/> */}
+          <div className="addrinfo-utxo-table">
+            {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true}/> */}
+            <Page
+              totalCount={this.props.address.addUtxoList.count}
+              pageSize={this.state.utxoSize}
+              currentPage={this.state.utxoPage}
+              onChange={this.onUtxoPage}
+            />
+          </div>
+
         </div>
       </div>
     );
   }
 }
 
-export default AddressInfo;
+export default injectIntl(AddressInfo);

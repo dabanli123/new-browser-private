@@ -1,19 +1,28 @@
 import { RouteComponentProps } from 'react-router-dom';
-import { ITransaction } from '@/store/interface/common.interface';
-import { IBlockInfo } from '@/containers/block/interface/block.interface';
 export interface ITransactionsStore {
-    txCount: string,
-    transList: ITransaction[],
-    tranInfo:ITransaction,
-    blockInfo:IBlockInfo,
-    getTxCount: (type: string) => Promise<boolean>,
-    getTransList: (size: number, page: number, type: string) => Promise<boolean>,
+    // txCount: string,
+    transList: ITransactionList,
+    tranInfo:ITransInfo,
+    // blockInfo:IBlockInfo,
+    // getTxCount: (type: string) => Promise<boolean>,
+    getTransList: ( page: number,size: number, type: string) => Promise<boolean>,
     getTransInfo:(txid:string) => Promise<boolean>,
-    getBlockInfo:(index:number) => Promise<boolean>
+    // getBlockInfo:(index:number) => Promise<boolean>
 }
 export interface ITransactionsProps extends RouteComponentProps {
     intl: any,
     transaction: ITransactionsStore
+}
+
+export interface ITransactionList {
+    count:number,
+    list:ITransaction[]
+}
+export interface ITransaction {
+    blockindex:number,
+    size:number,
+    txid:string,
+    type:string
 }
 export interface ITransInfoState{
     vinList:ITransInputOutput[],
@@ -21,6 +30,21 @@ export interface ITransInfoState{
 }
 export interface ITransInputOutput{
     address:string,
-    asset:string
+    value:string
+}
+export interface ITransVinVout{
+    address:string,
+    asset:string,
     value:number
+}
+export interface ITransInfo {
+    txid:string,
+    size:number,
+    type:string,
+    sys_fee:string,
+    net_fee:string,
+    blockindex:number,
+    blocktime:number,
+    vin:ITransVinVout[],
+    vout:ITransVinVout[]
 }

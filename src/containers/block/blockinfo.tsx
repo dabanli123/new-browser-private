@@ -9,12 +9,16 @@ import './index.less'
 import { IBlockProps, IBlockInfoState } from './interface/block.interface';
 import * as formatTime from 'utils/formatTime';
 import { injectIntl } from 'react-intl';
+import Page from '@/components/Page';
 @inject('block')
 @observer
 class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
     public state = {
         isTop: false,
-        isBottom: false
+        isBottom: false,
+        currentPage: 1,
+        pageSize: 15,
+        txList:new Array()
     }
     public blockTransTableTh = [
         {
@@ -105,14 +109,45 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
         }
         if (key === 'txid')
         {
-            value = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
-            return <span><a href="#">{value}</a></span>
+            const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+            return <span><a onClick={this.goTransInfo.bind(this, value)}>{txid}</a></span>
         }
         if (key === 'size')
         {
             return <span>{value} bytes</span>
         }
         return null;
+    }
+    // 交易详情链接
+    public goTransInfo = (txid: string) =>
+    {
+        this.props.history.push('/transaction/' + txid)
+    }
+    // 翻页功能
+    public onGoPage = (index: number) =>
+    {
+        console.log(index)
+        this.setState({
+            currentPage: index
+        }, () =>
+        {
+            this.doListPage();
+        })
+    }
+    public doListPage(){
+        const minNum = this.state.currentPage * this.state.pageSize - this.state.pageSize;
+        let maxNum = this.props.block.blockInfo.tx.length;
+        const diffNum = maxNum - minNum;
+        if (diffNum > this.state.pageSize) {
+            maxNum = this.state.currentPage * this.state.pageSize;
+        } 
+        const arrtxs = new Array();
+        for (let i = minNum; i < maxNum; i++) {
+            arrtxs.push(this.props.block.blockInfo.tx[i]);
+        }
+        // this.setState({
+        //     txList:arrtxs
+        // })
     }
     public render()
     {
@@ -160,7 +195,16 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
                 </div>
                 <TitleText text="Transactions" />
                 <div className="blockinfo-tran-table">
-                    <Table tableTh={this.blockTransTableTh} tableData={this.props.block.blockInfo ? this.props.block.blockInfo.tx : []} render={this.renderTran} />
+                    <Table tableTh={this.blockTransTableTh} tableData={this.state.txList} render={this.renderTran} />
+                    {(this.props.block.blockInfo && this.props.block.blockInfo.tx.length>=10) && 
+                    (
+                        <Page
+                        totalCount={this.props.block.blockInfo && this.props.block.blockInfo.tx.length}
+                        pageSize={this.state.pageSize}
+                        currentPage={this.state.currentPage}
+                        onChange={this.onGoPage}
+                    />
+                    )}
                 </div>
             </div>
         );

@@ -2,122 +2,157 @@
  * 主页布局
  */
 import * as React from 'react';
+import { observer, inject } from 'mobx-react';
 import TitleText from '@/components/titletext/index';
-// import Table from '@/components/Table/Table';
+import Table from '@/components/Table/Table';
 import Select from '@/components/select';
+import { injectIntl } from 'react-intl';
+import Page from '@/components/Page';
 import './index.less'
+import { IAssetProps } from './interface/asset.interface';
 
-class Assets extends React.Component {
+@inject('asset')
+@observer
+class Assets extends React.Component<IAssetProps, {}>
+{
     public options = [
         {
-            id: 'all',
-            name: "all",
+            id: 'asset',
+            name: "Assets",
         },
         {
-            id: 'contract',
-            name: "contract",
-        },
-        {
-            id: 'claim',
-            name: "claim",
-        },
-        {
-            id: 'invocation',
-            name: "invocation",
-        },
-        {
-            id: 'miner',
-            name: "miner",
+            id: 'nep5',
+            name: "Nep5",
         }
     ]
-    public tableTh = [
-        "Asset",
-        "Id",
-        "Type",
-        "Available",
-        "Precision"
-    ]
-    public tableData = [
+    public AssetTableTh = [
         {
-            asset: 'Hello AntShares Mainnet',
-            id: "439a...ed7d",
-            type: "Token",
-            available: "1024",
-            precision: "8"
+            name: 'Asset',
+            key: 'asset'
         },
         {
-            asset: 'Hello AntShares Mainnet',
-            id: "439a...ed7d",
-            type: "Token",
-            available: "1024",
-            precision: "8"
+            name: 'Id',
+            key: 'id'
         },
         {
-            asset: 'Hello AntShares Mainnet',
-            id: "439a...ed7d",
-            type: "Token",
-            available: "1024",
-            precision: "8"
+            name: 'Type',
+            key: 'type'
         },
         {
-            asset: 'Hello AntShares Mainnet',
-            id: "439a...ed7d",
-            type: "Token",
-            available: "1024",
-            precision: "8"
+            name: 'Available',
+            key: 'available'
         },
         {
-            asset: 'Hello AntShares Mainnet',
-            id: "439a...ed7d",
-            type: "Token",
-            available: "1024",
-            precision: "8"
-        },
-        {
-            asset: 'Hello AntShares Mainnet',
-            id: "439a...ed7d",
-            type: "Token",
-            available: "1024",
-            precision: "8"
-        },
-        {
-            asset: 'Hello AntShares Mainnet',
-            id: "439a...ed7d",
-            type: "Token",
-            available: "1024",
-            precision: "8"
-        },
-        {
-            asset: 'Hello AntShares Mainnet',
-            id: "439a...ed7d",
-            type: "Token",
-            available: "1024",
-            precision: "8"
+            name: 'Precision',
+            key: 'precision'
         }
     ]
-    public onCallback = (item) => {
-        console.log(item)
+    public state = {
+        currentPageAsset: 1,
+        pageSizeAsset: 15,
+        currentPageNep5: 1,
+        pageSizeNep5: 15,
+        type: "asset"
+    }
+    // 初始化数据
+    public componentDidMount()
+    {
+        this.props.asset.getAssetList();
+        this.props.asset.getNep5List();
+    }
+    public onCallback = (item) =>
+    {
+        if (item.id === this.state.type)
+        {
+            return;
+        }
+        if (item.id === 'asset')
+        {
+            this.setState({
+                currentPageAsset: 1,
+                type: 'asset'
+            })
+        } else
+        {
+            this.setState({
+                currentPageNep5: 1,
+                type: 'nep5'
+            })
+        }
     }
 
-    public renderAsset = (value, key) => {
-        if (key === 'asset') {
+    public renderAsset = (value, key) =>
+    {
+        if (key === 'asset')
+        {
             return <span><a href="http://www.baidu.com">{value}</a></span>
         }
-        if (key === 'id') {
-            return <span><a href="http://www.baidu.com">{value}</a></span>
+        if (key === 'id')
+        {
+            const assetid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+            return <span><a href="http://www.baidu.com">{assetid}</a></span>
         }
         return null;
     }
-    public render() {
+
+    // 翻页功能
+    public onAssetPage = (index: number) =>
+    {
+        this.setState({
+            currentPageAsset: index
+        }, () =>
+            {
+                // this.props.block.getBlockList(this.state.pageSize, this.state.currentPage);
+            })
+    }
+    // 翻页功能
+    public onNep5Page = (index: number) =>
+    {
+        this.setState({
+            currentPageNep5: index
+        }, () =>
+            {
+                // this.props.block.getBlockList(this.state.pageSize, this.state.currentPage);
+            })
+    }
+    public render()
+    {
         return (
             <div className="asset-page">
                 <TitleText text="Assets" img={require('@/img/assets.png')} isInline={true}>
                     <Select options={this.options} text="Type" onCallback={this.onCallback} />
                 </TitleText>
-                {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} render={this.renderAsset}/> */}
+                {
+                    this.state.type === 'asset' &&
+                    (
+                        <div className="asset-table">
+                            <Table tableTh={this.AssetTableTh} tableData={this.props.asset.assetList} render={this.renderAsset} />
+                            <Page
+                                totalCount={this.props.asset.assetList.length}
+                                pageSize={this.state.pageSizeAsset}
+                                currentPage={this.state.currentPageAsset}
+                                onChange={this.onAssetPage}
+                            />
+                        </div>
+                    )
+                }
+                {
+                    this.state.type === 'nep5' &&
+                    (
+                        <div className="nep5-table">
+                            <Table tableTh={this.AssetTableTh} tableData={this.props.asset.nep5List} render={this.renderAsset} />
+                            <Page
+                                totalCount={this.props.asset.nep5List.length}
+                                pageSize={this.state.pageSizeNep5}
+                                currentPage={this.state.currentPageNep5}
+                                onChange={this.onNep5Page}
+                            />
+                        </div>
+                    )
+                }
             </div>
         );
     }
 }
 
-export default Assets;
+export default injectIntl(Assets);

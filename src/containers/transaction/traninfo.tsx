@@ -14,8 +14,8 @@ import { injectIntl } from 'react-intl';
 @observer
 class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoState> {
     public state = {
-        vinList:[],
-        outList:[]
+        vinList: [],
+        outList: []
     }
     public transVTableTh = [
         {
@@ -31,25 +31,55 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
     {
         const params = this.props.match.params;
         await this.getTransactionInfo(params["txid"]);
+        this.doVinVoutList();
         // if(this.props.transaction.tranInfo){
-        this.props.transaction.getBlockInfo(this.props.transaction.tranInfo.blockindex);
+        // this.props.transaction.getBlockInfo(this.props.transaction.tranInfo.blockindex);
         // }
     }
     // 请求数据
     public getTransactionInfo = (txid: string) =>
     {
-        return this.props.transaction.getTransInfo(txid);        
+        return this.props.transaction.getTransInfo(txid);
     }
     // 返回交易列表
     public onGoBack = () =>
     {
         this.props.history.push('/transactions/');
     }
+    // 区块详情链接
+    public goBlockInfo = (index: string) =>
+    {
+        this.props.history.push('/block/' + index)
+    }
+    public doVinVoutList = () =>
+    {
+        const vinlist = this.props.transaction.tranInfo.vin.map((key) =>
+        {
+            const newObj = {
+                address: key.address,
+                value: key.value + ' ' + key.asset
+            }
+            return newObj;
+        });
+        const voutlist = this.props.transaction.tranInfo.vout.map((key) =>
+        {
+            const newObj = {
+                address: key.address,
+                value: key.value + ' ' + key.asset
+            }
+            return newObj;
+        });
+        this.setState({
+            vinList: vinlist,
+            outList: voutlist
+        })
+    }
     public render()
     {
-        if(!this.props.transaction.tranInfo){
+        if (!this.props.transaction.tranInfo)
+        {
             return null
-        }        
+        }
         return (
             <div className="transactioninfo-page">
                 <div className="goback-wrapper">
@@ -65,7 +95,7 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
                             </li>
                             <li>
                                 <span className="type-name">Type</span>
-                                <span className="type-content">{this.props.transaction.tranInfo && this.props.transaction.tranInfo.type}</span>
+                                <span className="type-content">{this.props.transaction.tranInfo && this.props.transaction.tranInfo.type.replace('Transaction', '')}</span>
                             </li>
                             <li>
                                 <span className="type-name">Network Fee</span>
@@ -82,28 +112,34 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
                             <li>
                                 <span className="type-name">Height</span>
                                 <span className="type-content">
-                                    <a href="">{this.props.transaction.tranInfo && this.props.transaction.tranInfo.blockindex}</a>
+                                    <a href="javascript:;" onClick={this.goBlockInfo.bind(this, this.props.transaction.tranInfo.blockindex)}>{this.props.transaction.tranInfo && this.props.transaction.tranInfo.blockindex}</a>
                                 </span>
                             </li>
                             <li>
                                 <span className="type-name">Time</span>
                                 <span className="type-content">
-                                    {this.props.transaction.blockInfo && formatTime.format('yyyy/MM/dd | hh:mm:ss', this.props.transaction.blockInfo.time.toString(), this.props.intl.locale)}
+                                    {this.props.transaction.tranInfo && formatTime.format('yyyy/MM/dd | hh:mm:ss', this.props.transaction.tranInfo.blocktime.toString(), this.props.intl.locale)}
                                 </span>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div className="transactioninfo-input-output">
-                    <div className="input-wrapper">
-                        <TitleText text="Input" />
-                        <Table tableTh={this.transVTableTh} tableData={this.state.vinList}/>
-                    </div>
-                    <div className="output-wrapper">
-                        <TitleText text="Output" />
-                        <Table tableTh={this.transVTableTh} tableData={this.state.outList}/>
-                    </div>
-                </div>
+                {
+                    (this.state.vinList || this.state.outList) &&
+                    (
+                        <div className="transactioninfo-input-output">
+                            <div className="input-wrapper">
+                                <TitleText text="Input" />
+                                <Table tableTh={this.transVTableTh} tableData={this.state.vinList} />
+                            </div>
+                            <div className="output-wrapper">
+                                <TitleText text="Output" />
+                                <Table tableTh={this.transVTableTh} tableData={this.state.outList} />
+                            </div>
+                        </div>
+                    )
+                }
+
             </div>
         );
     }
