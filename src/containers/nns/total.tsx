@@ -3,9 +3,15 @@
  */
 import * as React from 'react';
 import './index.less'
-
-class Total extends React.Component
+import { observer } from 'mobx-react';
+import { INNSProps } from './interface/nns.interface';
+@observer
+class Total extends React.Component<INNSProps,{}>
 {
+  public componentDidMount()
+  {
+    this.props.nns.getStatistic();
+  }
   public render()
   {
     return (
@@ -13,25 +19,25 @@ class Total extends React.Component
         <div className="total-box">
           <div className="total-smallbox">
             <div className="total-content">
-              <strong className="total-data">35678.01451125 CGAS</strong>
+              <strong className="total-data">{this.props.nns.nnsTotal ? this.props.nns.nnsTotal.bonus:0} CGAS</strong>
               <strong className="total-type">Distribution pool</strong>
             </div>
           </div>
           <div className="total-smallbox">
             <div className="total-content">
-              <strong className="total-data">0 CGAS</strong>
+              <strong className="total-data">{this.props.nns.nnsTotal ? this.props.nns.nnsTotal.profit:0} CGAS</strong>
               <strong className="total-type">Distributed dividends</strong>
             </div>
           </div>
           <div className="total-smallbox">
             <div className="total-content">
-              <strong className="total-data">2,155,956</strong>
+              <strong className="total-data">{this.props.nns.nnsTotal ? this.props.nns.nnsTotal.usedDomainCount:0}</strong>
               <strong className="total-type">Domains registered</strong>
             </div>
           </div>
           <div className="total-smallbox">
             <div className="total-content">
-              <strong className="total-data">2,155,956</strong>
+              <strong className="total-data">{this.props.nns.nnsTotal ? this.props.nns.nnsTotal.auctingDomainCount:0}</strong>
               <strong className="total-type">Live auctions</strong>
             </div>
           </div>

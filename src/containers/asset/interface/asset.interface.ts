@@ -3,7 +3,6 @@ export interface IAsset
 {
     type: string,
     name: IAssetName[],
-    names: string,     // name
     amount: number,
     precision: number,  // decimals
     available: number,  // totalsupply

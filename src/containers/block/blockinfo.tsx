@@ -9,7 +9,7 @@ import './index.less'
 import { IBlockProps, IBlockInfoState } from './interface/block.interface';
 import * as formatTime from 'utils/formatTime';
 import { injectIntl } from 'react-intl';
-import Page from '@/components/Page';
+// import Page from '@/components/Page';
 @inject('block')
 @observer
 class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
@@ -31,7 +31,8 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
         }, {
             name: 'Version',
             key: 'version'
-        }, {
+        }, 
+        {
             name: 'Size',
             key: 'size'
         }
@@ -195,8 +196,8 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
                 </div>
                 <TitleText text="Transactions" />
                 <div className="blockinfo-tran-table">
-                    <Table tableTh={this.blockTransTableTh} tableData={this.state.txList} render={this.renderTran} />
-                    {(this.props.block.blockInfo && this.props.block.blockInfo.tx.length>=10) && 
+                    <Table tableTh={this.blockTransTableTh} tableData={this.props.block.blockInfo.tx} render={this.renderTran} />
+                    {/* {(this.props.block.blockInfo && this.props.block.blockInfo.tx.length>=10) && 
                     (
                         <Page
                         totalCount={this.props.block.blockInfo && this.props.block.blockInfo.tx.length}
@@ -204,7 +205,7 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
                         currentPage={this.state.currentPage}
                         onChange={this.onGoPage}
                     />
-                    )}
+                    )} */}
                 </div>
             </div>
         );

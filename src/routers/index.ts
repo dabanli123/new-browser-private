@@ -12,15 +12,19 @@ export default [
   },
   {
     component: asyncComponent(() => import('../containers/nns/nnsinfo')),
-    path: '/nnsinfo',
+    path: '/nnsinfo/:domain',
   },
   {
     component: asyncComponent(() => import('../containers/nns')),
     path: '/nns',
   },
   {
+    component: asyncComponent(() => import('../containers/asset/nep5info')),
+    path: '/nep5/:nep5id',
+  },
+  {
     component: asyncComponent(() => import('../containers/asset/assetinfo')),
-    path: '/asset',
+    path: '/asset/:assetid',
   },
   {
     component: asyncComponent(() => import('../containers/asset')),

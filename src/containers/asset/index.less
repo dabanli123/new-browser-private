@@ -4,7 +4,7 @@
     min-width: 1088px;
     padding: 0 20px;
     margin: 0 auto;
-    margin-top: 1.38rem;
+    margin-top: .8rem;
     margin-bottom: 1rem;
 }
 .asset-page{
@@ -12,5 +12,18 @@
         background:@text-fff;
         box-shadow: 0 2px 10px 0 rgba(185,185,185,0.50);
         border-radius: 3px; 
+    }
+}
+.assetinfo-page{
+    .assetinfo-balance-table,.assetinfo-trans-table{
+        background:@text-fff;
+        box-shadow: 0 2px 10px 0 rgba(185,185,185,0.50);
+        border-radius: 3px; 
+        margin-bottom: 50px;
+    }
+    .assetinfo-trans-table{
+        .table-th li:nth-child(2), .table-th li:nth-child(3){
+            min-width:315px;
+        }
     }
 }

@@ -28,7 +28,7 @@ class Page extends React.Component<IProps, IState>
             totalPage: props.totalCount % props.pageSize === 0 ? props.totalCount / props.pageSize : Math.ceil((props.totalCount / props.pageSize)),
             inputValue: 0
         }
-        // console.log(props.totalCount);
+        console.log(props.totalCount);
         console.log(this.state);
 
     }

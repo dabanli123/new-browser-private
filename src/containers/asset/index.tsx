@@ -80,19 +80,42 @@ class Assets extends React.Component<IAssetProps, {}>
             })
         }
     }
-
+    // 特殊列表处理
     public renderAsset = (value, key) =>
     {
         if (key === 'asset')
         {
-            return <span><a href="http://www.baidu.com">{value}</a></span>
+            return <span><a onClick={this.toAssetInfo.bind(this, value)} href="javascript:;">{value}</a></span>
         }
         if (key === 'id')
         {
             const assetid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
-            return <span><a href="http://www.baidu.com">{assetid}</a></span>
+            return <span><a onClick={this.toAssetInfo.bind(this, value)} href="javascript:;">{assetid}</a></span>
         }
         return null;
+    }
+    public renderNep5 = (value, key) =>
+    {
+        if (key === 'asset')
+        {
+            return <span><a onClick={this.toNep5Info.bind(this, value)} href="javascript:;">{value}</a></span>
+        }
+        if (key === 'id')
+        {
+            const assetid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+            return <span><a onClick={this.toNep5Info.bind(this, value)} href="javascript:;">{assetid}</a></span>
+        }
+        return null;
+    }
+    // 跳转到详情页
+    public toAssetInfo = (assetid: string) =>
+    {
+        this.props.history.push('/asset/' + assetid)
+    }
+    // 跳转到详情页
+    public toNep5Info = (assetid: string) =>
+    {
+        this.props.history.push('/nep5/' + assetid)
     }
 
     // 翻页功能
@@ -140,7 +163,7 @@ class Assets extends React.Component<IAssetProps, {}>
                     this.state.type === 'nep5' &&
                     (
                         <div className="nep5-table">
-                            <Table tableTh={this.AssetTableTh} tableData={this.props.asset.nep5List} render={this.renderAsset} />
+                            <Table tableTh={this.AssetTableTh} tableData={this.props.asset.nep5List} render={this.renderNep5} />
                             <Page
                                 totalCount={this.props.asset.nep5List.length}
                                 pageSize={this.state.pageSizeNep5}

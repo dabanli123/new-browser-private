@@ -36,9 +36,7 @@ class Block implements IBlockStore {
         } catch (error) {
             return false;
         }
-        this.blockInfo = result ? result[0] : [];
-        console.log(this.blockInfo);
-
+        this.blockInfo = result ? result[0] : null;
         return true;
     }
 }

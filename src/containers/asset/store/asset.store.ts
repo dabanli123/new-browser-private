@@ -15,7 +15,7 @@ class Asset {
             result = await Api.getallasset();
         } catch (error) {
             this.assetList = [];
-            return error;
+            return false;
         }
         const arr:IAsset[] = result || [];
         if(arr.length !== 0){
@@ -42,7 +42,7 @@ class Asset {
             result = await Api.getallnep5();
         } catch (error) {
             this.nep5List = [];
-            return error;
+            return false;
         }
         const arr:INep5Asset[] = result || [];
         if(arr.length !== 0){

@@ -4,9 +4,8 @@ const id_NEO: string = "0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74
 
 export const toChangeAssetName = (assets) =>
 {
-
     const names = assets.name;
-    const id = assets.id;
+    const id = assets.id || assets.asset;
     let name: string = '';
     if (id === id_GAS)
     {

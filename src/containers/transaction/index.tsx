@@ -5,7 +5,7 @@ import * as React from 'react';
 import TitleText from '@/components/titletext/index';
 import Table from '@/components/Table/Table';
 import Select from '@/components/select';
-import { toThousands } from '@/utils/numberTool'
+import { toThousands } from '@/utils/numberTool';
 import './index.less'
 import { ITransactionsProps } from './interface/transaction.interface';
 import { observer, inject } from 'mobx-react';
@@ -17,7 +17,7 @@ class Transactions extends React.Component<ITransactionsProps, {}>
 {
   public options = [
     {
-      id: '',
+      id: 'all',
       name: "All",
     },
     {
@@ -87,7 +87,7 @@ class Transactions extends React.Component<ITransactionsProps, {}>
   public state = {
     currentPage: 1,
     pageSize: 15,
-    type: ""
+    type: "all"
   }
   // 初始化数据
   public componentDidMount() {
