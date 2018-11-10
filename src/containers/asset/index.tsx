@@ -81,11 +81,11 @@ class Assets extends React.Component<IAssetProps, {}>
         }
     }
     // 特殊列表处理
-    public renderAsset = (value, key) =>
+    public renderAsset = (value, key, item) =>
     {
         if (key === 'asset')
         {
-            return <span><a onClick={this.toAssetInfo.bind(this, value)} href="javascript:;">{value}</a></span>
+            return <span><a onClick={this.toAssetInfo.bind(this, item.id)} href="javascript:;">{value}</a></span>
         }
         if (key === 'id')
         {
@@ -94,11 +94,11 @@ class Assets extends React.Component<IAssetProps, {}>
         }
         return null;
     }
-    public renderNep5 = (value, key) =>
+    public renderNep5 = (value, key,item) =>
     {
         if (key === 'asset')
         {
-            return <span><a onClick={this.toNep5Info.bind(this, value)} href="javascript:;">{value}</a></span>
+            return <span><a onClick={this.toNep5Info.bind(this, item.id)} href="javascript:;">{value}</a></span>
         }
         if (key === 'id')
         {
@@ -123,20 +123,25 @@ class Assets extends React.Component<IAssetProps, {}>
     {
         this.setState({
             currentPageAsset: index
-        }, () =>
-            {
-                // this.props.block.getBlockList(this.state.pageSize, this.state.currentPage);
-            })
+        })
     }
     // 翻页功能
     public onNep5Page = (index: number) =>
     {
         this.setState({
             currentPageNep5: index
-        }, () =>
-            {
-                // this.props.block.getBlockList(this.state.pageSize, this.state.currentPage);
-            })
+        })
+    }
+    public assetListByPage = () => {
+        const startNum = this.state.pageSizeAsset * (this.state.currentPageAsset - 1);
+        const list = [...this.props.asset.assetList];
+        return list.slice(startNum, startNum + this.state.pageSizeAsset);
+    }
+
+    public nep5ListByPage = () => {
+        const startNum = this.state.pageSizeNep5 * (this.state.currentPageNep5 - 1);
+        const list = [...this.props.asset.nep5List];
+        return list.slice(startNum, startNum + this.state.pageSizeNep5);
     }
     public render()
     {
@@ -149,7 +154,7 @@ class Assets extends React.Component<IAssetProps, {}>
                     this.state.type === 'asset' &&
                     (
                         <div className="asset-table">
-                            <Table tableTh={this.AssetTableTh} tableData={this.props.asset.assetList} render={this.renderAsset} />
+                            <Table tableTh={this.AssetTableTh} tableData={this.assetListByPage()} render={this.renderAsset} />
                             <Page
                                 totalCount={this.props.asset.assetList.length}
                                 pageSize={this.state.pageSizeAsset}
@@ -163,7 +168,7 @@ class Assets extends React.Component<IAssetProps, {}>
                     this.state.type === 'nep5' &&
                     (
                         <div className="nep5-table">
-                            <Table tableTh={this.AssetTableTh} tableData={this.props.asset.nep5List} render={this.renderNep5} />
+                            <Table tableTh={this.AssetTableTh} tableData={this.nep5ListByPage()} render={this.renderNep5} />
                             <Page
                                 totalCount={this.props.asset.nep5List.length}
                                 pageSize={this.state.pageSizeNep5}

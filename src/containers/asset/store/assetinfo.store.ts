@@ -5,8 +5,8 @@ import * as Api from '../api/assetinfo.api';
 
 class AssetInfo implements IAssetInfoStore
 {
-    @observable public assetInfo: IAsset;
-    @observable public nep5Info:INep5Asset;
+    @observable public assetInfo: IAsset | null;
+    @observable public nep5Info:INep5Asset | null;
     @observable public balanceRankCount: number = 0;
     @observable public balanceRankList: IBalanceRank[];
     @observable public nep5TransList:INep5TransList[];
@@ -18,6 +18,7 @@ class AssetInfo implements IAssetInfoStore
      */
     @action public async getAssetInfo(assetid: string)
     {
+        this.assetInfo = null;
         let result: any = null;
         try
         {
@@ -37,6 +38,7 @@ class AssetInfo implements IAssetInfoStore
      */
     @action public async getNep5Info(nep5id: string)
     {
+        this.nep5Info = null;
         let result: any = null;
         try
         {

@@ -32,11 +32,11 @@ export interface INNSAuctingTable
     maxBuyer: string,
     auctionState: string,
 }
-export interface INNSAucting
-{
-    count: number,
-    list: INNSAuctingList[]
-}
+// export interface INNSAucting
+// {
+//     count: number,
+//     list: INNSAuctingList[]
+// }
 export interface INNSAuctingList
 {
     auctionState: string,
@@ -56,11 +56,11 @@ export interface INNSAuctionedTable
     maxBuyer: string,
     ttl: number
 }
-export interface INNSAuctioned
-{
-    count: number,
-    list: INNSAuctionedList[]
-}
+// export interface INNSAuctioned
+// {
+//     count: number,
+//     list: INNSAuctionedList[]
+// }
 export interface INNSAuctionedList
 {
     fulldomain: string,

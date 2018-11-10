@@ -2,8 +2,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import { IAsset, INep5Asset } from './asset.interface';
 export interface IAssetInfoStore
 {
-    assetInfo: IAsset,
-    nep5Info:INep5Asset;
+    assetInfo: IAsset | null,
+    nep5Info:INep5Asset | null;
     balanceRankCount: number,
     balanceRankList: IBalanceRank[],
     nep5TransList:INep5TransList[],

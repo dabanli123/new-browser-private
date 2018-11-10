@@ -6,7 +6,7 @@ import * as CoinTool from '@/utils/cointool';
 class AddressInfo implements IAddressInfoStore
 {
     @observable public addrInfo: IAddress;
-    @observable public addrBalanceList: IAddrBalance[];
+    @observable public addrBalanceList: IAddrBalance[] = [];
     @observable public addrTransList: IAddrTrans[];
     @observable public addrUtxoList: IUtxoByAddress;
 
@@ -46,7 +46,7 @@ class AddressInfo implements IAddressInfoStore
         // 筛选
         if (arr.length !== 0)
         {
-            this.addrBalanceList = arr.map((key) =>
+            const list:IAddrBalance[] = arr.map((key) =>
             {
                 const newObject = {
                     asset: CoinTool.toChangeAssetName(key),
@@ -54,6 +54,8 @@ class AddressInfo implements IAddressInfoStore
                 }
                 return newObject;
             })
+
+            this.addrBalanceList = [...this.addrBalanceList, ...list]
         }
         return true
     }
@@ -76,7 +78,7 @@ class AddressInfo implements IAddressInfoStore
         // 筛选
         if (arr.length !== 0)
         {
-            this.addrBalanceList = arr.map((key) =>
+            const list = arr.map((key) =>
             {
                 const newObject = {
                     asset: key.symbol,
@@ -84,6 +86,8 @@ class AddressInfo implements IAddressInfoStore
                 }
                 return newObject;
             })
+
+            this.addrBalanceList = [...this.addrBalanceList, ...list]
         }
         return true
     }

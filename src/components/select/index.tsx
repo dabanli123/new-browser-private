@@ -14,7 +14,8 @@ interface IProps
 	text:string,
 	onCallback?: (event: any) => void,
 	style?: object,
-	placeholder?:string
+	placeholder?:string,
+	defaultValue?:string | number
 }
 
 interface IState{
@@ -30,7 +31,15 @@ export default class Select extends React.Component<IProps, IState> {
 		expand: false,
 	}
 	public componentDidMount() {
-		if(!this.props.placeholder) {
+		if(this.props.defaultValue) {
+			this.setState({
+				options:this.props.options.filter((item) => item.id === this.props.defaultValue)[0]
+			}, () => {
+				if(this.props.onCallback) {
+					this.props.onCallback(this.state.options);
+				}
+			});
+		} else if(!this.props.placeholder) {
 			this.setState({
 				options:this.props.options[0]
 			});

@@ -74,8 +74,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
     enrollment: require('@/img/enrollment.png'),
     agency: require('@/img/agency.png')
   }
-  public async componentDidMount()
-  {
+  public async componentDidMount() {
     const params = this.props.match.params;
     this.setState({
       address: params["address"]
@@ -88,75 +87,60 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
   }
 
   // 获取utxo列表
-  public getUtxoList = (address: string) =>
-  {
+  public getUtxoList = (address: string) => {
     return this.props.addressinfo.getAddrUtxoList(address, this.state.utxoPage, this.state.utxoSize)
   }
   // 返回地址列表
-  public onGoBack = () =>
-  {
+  public onGoBack = () => {
     this.props.history.push('/addresses/');
   }
   // 列表特殊处理
-  public renderUtxo = (value, key) =>
-  {
-    if (key === 'txid')
-    {
+  public renderUtxo = (value, key) => {
+    if (key === 'txid') {
       // const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
       return <span className="addr-utxo-text"><a href="javascript:;" onClick={this.goTransInfo.bind(this, value)}>{value}</a></span>
     }
     return null;
   }
   // 列表特殊处理
-  public renderTran = (value, key) =>
-  {
-    if (key === 'type')
-    {
+  public renderTran = (value, key) => {
+    if (key === 'type') {
       value = value.replace('Transaction', '');
       return <span className="img-text-bg"><img src={this.imgs[value.toLowerCase()]} alt="" />{value}</span>
     }
 
-    if (key === 'txid')
-    {
+    if (key === 'txid') {
       const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
       return <span><a href="javascript:;" onClick={this.goTransInfo.bind(this, value)}>{txid}</a></span>
     }
-    if (key === 'blockindex')
-    {
+    if (key === 'blockindex') {
       return <span><a href="javascript:;" onClick={this.goBlockInfo.bind(this, value)}>{toThousands(value.toString())}</a></span>
     }
-    if (key === 'time')
-    {
-      const time = formatTime.format('yyyy/MM/dd | hh:mm:ss', value.toString(), this.props.intl.locale)
+    if (key === 'time') {
+      const time = formatTime.format('yyyy/MM/dd | hh:mm:ss', value.toString(), this.props.intl.locale);
       return <span>{time}</span>
     }
     return null;
   }
   // 交易详情链接
-  public goTransInfo = (txid: string) =>
-  {
+  public goTransInfo = (txid: string) => {
     this.props.history.push('/transaction/' + txid)
   }
   // 区块详情链接
-  public goBlockInfo = (index: string) =>
-  {
+  public goBlockInfo = (index: string) => {
     this.props.history.push('/block/' + index)
   }
   // utxo翻页功能
-  public onUtxoPage = (index: number) =>
-  {
+  public onUtxoPage = (index: number) => {
     console.log(index)
     this.setState({
       currentPage: index
-    }, () =>
-      {
+    }, () => {
         this.getUtxoList(this.state.address);
       })
   }
-  public render()
-  {
-    if (!!!this.props.addressinfo.addrInfo)
-    {
+  public render() {
+    if (!!!this.props.addressinfo.addrInfo) {
       return null
     }
     return (

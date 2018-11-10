@@ -24,6 +24,7 @@ export const getauctioninfoRank = (id:string,page:number,size:number) => {
   const opts = {
     method:'getauctioninfoRank',
     params:[
+      id,
       page,
       size
     ]
@@ -41,6 +42,7 @@ export const getauctioninfoTx = (id:string,page:number,size:number) => {
   const opts = {
     method:'getauctioninfoTx',
     params:[
+      id,
       page,
       size
     ]

@@ -1,36 +1,63 @@
 import { RouteComponentProps } from 'react-router-dom';
 export interface INNSInfoStore
 {
-    nnsInfo: string,
-    
-    // getAddrCount: () => Promise<boolean>,
-    // getAddressList: (size: number, page: number) => Promise<boolean>,
+    nnsInfo: IAuctionInfo | null,
+    domainInfo:IAuctionedInfo | null,
+    domainBidRankCount:number,
+    domainBidRankList :IDomainBidRankList[],
+    domainBidInfoCount:number,
+    domainBidInfoList :IDomainBidInfoList[],
+    getAuctionInfo: (domain:string) => Promise<boolean>,
+    getAuctionBidRank: (domainid:string,size: number, page: number) => Promise<boolean>,
+    getAuctionBidInfoTx: (domainid:string,size: number, page: number) => Promise<boolean>,
+    getAuctionedInfo: (domain:string) => Promise<boolean>,
 }
 export interface INNSInfoProps extends RouteComponentProps
 {
     intl: any,
-    nns: INNSInfoStore
+    nnsinfo: INNSInfoStore
 }
-export interface IDomainPriceRank
-{
-    count: number,
-    list: IDomainRankList[]
+export interface IAuctionInfo{
+    auctionId:string,
+    auctionState:string,
+    endTime:{
+        blocktime:number
+    },
+    fulldomain:string,
+    maxBuyer:string,
+    maxPrice:string,
+    startTime:{
+        blockindex:number,
+        blocktime:number
+    },
+    ttl:number
 }
-export interface IDomainInfoHistory
-{
-    count: number,
-    list: IDomainHistoryList[]
+export interface IAuctionedInfo{
+    auctionId:string,
+    fulldomain:string,
+    owner:string,
+    ttl:string
 }
-export interface IDomainRankList
+// export interface IDomainPriceRank
+// {
+//     count: number,
+//     list: IDomainRankList[]
+// }
+// export interface IDomainInfoHistory
+// {
+//     count: number,
+//     list: IDomainHistoryList[]
+// }
+export interface IDomainBidRankList
 {
     address: string,
     range: number,
     totalValue: string
 }
-export interface IDomainHistoryList
+export interface IDomainBidInfoList
 {
     address: string,
-    amount: string,
+    amount: number,
     time: number,
     txid: string,
     type: string,

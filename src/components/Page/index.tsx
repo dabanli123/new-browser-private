@@ -81,10 +81,14 @@ class Page extends React.Component<IProps, IState>
         })
     }
     public onInputChange = (event: any) => {
+        if(event.target.value && isNaN(event.target.value)) {
+            return;
+        }
+        // const num = parseInt(event.target.value, 10);
         // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
         if (event.target.value <= 0) {
             this.setState({
-                inputValue: 1
+                inputValue: 0
             })
             return
         }
@@ -127,7 +131,7 @@ class Page extends React.Component<IProps, IState>
                     </div>
                     <div className="input-page">
                         {/* onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))" */}
-                        <input type="number" onChange={this.onInputChange} value={this.state.inputValue === 0 ? '' : this.state.inputValue} onKeyDown={this.onInputKeyDown} />
+                        <input type="text" onChange={this.onInputChange} value={this.state.inputValue === 0 ? '' : this.state.inputValue} onKeyDown={this.onInputKeyDown} />
                     </div>
                     <div className="go-btn" onClick={this.goPage}>Go</div>
                 </div>
