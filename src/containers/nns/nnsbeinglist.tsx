@@ -96,13 +96,12 @@ class NNSBeing extends React.Component<INNSProps, {}> {
   public toTransInfo = (txid: string) => {
     this.props.history.push('/transaction/' + txid)
   }
-  // 跳转到域名详情页
+  // 跳转到地址详情页
   public toAddrInfo = (addr: string) => {
     this.props.history.push('/address/' + addr)
   }
   // 翻页功能
   public onGoPage = (index: number) => {
-    console.log(index)
     this.setState({
       currentPage: index
     }, () => {

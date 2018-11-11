@@ -74,15 +74,10 @@ class TableData extends React.Component<INNSProps, any>
     }
   ]
   public onCallback = async (item) => {
-    console.log(item);
     this.props.nns.orderBy = item.id;
     if (this.props.nns.orderBy === 'time') {
-      console.log("time");
-
       await this.props.nns.getAuctingDomain(1, 10);
     } else {
-      console.log("price");
-
       await this.props.nns.getAuctingDomainbyPrice(1, 10);
     }
 

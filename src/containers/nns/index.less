@@ -83,6 +83,53 @@
                 width: 20px;
                 height: 20px;
             }
+            .search-result-wrapper{
+                text-align: center;
+                padding:60px 119px 30px 119px;
+                font-family: PingFangSC-Regular;
+                font-size: 16px;
+                color: @text-color;
+                text-align: center;
+                line-height: 22px;
+                p{
+                    padding-bottom: 20px;
+                }
+                .seach-table{
+                    background: #F6F6F6;
+                    border-radius: 5px;
+                    li{
+                        height: 54px;
+                        border-bottom: 1px solid @line-color;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        .type-name{
+                            width: 170px;
+                            text-align: left;
+                            text-indent: 30px;
+                            min-width: 140px;
+                        }
+                        .type-content{
+                            flex: 1;
+                            word-break: break-all; 
+                            padding-right: 30px;
+                            text-align: left;
+                            &.nns-peirod{
+                                color:@nns-peirod;
+                            } 
+                            &.nns-overtime{
+                                color:@nns-overtime;
+                            }   
+                            a{
+                                color:@text-link;
+                                &:hover{
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         .being-wrapper,.rank-wrapper{
             margin-bottom: 50px;
@@ -145,7 +192,7 @@
                     right: 1.52rem;
                     width: 20px;
                     height: 20px;
-                }
+                }                
             }
         }
     }

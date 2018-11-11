@@ -18,6 +18,7 @@ interface IProps {
 	type: string,
 	onBlur?: (event: any) => void,
 	topsearch?: boolean,
+	onEnter?: () => void
 }
 
 @observer
@@ -42,6 +43,13 @@ export default class Input extends React.Component<IProps, {}> {
 			this.props.onFocus();
 		}
 	}
+	public onKeyDown = (event:any) => {
+		if (event.keyCode === 13) {
+			if(this.props.onEnter){
+				this.props.onEnter();
+			}            
+        }
+	}
 	public render() {
 		const inputClassName = classnames('input-icon',{'top-search':this.props.topsearch?this.props.topsearch:false})
 		return (
@@ -56,6 +64,7 @@ export default class Input extends React.Component<IProps, {}> {
 					readOnly={this.props.readonly}
 					onBlur={this.onInputBlur}
 					onFocus = {this.onFocus}
+					onKeyDown={this.onKeyDown}
 				/>
 			</div>
 		);

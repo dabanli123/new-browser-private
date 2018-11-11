@@ -1,4 +1,5 @@
 import { INNSStore, INNSTotal, INNSAuctingTable, INNSAuctionedTable, INNSAuctingList, INNSAuctionedList } from "../interface/nns.interface";
+import { IAuctionInfo, IAuctionedInfo } from '@/containers/nns/interface/nnsinfo.interface';
 import { observable, action } from "mobx";
 import * as Api from '../api/nns.api';
 
@@ -10,6 +11,8 @@ class NNS implements INNSStore
     @observable public nnsAuctedCount:number = 0;
     @observable public nnsAuctionedList: INNSAuctionedTable[];
     @observable public orderBy: string = '';
+    @observable public searchCanAuction:IAuctionInfo|null = null;
+    @observable public searchEndAuction:IAuctionedInfo|null = null;
 
     @action public async getStatistic()
     {
@@ -87,9 +90,7 @@ class NNS implements INNSStore
         let result: any = null;
         try
         {
-            result = await Api.getaucteddomain(page, size);
-            console.log(result);
-            
+            result = await Api.getaucteddomain(page, size);            
         } catch (error)
         {
             return false;
@@ -110,6 +111,29 @@ class NNS implements INNSStore
                 }
                 return newObj;
             })
+        }
+        return true;
+    }
+    @action public async searchDomainInfo(domain: string) {
+        let result: any = null;
+        try {
+            result = await Api.searchbydomain(domain);
+            console.log(result);
+            
+        } catch (error) {
+            this.searchCanAuction = null;
+            this.searchEndAuction = null;
+            return false;
+        }
+        if(result &&( result[0].auctionState === '0201' || result[0].auctionState === '0301')){
+            this.searchCanAuction = result[0];
+            this.searchEndAuction = null;
+        }else if(result && result[0].owner) {
+            this.searchCanAuction = null;
+            this.searchEndAuction = result[0];
+        }else{
+            this.searchCanAuction = null;
+            this.searchEndAuction = null;
         }
         return true;
     }

@@ -88,7 +88,6 @@ class NNSRank extends React.Component<INNSProps, {}> {
   }
   // 翻页功能
   public onGoPage = (index: number) => {
-    console.log(index)
     this.setState({
       currentPage: index
     }, () => {

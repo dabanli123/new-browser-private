@@ -89,10 +89,9 @@ class Transactions extends React.Component<ITransactionsProps, {}>
     pageSize: 15,
     type: "all"
   }
-  // 初始化数据
-  public componentDidMount() {
-    // this.props.transaction.getTxCount(this.state.type);
-    this.props.transaction.getTransList(this.state.pageSize, this.state.currentPage, this.state.type);
+  
+  public componentWillUnmount() {
+    this.props.transaction.transList = null;
   }
   // 列表特殊处理
   public renderTran = (value, key) => {
@@ -123,12 +122,13 @@ class Transactions extends React.Component<ITransactionsProps, {}>
   }
   // 下拉选择功能
   public onCallback = (item) => {
+    console.log("2");
+
     this.setState({
       currentPage: 1,
       type: item.id
     }, () => {
-      // this.props.transaction.getTxCount(this.state.type);
-      this.props.transaction.getTransList(this.state.currentPage,this.state.pageSize,  this.state.type);
+      this.props.transaction.getTransList(this.state.currentPage, this.state.pageSize, this.state.type);
     })
   }
   // 翻页功能
@@ -136,32 +136,33 @@ class Transactions extends React.Component<ITransactionsProps, {}>
     this.setState({
       currentPage: index
     }, () => {
-      this.props.transaction.getTransList( this.state.currentPage,this.state.pageSize, this.state.type);
+      this.props.transaction.getTransList(this.state.currentPage, this.state.pageSize, this.state.type);
     })
   }
   public render() {
-    if(!!!this.props.transaction.transList){
-      return null
-    }
+
     return (
       <div className="transaction-page">
         <TitleText text="Transactions" img={require('@/img/transactions.png')} isInline={true}>
           <Select options={this.options} text="Type" onCallback={this.onCallback} />
         </TitleText>
-        <div className="transaction-table">
-          <Table
-            tableTh={this.transTableTh}
-            tableData={this.props.transaction.transList && this.props.transaction.transList.list}
-            render={this.renderTran}
-          />
-          <Page
-            totalCount={this.props.transaction.transList && this.props.transaction.transList.count}
-            pageSize={this.state.pageSize}
-            currentPage={this.state.currentPage}
-            onChange={this.onGoPage}
-          />
-        </div>
-
+        {
+          this.props.transaction.transList && (
+            <div className="transaction-table">
+              <Table
+                tableTh={this.transTableTh}
+                tableData={this.props.transaction.transList && this.props.transaction.transList.list}
+                render={this.renderTran}
+              />
+              <Page
+                totalCount={this.props.transaction.transList && this.props.transaction.transList.count}
+                pageSize={this.state.pageSize}
+                currentPage={this.state.currentPage}
+                onChange={this.onGoPage}
+              />
+            </div>
+          )
+        }
       </div>
     );
   }

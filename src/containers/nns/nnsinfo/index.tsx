@@ -29,13 +29,13 @@ class NNSInfo extends React.Component<INNSInfoProps, {}> {
         isAuctingDomain: false
       }, () => {
         this.props.nnsinfo.getAuctionedInfo(params["domain"]);
-        
+
       })
     }
   }
-  public componentWillUnmount(){
+  public componentWillUnmount() {
     this.props.nnsinfo.nnsInfo = null;
-}
+  }
   // 返回域名列表
   public onGoBack = () => {
     this.props.history.goBack();
@@ -62,7 +62,7 @@ class NNSInfo extends React.Component<INNSInfoProps, {}> {
         {
           this.props.nnsinfo.nnsInfo && <NNSInfoTable {...this.props} />
         }
-        
+
       </div>
     );
   }

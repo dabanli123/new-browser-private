@@ -19,7 +19,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
     utxoPage: 1,
     utxoSize: 15,
     transPage: 1,
-    transSize: 10,
+    transSize: 15,
   }
   public balanceTableTh = [
     {
@@ -131,10 +131,19 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
     this.props.history.push('/block/' + index)
   }
   // utxo翻页功能
+  public onTransPage = (index: number) => {
+    console.log(index)
+    this.setState({
+      transPage: index
+    }, () => {
+      this.props.addressinfo.getAddressTrans(this.state.address, this.state.transSize, this.state.transPage);
+      })
+  }
+  // utxo翻页功能
   public onUtxoPage = (index: number) => {
     console.log(index)
     this.setState({
-      currentPage: index
+      utxoPage: index
     }, () => {
         this.getUtxoList(this.state.address);
       })
@@ -187,10 +196,10 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
               render={this.renderTran}
             />
             <Page
-              totalCount={this.props.addressinfo.addrUtxoList && this.props.addressinfo.addrUtxoList.count}
-              pageSize={this.state.utxoSize}
-              currentPage={this.state.utxoPage}
-              onChange={this.onUtxoPage}
+              totalCount={this.props.addressinfo.addrInfo && this.props.addressinfo.addrInfo.txcount}
+              pageSize={this.state.transSize}
+              currentPage={this.state.transPage}
+              onChange={this.onTransPage}
             />
           </div>
 

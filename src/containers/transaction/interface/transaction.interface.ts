@@ -1,13 +1,9 @@
 import { RouteComponentProps } from 'react-router-dom';
 export interface ITransactionsStore {
-    // txCount: string,
-    transList: ITransactionList,
+    transList: ITransactionList| null,
     tranInfo:ITransInfo,
-    // blockInfo:IBlockInfo,
-    // getTxCount: (type: string) => Promise<boolean>,
     getTransList: ( page: number,size: number, type: string) => Promise<boolean>,
-    getTransInfo:(txid:string) => Promise<boolean>,
-    // getBlockInfo:(index:number) => Promise<boolean>
+    getTransInfo:(txid:string) => Promise<boolean>
 }
 export interface ITransactionsProps extends RouteComponentProps {
     intl: any,

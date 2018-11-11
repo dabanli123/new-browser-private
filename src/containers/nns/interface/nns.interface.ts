@@ -1,4 +1,5 @@
 import { RouteComponentProps } from 'react-router-dom';
+import { IAuctionInfo, IAuctionedInfo } from '@/containers/nns/interface/nnsinfo.interface';
 export interface INNSStore
 {
     nnsTotal: INNSTotal,
@@ -7,10 +8,13 @@ export interface INNSStore
     nnsAuctedCount:number
     nnsAuctionedList: INNSAuctionedTable[],
     orderBy: string,
+    searchCanAuction:IAuctionInfo|null,
+    searchEndAuction:IAuctionedInfo|null,
     getStatistic: () => Promise<boolean>,
     getAuctingDomain: (page: number, size: number) => Promise<boolean>,
     getAuctingDomainbyPrice: (page: number, size: number) => Promise<boolean>,
     getAuctedDomain: (page: number, size: number) => Promise<boolean>,
+    searchDomainInfo:(domain:string) => Promise<boolean>
 }
 export interface INNSProps extends RouteComponentProps
 {

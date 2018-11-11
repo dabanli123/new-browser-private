@@ -42,6 +42,9 @@ class Block extends React.Component<IBlockProps, any> {
     this.props.block.getBlockHeight();
     this.props.block.getBlockList(this.state.pageSize, this.state.currentPage);
   }
+  public componentWillUnmount() {
+    this.props.block.blockList = [];
+  }
   // 列表特殊处理
   public renderBlock = (value, key) => {
     if (key === 'index') {
@@ -61,7 +64,6 @@ class Block extends React.Component<IBlockProps, any> {
   }
   // 翻页功能
   public onGoPage = (index: number) => {
-    console.log(index)
     this.setState({
       currentPage: index
     }, () => {

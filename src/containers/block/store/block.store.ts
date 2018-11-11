@@ -5,7 +5,7 @@ import { IBlockStore, IBlock, IBlockInfo } from '../interface/block.interface';
 class Block implements IBlockStore {
     @observable public blockHeight: string = '';
     @observable public blockList: IBlock[] = [];
-    @observable public blockInfo: IBlockInfo;
+    @observable public blockInfo: IBlockInfo | null = null;
 
     @action public async getBlockHeight() {
         let result: any = null;
@@ -32,8 +32,8 @@ class Block implements IBlockStore {
         let result: any = null;
         try {
             result = await Api.getblock(index);
-            // console.log(result);
         } catch (error) {
+            this.blockInfo =  null;
             return false;
         }
         this.blockInfo = result ? result[0] : null;
