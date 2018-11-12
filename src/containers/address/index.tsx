@@ -47,7 +47,10 @@ class Address extends React.Component<IAddressProps, {}> {
       return <li className="addr-text">{value}</li>
     }
     if (key === 'addr') {
-      return <span className="addr-text"><a onClick={this.toAddressInfo.bind(this, value)} href="javascript:;">{value}</a></span>
+      return <>
+        <span className="addr-text"><a onClick={this.toAddressInfo.bind(this, value)} href="javascript:;">{value}</a></span>
+        <span className="addr-text-mobile"><a onClick={this.toAddressInfo.bind(this, value)} href="javascript:;">{value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3')}</a></span>
+      </>
     }
     if (key === 'firstuse') {
       const time = formatTime.format('yyyy/MM/dd | hh:mm:ss', value.toString(), this.props.intl.locale);

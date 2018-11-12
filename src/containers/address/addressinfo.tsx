@@ -102,7 +102,10 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
   public renderUtxo = (value, key) => {
     if (key === 'txid') {
       // const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
-      return <span className="addr-utxo-text"><a href="javascript:;" onClick={this.goTransInfo.bind(this, value)}>{value}</a></span>
+      return <>
+        <span className="addr-utxo-text"><a href="javascript:;" onClick={this.goTransInfo.bind(this, value)}>{value}</a></span>
+        <span className="addr-utxo-text-mobile"><a href="javascript:;" onClick={this.goTransInfo.bind(this, value)}>{value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3')}</a></span>
+      </>
     }
     return null;
   }
@@ -141,7 +144,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
       transPage: index
     }, () => {
       this.props.addressinfo.getAddressTrans(this.state.address, this.state.transSize, this.state.transPage);
-      })
+    })
   }
   // utxo翻页功能
   public onUtxoPage = (index: number) => {
@@ -149,8 +152,8 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
     this.setState({
       utxoPage: index
     }, () => {
-        this.getUtxoList(this.state.address);
-      })
+      this.getUtxoList(this.state.address);
+    })
   }
   public render() {
     if (!!!this.props.addressinfo.addrInfo) {

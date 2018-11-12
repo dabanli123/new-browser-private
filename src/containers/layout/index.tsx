@@ -40,7 +40,7 @@ export default class LayoutIndex extends React.Component<any, any> {
     return (
       <div className="layout-container">
         <Header history={this.context.router.history} />
-        <HeaderMobile />
+        <HeaderMobile history={this.context.router.history} />
         <div className="layout-main">
           {this.props.children}
         </div>

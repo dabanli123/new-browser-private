@@ -26,14 +26,14 @@ export default class Table extends React.Component<IProps, {}> {
   constructor(props: IProps) {
     super(props);
     console.log(this.props.tableData);
-    
+
   }
   public render() {
     let tableClassName = "table-wrap";
     if (this.props.className) {
       tableClassName = classnames('table-wrap', { [this.props.className]: !!this.props.className });
     }
-    if(!!!this.props.tableData){
+    if (!!!this.props.tableData) {
       return null
     }
     return (
@@ -84,10 +84,17 @@ export default class Table extends React.Component<IProps, {}> {
                     <li key={index}>
                       {
                         this.tableThKeys.map((k: string, i: number) => {
+                          const renderHtml = this.props.render ? this.props.render(item[k], k, item) : null;
                           return (
                             <div className="table-line" key={i}>
                               <span className="line-title">{k}</span>
-                              <span className="line-content">{item[k]}</span>
+                              <span className="line-content">
+                                {
+                                  !this.props.render ? item[k] : (
+                                    !renderHtml ? item[k] : renderHtml
+                                  )
+                                }
+                              </span>
                             </div>
                           )
                         })
