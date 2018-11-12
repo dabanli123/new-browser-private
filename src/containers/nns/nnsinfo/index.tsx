@@ -1,109 +1,67 @@
 /**
- * 主页布局
+ * 域名详情页
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-// import Table from '@/components/Table/Table';
 import DomainInfo from './domaininfo';
 import AuctionInfo from './auctioninfo';
 import '../index.less'
+import { INNSInfoProps } from '@/containers/nns/interface/nnsinfo.interface';
+import { inject, observer } from 'mobx-react';
+import NNSInfoTable from '@/containers/nns/nnsinfo/nnsinfotable';
 
-class NNSInfo extends React.Component {
-  public tableTh = [
-    "Domain name",
-    "TXid",
-    "Highest bid",
-    "Highest bidder",
-    "Stage"
-  ]
-  public tableData = [
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
+@inject("nnsinfo")
+@observer
+class NNSInfo extends React.Component<INNSInfoProps, {}> {
+  public state = {
+    isAuctingDomain: true
+  }
+  public async componentDidMount() {
+    const params = this.props.match.params;
+    this.setState({
+      address: params["domain"]
+    });
+    await this.props.nnsinfo.getAuctionInfo(params["domain"]);
+
+    if (this.props.nnsinfo.nnsInfo && this.props.nnsinfo.nnsInfo.auctionState === '0401') {
+      this.setState({
+        isAuctingDomain: false
+      }, () => {
+        this.props.nnsinfo.getAuctionedInfo(params["domain"]);
+
+      })
     }
-  ]
-  // public renderAddress = (value, key) =>
-  // {
-  //   if (key === 'address')
-  //   {
-  //     return <span className="img-text"><a href="http://www.baidu.com">{value}</a></span>
-  //   }
-
-  //   return null;
-  // }
-  public onCallback = (item) => {
-    console.log(item)
+  }
+  public componentWillUnmount() {
+    this.props.nnsinfo.nnsInfo = null;
+  }
+  // 返回域名列表
+  public onGoBack = () => {
+    this.props.history.goBack();
   }
   public render() {
     return (
       <div className="nnsinfo-page">
         <div className="goback-wrapper">
-          <span className="goback-text">&lt;&lt;  Go back</span>
+          <span className="goback-text" onClick={this.onGoBack} >&lt;&lt;  Go back</span>
         </div>
+        {
+          (this.props.nnsinfo.nnsInfo && this.props.nnsinfo.nnsInfo.auctionState === '0401') && (
+            <div className="info-content">
+              <DomainInfo {...this.props} />
+            </div>
+          )
+        }
+        <TitleText text="Auction information" isInfoTitle={this.state.isAuctingDomain} />
         <div className="info-content">
-          <DomainInfo />
+          <AuctionInfo {...this.props} />
         </div>
-        <div className="info-content">
-          <AuctionInfo />
-        </div>
-        <TitleText text="Transfer information" isInline={true} />
+        {/* <TitleText text="Transfer information" isInline={true} /> */}
         {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
-        <TitleText text="Bid rank" isInline={true} />
-        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
-        <TitleText text="Bid information" isInline={true} />
-        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
+        {
+          this.props.nnsinfo.nnsInfo && <NNSInfoTable {...this.props} />
+        }
+
       </div>
     );
   }

@@ -83,9 +83,59 @@
                 width: 20px;
                 height: 20px;
             }
+            .search-result-wrapper{
+                text-align: center;
+                padding:60px 119px 30px 119px;
+                font-family: PingFangSC-Regular;
+                font-size: 16px;
+                color: @text-color;
+                text-align: center;
+                line-height: 22px;
+                p{
+                    padding-bottom: 20px;
+                }
+                .seach-table{
+                    background: #F6F6F6;
+                    border-radius: 5px;
+                    li{
+                        height: 54px;
+                        border-bottom: 1px solid @line-color;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        .type-name{
+                            width: 170px;
+                            text-align: left;
+                            text-indent: 30px;
+                            min-width: 140px;
+                        }
+                        .type-content{
+                            flex: 1;
+                            word-break: break-all; 
+                            padding-right: 30px;
+                            text-align: left;
+                            &.nns-peirod{
+                                color:@nns-peirod;
+                            } 
+                            &.nns-overtime{
+                                color:@nns-overtime;
+                            }   
+                            a{
+                                color:@text-link;
+                                &:hover{
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         .being-wrapper,.rank-wrapper{
+            margin-bottom: 50px;
             background:@text-fff;
+            box-shadow: 0 2px 10px 0 rgba(185,185,185,0.50);
+            border-radius: 3px; 
         }
     }
 }
@@ -94,8 +144,16 @@
     min-width: 1088px;
     padding: 0 20px;
     margin: 0 auto;
-    margin-top: 1.38rem;
+    margin-top: .8rem;
     margin-bottom: 1rem;
+    .nnsbeing-table,.nnsrank-table,.bidrank-table,.bidinfo-table{
+        background:@text-fff;
+        box-shadow: 0 2px 10px 0 rgba(185,185,185,0.50);
+        border-radius: 3px;
+    }
+    .bidrank-table,.bidinfo-table{
+        margin-bottom: 50px;
+    }
 }
 @media (min-width:2560px){
     .nns-page{
@@ -134,7 +192,7 @@
                     right: 1.52rem;
                     width: 20px;
                     height: 20px;
-                }
+                }                
             }
         }
     }

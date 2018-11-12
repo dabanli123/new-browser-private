@@ -8,15 +8,20 @@
         position: relative; 
         .hint-img {
             img {
-                width: .14rem;
-                height: .14rem;
+                width: 14px;
+                height: 14px;
+                &.type3{
+                    width: 14px;
+                    height: 14px;
+                    vertical-align: top;
+                }
             }
         }
         .hint-content {
             display: none;
             width: 2.8rem; 
             box-sizing: border-box;   
-            background: #F5F5F5;
+            background: @text-fff;
             box-shadow: 0 0 6px 0 rgba(162,162,162,0.50);
             border-radius: 3px;
             padding: 25px 15px;
@@ -43,7 +48,7 @@
             width: 0;
             height: 0;
             border: .1rem solid transparent;
-            border-bottom-color: #F5F5F5;
+            border-bottom-color: @text-fff;
             position: absolute;
             right: .07rem;
             top: -.1rem;
@@ -56,5 +61,3 @@
         }
     }    
 }  
-
-  

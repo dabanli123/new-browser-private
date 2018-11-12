@@ -1,119 +1,44 @@
 /**
- * 主页布局
+ * nns竞拍成功详情模块
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-
-class NNSInfo extends React.Component
+import { observer } from 'mobx-react';
+import { injectIntl } from 'react-intl';
+import * as formatTime from 'utils/formatTime';
+import { INNSInfoProps, IAuctionedInfo } from '@/containers/nns/interface/nnsinfo.interface';
+@observer
+class DomainInfo extends React.Component<INNSInfoProps, {}>
 {
-    public tableTh = [
-        "Domain name",
-        "TXid",
-        "Highest bid",
-        "Highest bidder",
-        "Stage"
-    ]
-    public tableData = [
-        {
-            domain: 'paycomsoftware.neo',
-            txid: "0x4b...5698",
-            highestbid: "0.1CGAS",
-            highestbidder: "AQ1d...z775",
-            stage: "Auction period"
-        },
-        {
-            domain: 'paycomsoftware.neo',
-            txid: "0x4b...5698",
-            highestbid: "0.1CGAS",
-            highestbidder: "AQ1d...z775",
-            stage: "Auction period"
-        },
-        {
-            domain: 'paycomsoftware.neo',
-            txid: "0x4b...5698",
-            highestbid: "0.1CGAS",
-            highestbidder: "AQ1d...z775",
-            stage: "Auction period"
-        },
-        {
-            domain: 'paycomsoftware.neo',
-            txid: "0x4b...5698",
-            highestbid: "0.1CGAS",
-            highestbidder: "AQ1d...z775",
-            stage: "Auction period"
-        },
-        {
-            domain: 'paycomsoftware.neo',
-            txid: "0x4b...5698",
-            highestbid: "0.1CGAS",
-            highestbidder: "AQ1d...z775",
-            stage: "Auction period"
-        },
-        {
-            domain: 'paycomsoftware.neo',
-            txid: "0x4b...5698",
-            highestbid: "0.1CGAS",
-            highestbidder: "AQ1d...z775",
-            stage: "Auction period"
-        },
-        {
-            domain: 'paycomsoftware.neo',
-            txid: "0x4b...5698",
-            highestbid: "0.1CGAS",
-            highestbidder: "AQ1d...z775",
-            stage: "Auction period"
-        },
-        {
-            domain: 'paycomsoftware.neo',
-            txid: "0x4b...5698",
-            highestbid: "0.1CGAS",
-            highestbidder: "AQ1d...z775",
-            stage: "Auction period"
-        }
-    ]
-    // public renderAddress = (value, key) =>
-    // {
-    //   if (key === 'address')
-    //   {
-    //     return <span className="img-text"><a href="http://www.baidu.com">{value}</a></span>
-    //   }
-
-    //   return null;
-    // }
-    public onCallback = (item) =>
-    {
-        console.log(item)
+    // 跳转到地址详情页
+    public toAddressInfo(address: string) {
+        this.props.history.push('/address/' + address);
     }
     public render()
     {
+        const domainInfo: IAuctionedInfo | null = this.props.nnsinfo.domainInfo ? this.props.nnsinfo.domainInfo : null;
+
+        if (!!!domainInfo) {
+            return null;
+        }
         return (
             <React.Fragment>
                 <TitleText text="Domain name information" isInfoTitle={true} />
                 <div className="info-list">
                     <ul>
                         <li>
-                            <span className="type-name">
-                                Domain name
-                        </span>
-                            <span className="type-content">
-                                transc.neo
-                        </span>
+                            <span className="type-name">Domain name</span>
+                            <span className="type-content">{domainInfo.fulldomain}</span>
                         </li>
                         <li>
-                            <span className="type-name">
-                                Current owner
-                        </span>
-                            <span className="type-content">
-                                Abf2qMs1pzQb8kYk9RuxtUb9jtRKJVuBJt
-                        </span>
+                            <span className="type-name">Current owner</span>
+                            <span className="type-content"><a onClick={this.toAddressInfo.bind(this, domainInfo.owner)} href="javascript:;">{domainInfo.owner}</a></span>
                         </li>
                         <li>
-                            <span className="type-name">
-                                Expiration date
-                        </span>
+                            <span className="type-name">Expiration date</span>
                             <span className="type-content">
-                                Tue, 23 Oct 2018 09:30:09 GMT
-                        </span>
+                            {formatTime.format('yyyy/MM/dd | hh:mm:ss', domainInfo.ttl, this.props.intl.locale)}
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -122,4 +47,4 @@ class NNSInfo extends React.Component
     }
 }
 
-export default NNSInfo;
+export default injectIntl(DomainInfo);

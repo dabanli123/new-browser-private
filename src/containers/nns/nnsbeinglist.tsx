@@ -1,13 +1,22 @@
 /**
- * 主页布局
+ * 正在竞拍域名的列表页
  */
 import * as React from 'react';
+import { observer, inject } from 'mobx-react';
 import TitleText from '@/components/titletext/index';
-// import Table from '@/components/Table/Table';
-import Select from '@/components/select'
-import './index.less'
-
-class NNSBeing extends React.Component {
+import Table from '@/components/Table/Table';
+import './index.less';
+import { injectIntl } from 'react-intl';
+import { INNSProps } from './interface/nns.interface';
+import Select from '@/components/select';
+import Page from '@/components/Page';
+@inject('nns')
+@observer
+class NNSBeing extends React.Component<INNSProps, {}> {
+  public state = {
+    currentPage: 1,
+    pageSize: 15,
+  }
   public options = [
     {
       id: 'time',
@@ -18,93 +27,109 @@ class NNSBeing extends React.Component {
       name: "Highest bid prices",
     }
   ]
-  public tableTh = [
-    "Domain name",
-    "TXid",
-    "Highest bid",
-    "Highest bidder",
-    "Stage"
-  ]
-  public tableData = [
+  public auctingTableTh = [
     {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
+      name: 'Domain name',
+      key: 'fulldomain'
     },
     {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
+      name: 'TXid',
+      key: 'txid'
     },
     {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
+      name: 'Highest bid',
+      key: 'maxPrice'
     },
     {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
+      name: 'Highest bidder',
+      key: 'maxBuyer'
     },
     {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
-    },
-    {
-      domain: 'paycomsoftware.neo',
-      txid: "0x4b...5698",
-      highestbid: "0.1CGAS",
-      highestbidder: "AQ1d...z775",
-      stage: "Auction period"
+      name: 'Stage',
+      key: 'auctionState'
     }
   ]
-  // public renderAddress = (value, key) =>
-  // {
-  //   if (key === 'address')
-  //   {
-  //     return <span className="img-text"><a href="http://www.baidu.com">{value}</a></span>
-  //   }
-
-  //   return null;
-  // }
   public onCallback = (item) => {
     console.log(item)
+
+    this.props.nns.orderBy = item.id;
+    this.getAuctingList();
+    console.log(this.props.nns.orderBy);
+  }
+  public getAuctingList = () => {
+    if (this.props.nns.orderBy === 'time') {
+      return this.props.nns.getAuctingDomain(this.state.currentPage, this.state.pageSize);
+    } else {
+      return this.props.nns.getAuctingDomainbyPrice(this.state.currentPage, this.state.pageSize);
+    }
+  }
+  // 区块列表特殊处理
+  public renderAucting = (value, key) => {
+    if (key === 'fulldomain') {
+      return <span><a onClick={this.toNNSInfo.bind(this, value)} href="javascript:;">{value}</a></span>
+    }
+    if (key === 'txid') {
+      const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+      return <span><a href="javascript:;" onClick={this.toTransInfo.bind(this, value)}>{txid}</a></span>
+    }
+    if (key === 'maxPrice') {
+      return <span>{value} CGAS</span>
+    }
+    if (key === 'maxBuyer') {
+      const addr = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+      return <span><a onClick={this.toAddrInfo.bind(this, value)} href="javascript:;">{addr}</a></span>
+    }
+    if (key === 'auctionState') {
+      if (value === '0201') {
+        return <span className="nns-peirod">确定期</span>
+      } else if (value === '0301') {
+        return <span className="nns-overtime">随机期</span>
+      }
+    }
+    return null;
+  }
+  // 跳转到域名详情页
+  public toNNSInfo = (domain: string) => {
+    this.props.history.push('/nnsinfo/' + domain)
+  }
+  // 跳转到交易详情页
+  public toTransInfo = (txid: string) => {
+    this.props.history.push('/transaction/' + txid)
+  }
+  // 跳转到地址详情页
+  public toAddrInfo = (addr: string) => {
+    this.props.history.push('/address/' + addr)
+  }
+  // 翻页功能
+  public onGoPage = (index: number) => {
+    this.setState({
+      currentPage: index
+    }, () => {
+      this.getAuctingList();
+    })
   }
   public render() {
     return (
       <div className="nnsbeing-page">
-        <TitleText text="Live auctions" img={require('@/img/myauction.png')} isTableTitle={true} isInline={true}>
-          <Select options={this.options} text="Ordered by" onCallback={this.onCallback} style={{ minWidth: "186px" }} />
+        <TitleText text="Live auctions" img={require('@/img/myauction.png')} isInline={true}>
+          <Select defaultValue={this.props.nns.orderBy} options={this.options} text="Ordered by" onCallback={this.onCallback} style={{ minWidth: "186px" }} />
         </TitleText>
-        {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true} /> */}
+        <div className="nnsbeing-table">
+          <Table
+            tableTh={this.auctingTableTh}
+            tableData={this.props.nns.nnsAuctingList && this.props.nns.nnsAuctingList}
+            render={this.renderAucting}
+          />
+          <Page
+            totalCount={this.props.nns.nnsAuctingCount}
+            pageSize={this.state.pageSize}
+            currentPage={this.state.currentPage}
+            onChange={this.onGoPage}
+          />
+        </div>
       </div>
     );
   }
 }
 
-export default NNSBeing;
+export default injectIntl(NNSBeing);

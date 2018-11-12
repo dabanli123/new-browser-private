@@ -1,11 +1,11 @@
 /**
- * 主页布局
+ * 交易列表页
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
 import Table from '@/components/Table/Table';
 import Select from '@/components/select';
-import { toThousands } from '@/utils/numberTool'
+import { toThousands } from '@/utils/numberTool';
 import './index.less'
 import { ITransactionsProps } from './interface/transaction.interface';
 import { observer, inject } from 'mobx-react';
@@ -17,7 +17,7 @@ class Transactions extends React.Component<ITransactionsProps, {}>
 {
   public options = [
     {
-      id: '',
+      id: 'all',
       name: "All",
     },
     {
@@ -87,17 +87,16 @@ class Transactions extends React.Component<ITransactionsProps, {}>
   public state = {
     currentPage: 1,
     pageSize: 15,
-    type: ""
+    type: "all"
   }
-  // 初始化数据
-  public componentDidMount() {
-    this.props.transaction.getTxCount(this.state.type);
-    this.props.transaction.getTransList(this.state.pageSize, this.state.currentPage, this.state.type);
+  
+  public componentWillUnmount() {
+    this.props.transaction.transList = null;
   }
   // 列表特殊处理
   public renderTran = (value, key) => {
     if (key === 'type') {
-      value = value.replace('Transaction', '')
+      value = value.replace('Transaction', '');
       return <span className="img-text-bg"><img src={this.imgs[value.toLowerCase()]} alt="" />{value}</span>
     }
 
@@ -127,8 +126,7 @@ class Transactions extends React.Component<ITransactionsProps, {}>
       currentPage: 1,
       type: item.id
     }, () => {
-      this.props.transaction.getTxCount(this.state.type);
-      this.props.transaction.getTransList(this.state.pageSize, this.state.currentPage, this.state.type);
+      this.props.transaction.getTransList(this.state.currentPage, this.state.pageSize, this.state.type);
     })
   }
   // 翻页功能
@@ -136,34 +134,33 @@ class Transactions extends React.Component<ITransactionsProps, {}>
     this.setState({
       currentPage: index
     }, () => {
-      this.props.transaction.getTransList(this.state.pageSize, this.state.currentPage, this.state.type);
+      this.props.transaction.getTransList(this.state.currentPage, this.state.pageSize, this.state.type);
     })
   }
   public render() {
-    console.log(this.props.transaction.txCount);
 
-    if (!this.props.transaction.txCount) {
-      return null;
-    }
     return (
       <div className="transaction-page">
         <TitleText text="Transactions" img={require('@/img/transactions.png')} isInline={true}>
           <Select options={this.options} text="Type" onCallback={this.onCallback} />
         </TitleText>
-        <div className="transaction-table">
-          <Table
-            tableTh={this.transTableTh}
-            tableData={this.props.transaction.transList}
-            render={this.renderTran}
-          />
-          <Page
-            totalCount={parseInt(this.props.transaction.txCount, 10)}
-            pageSize={this.state.pageSize}
-            currentPage={this.state.currentPage}
-            onChange={this.onGoPage}
-          />
-        </div>
-
+        {
+          this.props.transaction.transList && (
+            <div className="transaction-table">
+              <Table
+                tableTh={this.transTableTh}
+                tableData={this.props.transaction.transList && this.props.transaction.transList.list}
+                render={this.renderTran}
+              />
+              <Page
+                totalCount={this.props.transaction.transList && this.props.transaction.transList.count}
+                pageSize={this.state.pageSize}
+                currentPage={this.state.currentPage}
+                onChange={this.onGoPage}
+              />
+            </div>
+          )
+        }
       </div>
     );
   }

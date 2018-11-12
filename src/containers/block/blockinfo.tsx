@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 区块详情页
  */
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
@@ -9,12 +9,16 @@ import './index.less'
 import { IBlockProps, IBlockInfoState } from './interface/block.interface';
 import * as formatTime from 'utils/formatTime';
 import { injectIntl } from 'react-intl';
+import Page from '@/components/Page';
 @inject('block')
 @observer
 class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
     public state = {
         isTop: false,
-        isBottom: false
+        isBottom: false,
+        currentPage: 1,
+        pageSize: 15,
+        txList: new Array()
     }
     public blockTransTableTh = [
         {
@@ -27,7 +31,8 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
         }, {
             name: 'Version',
             key: 'version'
-        }, {
+        },
+        {
             name: 'Size',
             key: 'size'
         }
@@ -43,34 +48,31 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
         enrollment: require('@/img/enrollment.png'),
         agency: require('@/img/agency.png')
     }
-    public componentDidMount()
-    {
+    public componentDidMount() {
         const params = this.props.match.params;
         this.getInfos(params["index"]);
     }
+    public componentWillUnmount() {
+        this.props.block.blockInfo = null;
+    }
     // 请求数据
-    public getInfos = (index) =>
-    {
+    public getInfos = (index) => {
         return this.props.block.getBlockInfo(index);
     }
     // 返回区块列表
-    public onGoBack = () =>
-    {
+    public onGoBack = () => {
         this.props.history.push('/blocks/');
     }
     // 访问上一个区块详情
-    public goPreviousBlock = async () =>
-    {
-        if (this.state.isTop)
-        {
+    public goPreviousBlock = async () => {
+        if (this.state.isTop) {
             return false;
         }
         const index = this.props.block.blockInfo ? this.props.block.blockInfo.index - 1 : 0
         this.props.history.push('/block/' + index)
         const result = await this.getInfos(index);
         const state = { isBottom: false };
-        if (!result)
-        {
+        if (!result) {
             state['isTop'] = true;
         }
         this.setState(state);
@@ -78,44 +80,53 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
         return true;
     }
     // 访问下一个区块详情
-    public goNextBlock = async () =>
-    {
-        if (this.state.isBottom)
-        {
+    public goNextBlock = async () => {
+        if (this.state.isBottom) {
             return false;
         }
         const index = this.props.block.blockInfo ? this.props.block.blockInfo.index + 1 : 0
         this.props.history.push('/block/' + index)
         const result = await this.getInfos(index);
         const state = { isTop: false };
-        if (!result)
-        {
+        if (!result) {
             state['isBottom'] = true;
         }
         this.setState(state);
         return true;
     }
     // 列表特殊处理
-    public renderTran = (value, key) =>
-    {
-        if (key === 'type')
-        {
+    public renderTran = (value, key) => {
+        if (key === 'type') {
             value = value.replace('Transaction', '')
             return <span className="tran-img-text"><img src={this.imgs[value.toLowerCase()]} alt="" />{value}</span>
         }
-        if (key === 'txid')
-        {
-            value = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
-            return <span><a href="#">{value}</a></span>
+        if (key === 'txid') {
+            const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+            return <span><a onClick={this.goTransInfo.bind(this, value)}>{txid}</a></span>
         }
-        if (key === 'size')
-        {
+        if (key === 'size') {
             return <span>{value} bytes</span>
         }
         return null;
     }
-    public render()
-    {
+    // 交易详情链接
+    public goTransInfo = (txid: string) => {
+        this.props.history.push('/transaction/' + txid)
+    }
+    // 翻页功能
+    public onGoPage = (index: number) => {
+        this.setState({
+            currentPage: index
+        })
+    }
+    // 区块交易列表分页
+    public blockTranListByPage = () => {
+        const startNum = this.state.pageSize * (this.state.currentPage - 1);
+        const list = (this.props.block.blockInfo && this.props.block.blockInfo.tx) ? [...this.props.block.blockInfo.tx] : [];
+        return list.slice(startNum, startNum + this.state.pageSize);
+    }
+    public render() {
+        const totalCount = (this.props.block.blockInfo && this.props.block.blockInfo.tx) ? this.props.block.blockInfo.tx.length : 0
         return (
             <div className="blockinfo-page">
                 <div className="goback-wrapper">
@@ -160,7 +171,16 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
                 </div>
                 <TitleText text="Transactions" />
                 <div className="blockinfo-tran-table">
-                    <Table tableTh={this.blockTransTableTh} tableData={this.props.block.blockInfo ? this.props.block.blockInfo.tx : []} render={this.renderTran} />
+                    <Table tableTh={this.blockTransTableTh} tableData={this.blockTranListByPage()} render={this.renderTran} />
+                    {/* {(this.props.block.blockInfo && this.props.block.blockInfo.tx.length>=10) &&  */}
+                    {/* ( */}
+                    <Page
+                        totalCount={totalCount}
+                        pageSize={this.state.pageSize}
+                        currentPage={this.state.currentPage}
+                        onChange={this.onGoPage}
+                    />
+                    {/* )} */}
                 </div>
             </div>
         );

@@ -1,132 +1,234 @@
 /**
- * 主页布局
+ * 地址详情页
  */
 import * as React from 'react';
+import { observer, inject } from 'mobx-react';
 import TitleText from '@/components/titletext/index';
-// import Table from '@/components/Table/Table';
+import Table from '@/components/Table/Table';
 import './index.less'
-
-class AddressInfo extends React.Component {
-  public tableTh = [
-    "Type",
-    "Txid",
-    "Version",
-    "Created on"
-  ]
-  public tableData = [
+import { IAddressInfoProps } from './interface/addressinfo.interface';
+import * as formatTime from 'utils/formatTime';
+import { toThousands } from '@/utils/numberTool';
+import { injectIntl } from 'react-intl';
+import Page from '@/components/Page';
+@inject('addressinfo')
+@observer
+class AddressInfo extends React.Component<IAddressInfoProps, {}> {
+  public state = {
+    address: '',
+    utxoPage: 1,
+    utxoSize: 15,
+    transPage: 1,
+    transSize: 15,
+  }
+  // 资产
+  public balanceTableTh = [
     {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
+      name: 'Asset',
+      key: 'asset'
     },
     {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: '1,123,232',
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
-    },
-    {
-      height: "1,123,232",
-      size: "6276 bytes",
-      transactions: "12",
-      createdTime: "2018/04/17 | 16:17"
+      name: 'Amount',
+      key: 'amount'
     }
   ]
+  // 交易
+  public transTableTh = [
+    {
+      name: 'Type',
+      key: 'type'
+    },
+    {
+      name: 'Txid',
+      key: 'txid'
+    },
+    {
+      name: 'Height',
+      key: 'height'
+    },
+    {
+      name: 'Created on',
+      key: 'time'
+    }
+  ]
+  // utxo
+  public utxoTableTh = [
+    {
+      name: 'Asset',
+      key: 'asset'
+    },
+    {
+      name: 'Amount',
+      key: 'value'
+    },
+    {
+      name: 'Txid',
+      key: 'txid'
+    }
+  ]
+  // 交易列表用到的img
+  public imgs = {
+    contract: require('@/img/contract.png'),
+    claim: require('@/img/claim.png'),
+    invocation: require('@/img/invocation.png'),
+    miner: require('@/img/miner.png'),
+    issue: require('@/img/issue.png'),
+    register: require('@/img/register.png'),
+    publish: require('@/img/publish.png'),
+    enrollment: require('@/img/enrollment.png'),
+    agency: require('@/img/agency.png')
+  }
+  public async componentDidMount() {
+    const params = this.props.match.params;
+    this.setState({
+      address: params["address"]
+    });
+    this.props.addressinfo.getAddressInfo(params["address"]);
+    this.props.addressinfo.getAddressBalance(params["address"]);
+    this.props.addressinfo.getAddressNep5Asset(params["address"]);
+    this.props.addressinfo.getAddressTrans(params["address"], this.state.transSize, this.state.transPage);
+    this.getUtxoList(params["address"]);
+  }
+
+  // 获取utxo列表
+  public getUtxoList = (address: string) => {
+    return this.props.addressinfo.getAddrUtxoList(address, this.state.utxoPage, this.state.utxoSize)
+  }
+  // 返回地址列表
+  public onGoBack = () => {
+    this.props.history.push('/addresses/');
+  }
+  // 列表特殊处理
+  public renderUtxo = (value, key) => {
+    if (key === 'txid') {
+      // const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+      return <span className="addr-utxo-text"><a href="javascript:;" onClick={this.goTransInfo.bind(this, value)}>{value}</a></span>
+    }
+    return null;
+  }
+  // 列表特殊处理
+  public renderTran = (value, key) => {
+    if (key === 'type') {
+      value = value.replace('Transaction', '');
+      return <span className="img-text-bg"><img src={this.imgs[value.toLowerCase()]} alt="" />{value}</span>
+    }
+
+    if (key === 'txid') {
+      const txid = value.replace(/^(.{4})(.*)(.{4})$/, '$1...$3');
+      return <span><a href="javascript:;" onClick={this.goTransInfo.bind(this, value)}>{txid}</a></span>
+    }
+    if (key === 'blockindex') {
+      return <span><a href="javascript:;" onClick={this.goBlockInfo.bind(this, value)}>{toThousands(value.toString())}</a></span>
+    }
+    if (key === 'time') {
+      const time = formatTime.format('yyyy/MM/dd | hh:mm:ss', value.toString(), this.props.intl.locale);
+      return <span>{time}</span>
+    }
+    return null;
+  }
+  // 交易详情链接
+  public goTransInfo = (txid: string) => {
+    this.props.history.push('/transaction/' + txid)
+  }
+  // 区块详情链接
+  public goBlockInfo = (index: string) => {
+    this.props.history.push('/block/' + index)
+  }
+  // trans翻页功能
+  public onTransPage = (index: number) => {
+    console.log(index)
+    this.setState({
+      transPage: index
+    }, () => {
+      this.props.addressinfo.getAddressTrans(this.state.address, this.state.transSize, this.state.transPage);
+      })
+  }
+  // utxo翻页功能
+  public onUtxoPage = (index: number) => {
+    console.log(index)
+    this.setState({
+      utxoPage: index
+    }, () => {
+        this.getUtxoList(this.state.address);
+      })
+  }
   public render() {
+    if (!!!this.props.addressinfo.addrInfo) {
+      return null
+    }
     return (
       <div className="addressinfo-page">
         <div className="goback-wrapper">
-          <span className="goback-text">&lt;&lt;  Go back</span>
+          <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  Go back</span>
         </div>
         <div className="info-content">
           <TitleText text="Address information" isInfoTitle={true} />
           <div className="info-list">
             <ul>
               <li>
-                <span className="type-name">
-                  Address
-                        </span>
-                <span className="type-content">
-                  ASmJfHD6mxyMzbX2KFXdYHGZAUokQDDrht
-                        </span>
+                <span className="type-name">Address</span>
+                <span className="type-content">{this.state.address}</span>
               </li>
               <li>
-                <span className="type-name">
-                  Created on
-                        </span>
+                <span className="type-name">Created on</span>
                 <span className="type-content">
-                  Mon, 09 Apr 2018 09:20:10 GMT
-                        </span>
+                  {this.props.addressinfo.addrInfo && formatTime.format('yyyy/MM/dd | hh:mm:ss', this.props.addressinfo.addrInfo.firstuse.blocktime.$date.toString(), this.props.intl.locale)}
+                </span>
               </li>
               <li>
-                <span className="type-name">
-                  Transactions
-                        </span>
-                <span className="type-content">
-                  88
-                        </span>
+                <span className="type-name">Transactions</span>
+                <span className="type-content">{this.props.addressinfo.addrInfo && this.props.addressinfo.addrInfo.txcount}</span>
               </li>
             </ul>
           </div>
         </div>
         <div className="addressinfo-balance-wrapper">
           <TitleText text="Balance" />
-          {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true}/> */}
+          <div className="address-balance-table">
+            <Table
+              tableTh={this.balanceTableTh}
+              tableData={this.props.addressinfo.addrBalanceList}
+            />
+          </div>
         </div>
         <div className="addressinfo-tran-wrapper">
           <TitleText text="Transactions" />
-          {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true}/> */}
+          <div className="address-trans-table">
+            <Table
+              tableTh={this.transTableTh}
+              tableData={this.props.addressinfo.addrTransList}
+              render={this.renderTran}
+            />
+            <Page
+              totalCount={this.props.addressinfo.addrInfo && this.props.addressinfo.addrInfo.txcount}
+              pageSize={this.state.transSize}
+              currentPage={this.state.transPage}
+              onChange={this.onTransPage}
+            />
+          </div>
+
         </div>
         <div className="addressinfo-utxo-wrapper">
           <TitleText text="UTXO" />
-          {/* <Table tableTh={this.tableTh} tableData={this.tableData} isHasPage={true}/> */}
+          <div className="addrinfo-utxo-table">
+            <Table
+              tableTh={this.utxoTableTh}
+              tableData={this.props.addressinfo.addrUtxoList && this.props.addressinfo.addrUtxoList.list}
+              render={this.renderUtxo}
+              className="address-utxo-table"
+            />
+            <Page
+              totalCount={this.props.addressinfo.addrUtxoList && this.props.addressinfo.addrUtxoList.count}
+              pageSize={this.state.utxoSize}
+              currentPage={this.state.utxoPage}
+              onChange={this.onUtxoPage}
+            />
+          </div>
+
         </div>
       </div>
     );
   }
 }
 
-export default AddressInfo;
+export default injectIntl(AddressInfo);

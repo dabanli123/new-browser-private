@@ -1,20 +1,23 @@
-// 标题组件
+/**
+ * Pc端 header 组件
+ */
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Input from '@/components/Input/Input';
 import Button from '@/components/Button/Button';
 import { History } from 'history'
 import EventHandler from 'utils/event';
+import * as Neotool from '@/utils/neotool';
 import './index.less';
 
 interface IState {
-  isShowSearch: boolean,
-  inputValue: string,
-  inputPlaceHolder: string,
-  isShowSearchBtn: boolean,
-  isShowBrowse: boolean,
-  isShowEnv: boolean,
-  isShowLanguage: boolean
+  isShowSearch: boolean,         // 是否在首页显示search功能
+  inputValue: string,            // 输入框的输入
+  inputPlaceHolder: string,      // 输入框的placeholder
+  isShowSearchBtn: boolean,      // 是否显示header上的search图标
+  isShowBrowse: boolean,         // 是否显示浏览下拉框
+  isShowEnv: boolean,            // 是否显示版本下拉框
+  isShowLanguage: boolean        // 是否显示语言下拉框
 }
 
 interface IProps {
@@ -23,8 +26,8 @@ interface IProps {
 
 export default class Header extends React.Component<IProps, IState>{
   public state = {
-    isShowSearch: false,
-    isShowSearchBtn: false,
+    isShowSearch: false,  
+    isShowSearchBtn: false,  
     inputValue: '',
     isShowBrowse: false,
     isShowEnv: false,
@@ -39,9 +42,15 @@ export default class Header extends React.Component<IProps, IState>{
     }
 
     this.props.history.listen(() => {
+      console.log(this.props.history.location.pathname);
+      
       if (this.props.history.location.pathname !== '/') {
         this.setState({
           isShowSearchBtn: true
+        })
+      }else{
+        this.setState({
+          isShowSearchBtn:false
         })
       }
     })
@@ -55,27 +64,76 @@ export default class Header extends React.Component<IProps, IState>{
       isShowLanguage: false,
     })
   }
+  // 输入变化
   public onChange = (value: string) => {
     this.setState({
       inputValue: value
     })
     console.log(value)
   }
+  // input获取焦点
   public onFocus = () => {
     this.setState({
       inputPlaceHolder: ''
     })
   }
+  // 失去焦点
   public onBlur = () => {
     this.setState({
       inputPlaceHolder: 'Search for block height/hash/address or transaction id'
     })
   }
+  // 搜索功能
+  public toSearchInfo = () => {
+    console.log("search");
+    let search: string = this.state.inputValue;
+    search = search.trim();
+    if (search) {
+      if (search.length === 34) {
+        if (Neotool.verifyPublicKey(search)) { // 是否是地址
+          this.props.history.push('/address/' + search);
+        } else {
+          return false;
+        }
+        return;
+      } else {
+        search = search.replace('0x', '');
+        if (search.length === 64) {
+          this.props.history.push('/transaction/0x' + search);
+        }
+        else if (search.length === 40) {
+          this.props.history.push('/nep5/' + search);
+        }
+        else if (!isNaN(Number(search))) {
+          this.props.history.push('/block/' + search);
+        }
+        else if (search.length > 64) {
+          // let length = this.searchList.children.length;
+          // if (length) {
+            // let data = this.searchList.children[this.currentLine - 1].getAttribute("data");
+            
+          // }
+          this.props.history.push('/asset/' + search);
+        } else {
+          return false;
+        }
+      }
+    } else {
+      return false;
+    }
+    this.setState({
+      isShowSearch: false
+    })
+    return;
+  }
+  // 是否显示search
   public onToggleSearch = () => {
     this.setState({
-      isShowSearch: !this.state.isShowSearch
+      isShowSearch: !this.state.isShowSearch,
+      inputValue:''
     })
   }
+  // 是否显示版本
   public toggleEnv = (e) => {
     this.setState({
       isShowEnv: !this.state.isShowEnv,
@@ -84,6 +142,7 @@ export default class Header extends React.Component<IProps, IState>{
     })
     e.stopPropagation();
   }
+  // 是否显示语言
   public toggleLanguage = (e) => {
     this.setState({
       isShowEnv: false,
@@ -92,7 +151,7 @@ export default class Header extends React.Component<IProps, IState>{
     })
     e.stopPropagation();
   }
-
+  // 是否显示浏览
   public toggleBrowse = (e) => {
     this.setState({
       isShowEnv: false,
@@ -215,10 +274,11 @@ export default class Header extends React.Component<IProps, IState>{
                 onChange={this.onChange}
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
+                onEnter={this.toSearchInfo}
                 topsearch={true}
                 style={{ width: "62.5%", margin: "15px 0 20px 0", minWidth: "631px" }}
               />
-              <Button text="Search" search={true} style={{ position: "absolute", top: "25px", right: "19%" }} />
+              <Button text="Search" onClick={this.toSearchInfo} search={true} style={{ position: "absolute", top: "25px", right: "19%" }} />
             </div>
           )
         }

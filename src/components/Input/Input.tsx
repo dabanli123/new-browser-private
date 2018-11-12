@@ -2,8 +2,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';
-// import correct from '../../img/right1.png';
-// import error from '../../img/wrong1.png';
 import './input.less';
 
 interface IProps {
@@ -18,6 +16,7 @@ interface IProps {
 	type: string,
 	onBlur?: (event: any) => void,
 	topsearch?: boolean,
+	onEnter?: () => void
 }
 
 @observer
@@ -37,10 +36,19 @@ export default class Input extends React.Component<IProps, {}> {
 			this.props.onBlur(event.target.value);
 		}
 	}
+	// 失去焦点事件
 	public onFocus = () => {
 		if(this.props.onFocus) {
 			this.props.onFocus();
 		}
+	}
+	// 回车事件
+	public onKeyDown = (event:any) => {
+		if (event.keyCode === 13) {
+			if(this.props.onEnter){
+				this.props.onEnter();
+			}            
+        }
 	}
 	public render() {
 		const inputClassName = classnames('input-icon',{'top-search':this.props.topsearch?this.props.topsearch:false})
@@ -56,6 +64,7 @@ export default class Input extends React.Component<IProps, {}> {
 					readOnly={this.props.readonly}
 					onBlur={this.onInputBlur}
 					onFocus = {this.onFocus}
+					onKeyDown={this.onKeyDown}
 				/>
 			</div>
 		);

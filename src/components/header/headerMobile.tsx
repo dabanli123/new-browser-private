@@ -1,3 +1,6 @@
+/**
+ * 移动端 header 组件
+ */
 import * as React from 'react';
 import './headerMobile.less';
 import EventHandler from 'utils/event';
