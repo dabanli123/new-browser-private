@@ -264,23 +264,26 @@
         }
     }
     .index-content{
-        width: 10.88rem;
-        min-width: 1088px;
+        width: 100%;
+        min-width: 100%;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: .3rem .2rem;
         margin-bottom: 1rem;
+        box-sizing: border-box;
         .search-page{
             display: none;
         }
         .tabledata-page{
-            display: flex;
+            display: block;
             flex-wrap:wrap;
             .block-table,.tran-table{
                 flex:1;
-                margin-right: 20px;
+                margin-right: 0;
             }
             .tran-table{
                 margin-right: 0;
+                width:100%;
+                margin-top:.3rem;
             }
         }
     }

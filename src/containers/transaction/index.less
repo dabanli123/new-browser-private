@@ -38,3 +38,41 @@
         border-radius: 3px;
     }
 }
+
+
+@media screen and (max-width:768px) {
+    .transaction-page,.transactioninfo-page{
+        width: 100%;
+        min-width: 3.75rem;
+        padding: 0 20px;
+        margin: 0 auto;
+        margin-top: .5rem;
+        margin-bottom: 1rem;
+        box-sizing: border-box;
+
+        .info-content {
+            .info-list {
+                ul {
+                    li {
+                        min-height:.54rem;
+                        height:auto;
+                        padding-top:.05rem;
+                        padding-bottom:.05rem;
+                        box-sizing: border-box;
+                        span.type-name {
+                            flex-grow: 0;
+                            width:1.1rem;
+                            min-width: 1.1rem;
+                            text-indent: .15rem;
+                        }
+
+                        span.type-content {
+                            flex-shrink: 0;
+                            padding-right:.1rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
