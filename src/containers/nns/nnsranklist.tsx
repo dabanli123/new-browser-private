@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 域名竞拍成功的排行页
  */
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';

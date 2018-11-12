@@ -1,9 +1,14 @@
 import { RouteComponentProps } from 'react-router-dom';
+import { INep5Asset } from '@/containers/asset/interface/asset.interface';
 export interface ITransactionsStore {
     transList: ITransactionList| null,
     tranInfo:ITransInfo,
+    nep5Trans:INep5Trans[],
+    nep5Info:INep5Asset|null,
     getTransList: ( page: number,size: number, type: string) => Promise<boolean>,
-    getTransInfo:(txid:string) => Promise<boolean>
+    getTransInfo:(txid:string) => Promise<boolean>,
+    getNep5Transbytxid:(txid:string) => Promise<boolean>,
+    getNep5Info:(nep5:string) => Promise<boolean>
 }
 export interface ITransactionsProps extends RouteComponentProps {
     intl: any,
@@ -43,4 +48,10 @@ export interface ITransInfo {
     blocktime:number,
     vin:ITransVinVout[],
     vout:ITransVinVout[]
+}
+export interface INep5Trans{
+    asset:string,
+    from:string,
+    to:string,
+    value:string
 }

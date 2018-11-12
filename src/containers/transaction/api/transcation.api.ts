@@ -47,17 +47,31 @@ export const gettraninfo = (txid: string) =>
   }
   return request(opts);
 }
-// /**
-//  * 获取区块详情
-//  * @param index 区块高度
-//  */
-// export const getblock = (index:number) => {
-//   const opts = {
-//     method:'getblock',
-//     params:[
-//       index
-//     ],
-//     baseUrl:'common'
-//   }
-//   return request(opts);
-// }
+/**
+ * 根据txid获取nep5
+ * @param txid 交易id
+ */
+export const getnep5transferbytxid = (txid:string) => {
+  const opts = {
+    method:'getnep5transferbytxid',
+    params:[
+      txid
+    ],
+    baseUrl:'common'
+  }
+  return request(opts);
+}
+/**
+ * 根据nep5资产id获取资产详情
+ * @param nep5 
+ */
+export const getnep5asset = (nep5:string) => {
+  const opts = {
+    method:'getnep5asset',
+    params:[
+      nep5
+    ],
+    baseUrl:'common'
+  }
+  return request(opts);
+}

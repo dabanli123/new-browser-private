@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 区块详情页
  */
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
@@ -119,6 +119,7 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
             currentPage: index
         })
     }
+    // 区块交易列表分页
     public blockTranListByPage = () => {
         const startNum = this.state.pageSize * (this.state.currentPage - 1);
         const list = (this.props.block.blockInfo && this.props.block.blockInfo.tx) ? [...this.props.block.blockInfo.tx] : [];

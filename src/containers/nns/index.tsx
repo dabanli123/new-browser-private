@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * nns首页布局
  */
 import * as React from 'react';
 import Total from '@/containers/nns/total';

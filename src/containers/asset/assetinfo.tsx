@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 资产详情页
  */
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';

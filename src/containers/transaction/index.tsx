@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 交易列表页
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
@@ -122,8 +122,6 @@ class Transactions extends React.Component<ITransactionsProps, {}>
   }
   // 下拉选择功能
   public onCallback = (item) => {
-    console.log("2");
-
     this.setState({
       currentPage: 1,
       type: item.id

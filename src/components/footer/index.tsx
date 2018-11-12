@@ -1,4 +1,4 @@
-// 标题组件
+// footer组件
 import * as React from 'react';
 import './index.less';
 

@@ -4,8 +4,8 @@ import * as CoinTool from '@/utils/cointool';
 import { IAsset, INep5Asset, IAssetList } from '../interface/asset.interface';
 
 class Asset {
-    @observable public assetList:IAssetList[] = [];
-    @observable public nep5List:IAssetList[] = [];
+    @observable public assetList:IAssetList[] = [];  // asset列表
+    @observable public nep5List:IAssetList[] = [];   // nep5列表
     /**
      * 获取asset
      */

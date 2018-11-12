@@ -2,8 +2,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';
-// import correct from '../../img/right1.png';
-// import error from '../../img/wrong1.png';
 import './input.less';
 
 interface IProps {
@@ -38,11 +36,13 @@ export default class Input extends React.Component<IProps, {}> {
 			this.props.onBlur(event.target.value);
 		}
 	}
+	// 失去焦点事件
 	public onFocus = () => {
 		if(this.props.onFocus) {
 			this.props.onFocus();
 		}
 	}
+	// 回车事件
 	public onKeyDown = (event:any) => {
 		if (event.keyCode === 13) {
 			if(this.props.onEnter){

@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * nns首页搜索功能
  */
 import * as React from 'react';
 import Input from '@/components/Input/Input'

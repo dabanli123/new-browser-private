@@ -13,7 +13,9 @@ class NNS implements INNSStore
     @observable public orderBy: string = '';
     @observable public searchCanAuction:IAuctionInfo|null = null;
     @observable public searchEndAuction:IAuctionedInfo|null = null;
-
+    /**
+     * 获取统计总数
+     */
     @action public async getStatistic()
     {
         let result: any = null;
@@ -27,7 +29,11 @@ class NNS implements INNSStore
         this.nnsTotal = result ? result[0] : [];
         return true;
     }
-
+    /**
+     * 获取正在竞拍的列表
+     * @param page 当前页码
+     * @param size 每页条数
+     */
     @action public async getAuctingDomain(page: number, size: number)
     {
         let result: any = null;
@@ -57,6 +63,11 @@ class NNS implements INNSStore
         }        
         return true;
     }
+    /**
+     * 根据金额排序获取正在竞拍的列表
+     * @param page 当前页码
+     * @param size 每页条数
+     */
     @action public async getAuctingDomainbyPrice(page: number, size: number)
     {
         let result: any = null;
@@ -85,6 +96,11 @@ class NNS implements INNSStore
         }        
         return true;
     }
+    /**
+     * 获取域名价值排行列表
+     * @param page 当前页码
+     * @param size 每页条数
+     */
     @action public async getAuctedDomain(page: number, size: number)
     {
         let result: any = null;
@@ -114,6 +130,10 @@ class NNS implements INNSStore
         }
         return true;
     }
+    /**
+     * 查询域名信息
+     * @param domain 域名 
+     */
     @action public async searchDomainInfo(domain: string) {
         let result: any = null;
         try {

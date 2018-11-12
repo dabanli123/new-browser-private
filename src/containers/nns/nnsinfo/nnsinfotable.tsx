@@ -1,3 +1,6 @@
+/**
+ * nns首页表格模块
+ */
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import TitleText from '@/components/titletext/index';
@@ -13,9 +16,9 @@ class NNSInfoTable extends React.Component<INNSInfoProps, {}> {
     public state = {
         auctionId: '',
         currentPageBidRank: 1,
-        pageSizeBidRank: 10,
+        pageSizeBidRank: 15,
         currentPageBidInfo: 1,
-        pageSizeBidInfo: 10
+        pageSizeBidInfo: 15
     }
     public bidrankTableTh = [
         {
@@ -65,9 +68,11 @@ class NNSInfoTable extends React.Component<INNSInfoProps, {}> {
         this.props.nnsinfo.domainBidRankCount = 0;
         this.props.nnsinfo.domainBidRankList = [];
     }
+    // 获取竞拍中列表
     public getAuctionBidRank(id) {
         return this.props.nnsinfo.getAuctionBidRank(id, this.state.currentPageBidRank, this.state.pageSizeBidRank);
     }
+    // 获取竞拍排行列表
     public getAuctionBidInfoTx(id) {
         return this.props.nnsinfo.getAuctionBidInfoTx(id, this.state.currentPageBidRank, this.state.pageSizeBidRank);
     }

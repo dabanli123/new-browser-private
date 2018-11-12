@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 主页搜索功能
  */
 import * as React from 'react';
 import Input from '@/components/Input/Input'
@@ -30,6 +30,7 @@ class Search extends React.Component<IHomeProps,any> {
       inputPlaceHolder: 'Search for block height/hash/address or transaction id'
     })
   }
+  // 搜索功能
   public toSearchInfo = () => {
     console.log("search");
     let search: string = this.state.inputValue;
@@ -45,7 +46,7 @@ class Search extends React.Component<IHomeProps,any> {
       } else {
         search = search.replace('0x', '');
         if (search.length === 64) {
-          this.props.history.push('/transaction/' + search);
+          this.props.history.push('/transaction/0x' + search);
         }
         else if (search.length === 40) {
           this.props.history.push('/nep5/' + search);
@@ -88,6 +89,16 @@ class Search extends React.Component<IHomeProps,any> {
         {
           process.env.REACT_APP_SERVER_ENV !== 'DEV' && <img src={require('@/img/search-m.png')} alt="search.png" className="search-icon" onClick={this.toSearchInfo} />
         }
+        {/* <div className="search-text">
+          <div className="hint-wrapper" />
+          <ul className="search-list">
+            <li>asfasdf</li>
+            <li>asfasdf</li>
+            <li>asfasdf</li>
+            <li>asfasdf</li>
+            <li>asfasdf</li>
+          </ul>
+        </div> */}
       </div>
     );
   }

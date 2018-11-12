@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 主页表格模块
  */
 import * as React from 'react';
 import { observer } from 'mobx-react';

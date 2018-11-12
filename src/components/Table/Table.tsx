@@ -1,4 +1,6 @@
-// 输入框组件
+/**
+ * 表格组件
+ */
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';
@@ -72,6 +74,7 @@ export default class Table extends React.Component<IProps, {}> {
             </ul>
           </div>
         </div>
+        {/* 移动端表格 */}
         <div className="mobile-table-content">
           <div className="table-body">
             <ul>

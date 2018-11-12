@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 地址详情页
  */
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
@@ -21,6 +21,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
     transPage: 1,
     transSize: 15,
   }
+  // 资产
   public balanceTableTh = [
     {
       name: 'Asset',
@@ -31,6 +32,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
       key: 'amount'
     }
   ]
+  // 交易
   public transTableTh = [
     {
       name: 'Type',
@@ -49,6 +51,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
       key: 'time'
     }
   ]
+  // utxo
   public utxoTableTh = [
     {
       name: 'Asset',
@@ -63,6 +66,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
       key: 'txid'
     }
   ]
+  // 交易列表用到的img
   public imgs = {
     contract: require('@/img/contract.png'),
     claim: require('@/img/claim.png'),
@@ -130,7 +134,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
   public goBlockInfo = (index: string) => {
     this.props.history.push('/block/' + index)
   }
-  // utxo翻页功能
+  // trans翻页功能
   public onTransPage = (index: number) => {
     console.log(index)
     this.setState({

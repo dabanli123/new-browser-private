@@ -1,8 +1,8 @@
 import { RouteComponentProps } from 'react-router-dom';
 export interface IAddressStore
 {
-    addrCount: string,
-    addrList: IAddressList[],
+    addrCount: string,   // 地址总数
+    addrList: IAddressList[],  // 地址列表
     getAddrCount: () => Promise<boolean>,
     getAddressList: (size: number, page: number) => Promise<boolean>,
 }

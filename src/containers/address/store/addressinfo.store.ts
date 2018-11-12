@@ -132,6 +132,8 @@ class AddressInfo implements IAddressInfoStore
     /**
      * 获取地址utxo交易数
      * @param address 当前地址
+     * @param size 每页条数
+     * @param page 当前页码
      */
     @action public async getAddrUtxoList(address: string, page: number, size: number)
     {

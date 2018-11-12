@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 主页统计模块
  */
 import * as React from 'react';
 import { observer } from 'mobx-react';
@@ -16,19 +16,19 @@ class Topstatistic extends React.Component<IHomeProps, any>
     this.props.home.getTxCount('');
     this.props.home.getAddrCount();
   }
+  // 跳转到区块列表页
   public onViewBlock = () =>
   {
-    // const url =  process.env.REACT_APP_SERVER_ENV === 'DEV'? '/test/blocks': '/blocks/';
     this.props.history.push('/blocks/');
   }
+  // 跳转到交易列表页
   public onViewTran = () =>
   {
-    // const url = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/transactions' : '/transactions/';
     this.props.history.push('/transactions/');
   }
+  // 跳转到地址列表页
   public onViewAddress = () =>
   {
-    // const url = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/blocaddressesks' : '/addresses/';
     this.props.history.push('/addresses/');
   }
   public render()

@@ -1,4 +1,6 @@
-// 输入框组件
+/**
+ * 下拉组件
+ */
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import EventHandler from '@/utils/event';

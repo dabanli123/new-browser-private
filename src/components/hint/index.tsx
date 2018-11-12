@@ -20,7 +20,7 @@ class Hint extends React.Component<IProps>
                     <div className="hint-img">
                         {this.props.type === '1' && <img src={q1} alt="" />}
                         {this.props.type === '2' && <img src={q2} alt="" />}
-                        {this.props.type === '3' && <img src={q3} alt="" />}
+                        {this.props.type === '3' && <img src={q3} className="type3"  alt="" />}
                     </div>
                     <div className="hint-content">  
                         {

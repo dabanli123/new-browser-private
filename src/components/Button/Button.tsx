@@ -1,4 +1,6 @@
-// 输入框组件
+/**
+ * 按钮组件
+ */
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';

@@ -5,12 +5,12 @@ import * as Api from '../api/assetinfo.api';
 
 class AssetInfo implements IAssetInfoStore
 {
-    @observable public assetInfo: IAsset | null;
-    @observable public nep5Info:INep5Asset | null;
-    @observable public balanceRankCount: number = 0;
-    @observable public balanceRankList: IBalanceRank[];
-    @observable public nep5TransList:INep5TransList[];
-    @observable public nep5TransCount:number = 0;
+    @observable public assetInfo: IAsset | null;         // 资产详情
+    @observable public nep5Info:INep5Asset | null;       // nep5资产详情
+    @observable public balanceRankCount: number = 0;     // 资产排名数量
+    @observable public balanceRankList: IBalanceRank[];  // 资产排名列表
+    @observable public nep5TransList:INep5TransList[];   // nep5的交易列表
+    @observable public nep5TransCount:number = 0;        // nep5的交易总数
 
     /**
      * 获取资产详情
@@ -103,6 +103,11 @@ class AssetInfo implements IAssetInfoStore
         }
         return true;
     }
+    /**
+     * 获取nep5交易的总数
+     * @param type 交易类型
+     * @param nep5id nep5资产的id
+     */
     @action public async getNep5TransCount(type:string,nep5id:string)
     {
         let result: any = null;

@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 交易详情页
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
@@ -27,14 +27,34 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
             key: 'value'
         }
     ]
+    public nep5TransTableTh = [
+        {
+            name: 'Asset',
+            key: 'asset',
+        },
+        {
+            name: 'From',
+            key: 'from'
+        },
+        {
+            name: 'To',
+            key: 'to'
+        },
+        {
+            name: 'Value',
+            key: 'value'
+        }
+    ]
     public async componentDidMount()
     {
         const params = this.props.match.params;
         await this.getTransactionInfo(params["txid"]);
         this.doVinVoutList();
-        // if(this.props.transaction.tranInfo){
-        // this.props.transaction.getBlockInfo(this.props.transaction.tranInfo.blockindex);
-        // }
+        console.log(this.props.transaction.tranInfo);
+
+        await this.props.transaction.getNep5Transbytxid(params["txid"]);
+
+
     }
     // 请求数据
     public getTransactionInfo = (txid: string) =>
@@ -51,29 +71,69 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
     {
         this.props.history.push('/block/' + index)
     }
+    // 拼接vin vout 
     public doVinVoutList = () =>
     {
-        const vinlist = this.props.transaction.tranInfo.vin.map((key) =>
+        if (this.props.transaction.tranInfo)
         {
-            const newObj = {
-                address: key.address,
-                value: key.value + ' ' + key.asset
+            if (this.props.transaction.tranInfo.vin.length !== 0)
+            {
+                const vinlist = this.props.transaction.tranInfo.vin.map((key) =>
+                {
+                    const newObj = {
+                        address: key.address,
+                        value: key.value + ' ' + key.asset
+                    }
+                    return newObj;
+                });
+                this.setState({
+                    vinList: vinlist
+                })
             }
-            return newObj;
-        });
-        const voutlist = this.props.transaction.tranInfo.vout.map((key) =>
-        {
-            const newObj = {
-                address: key.address,
-                value: key.value + ' ' + key.asset
+            if (this.props.transaction.tranInfo.vin.length !== 0)
+            {
+                const voutlist = this.props.transaction.tranInfo.vout.map((key) =>
+                {
+                    const newObj = {
+                        address: key.address,
+                        value: key.value + ' ' + key.asset
+                    }
+                    return newObj;
+                });
+                this.setState({
+                    outList: voutlist
+                })
             }
-            return newObj;
-        });
-        this.setState({
-            vinList: vinlist,
-            outList: voutlist
-        })
+        }
     }
+    public  getNep5Name = async (asset) => {
+        await this.props.transaction.getNep5Info(asset);   
+        return this.props.transaction.nep5Info?this.props.transaction.nep5Info.symbol:""
+    }
+    // 列表特殊处理
+    public renderNep5Trans =  (value, key) =>
+    {
+        if (key === 'asset')
+        {
+            // const asset = this.getNep5Name(value);
+            // console.log(asset);
+            
+            return <span><a href="javascript:;" onClick={this.goNep5Info.bind(this, value)}>{this.props.transaction.nep5Info?this.props.transaction.nep5Info.symbol:""}</a></span>
+        }
+        if(key === 'from'){
+            return <span className="addr-text">{value}</span>
+        }
+        if(key === 'to'){
+            return <span className="addr-text">{value}</span>
+        }
+        return null;
+    }
+    // 跳转资产详情页
+    public goNep5Info = (asset: string) =>
+    {
+        this.props.history.push('/nep5/' + asset)
+    }
+   
     public render()
     {
         if (!this.props.transaction.tranInfo)
@@ -125,7 +185,7 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
                     </div>
                 </div>
                 {
-                    (this.state.vinList || this.state.outList) &&
+                    (this.state.vinList.length !== 0 || this.state.outList.length !== 0) &&
                     (
                         <div className="transactioninfo-input-output">
                             <div className="input-wrapper">
@@ -139,7 +199,16 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
                         </div>
                     )
                 }
-
+                <div className="nep5-trans-wrapper">
+                    <TitleText text="Nep5" />
+                    <div className="nep5-trans-table">
+                        <Table
+                            tableTh={this.nep5TransTableTh}
+                            tableData={this.props.transaction.nep5Trans}
+                            render={this.renderNep5Trans}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }

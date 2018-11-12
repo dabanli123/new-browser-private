@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * nns竞拍成功详情模块
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
@@ -10,6 +10,7 @@ import { INNSInfoProps, IAuctionedInfo } from '@/containers/nns/interface/nnsinf
 @observer
 class DomainInfo extends React.Component<INNSInfoProps, {}>
 {
+    // 跳转到地址详情页
     public toAddressInfo(address: string) {
         this.props.history.push('/address/' + address);
     }

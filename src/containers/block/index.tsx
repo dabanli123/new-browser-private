@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 区块列表页
  */
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';

@@ -1,9 +1,8 @@
 /**
- * 主页布局
+ * 域名详情页
  */
 import * as React from 'react';
 import TitleText from '@/components/titletext/index';
-// import Table from '@/components/Table/Table';
 import DomainInfo from './domaininfo';
 import AuctionInfo from './auctioninfo';
 import '../index.less'

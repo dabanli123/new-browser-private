@@ -3,10 +3,12 @@ import * as Api from '../api/block.api'
 import { IBlockStore, IBlock, IBlockInfo } from '../interface/block.interface';
 
 class Block implements IBlockStore {
-    @observable public blockHeight: string = '';
-    @observable public blockList: IBlock[] = [];
-    @observable public blockInfo: IBlockInfo | null = null;
-
+    @observable public blockHeight: string = '';  // 区块高度总数
+    @observable public blockList: IBlock[] = [];   // 区块列表
+    @observable public blockInfo: IBlockInfo | null = null;   // 区块详情
+    /**
+     * 获取区块高度总数
+     */
     @action public async getBlockHeight() {
         let result: any = null;
         try {
@@ -18,6 +20,11 @@ class Block implements IBlockStore {
         this.blockHeight = result ? result[0].blockcount : '0';
         return true;
     }
+    /**
+     * 获取区块列表
+     * @param size 条数
+     * @param page 当前页码
+     */
     @action public async getBlockList(size: number, page: number) {
         let result: any = null;
         try {
@@ -28,6 +35,10 @@ class Block implements IBlockStore {
         this.blockList = result ? result : [];
         return true;
     }
+    /**
+     * 获取区块高度详情
+     * @param index 区块高度
+     */
     @action public async getBlockInfo(index: number) {
         let result: any = null;
         try {

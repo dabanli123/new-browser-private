@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * nep5资产详情页
  */
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
@@ -78,7 +78,7 @@ class AssetInfo extends React.Component<IAssetInfoProps, {}> {
         if (key === 'addr')
         {
             return <span><a href="javascript:;" onClick={this.goAddrInfo.bind(this, value)}>{value}</a></span>
-        }        
+        }
         return null;
     }
     // 列表特殊处理
@@ -101,10 +101,12 @@ class AssetInfo extends React.Component<IAssetInfoProps, {}> {
         }
         return null;
     }
+    // 跳转地址详情页
     public goAddrInfo = (addr: string) =>
     {
         this.props.history.push('/address/' + addr)
     }
+    // 跳转交易详情页
     public goTransInfo = (txid: string) =>
     {
         this.props.history.push('/transaction/' + txid)

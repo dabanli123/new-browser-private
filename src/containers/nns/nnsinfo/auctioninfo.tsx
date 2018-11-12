@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * nns域名详情模块
  */
 import * as React from 'react';
 // import TitleText from '@/components/titletext/index';
@@ -10,10 +10,11 @@ import * as formatTime from 'utils/formatTime';
 import { observer } from 'mobx-react';
 @observer
 class AuctionInfo extends React.Component<INNSInfoProps, {}> {
+    // 跳转到地址详情页
     public toAddressInfo(address: string) {
         this.props.history.push('/address/' + address);
     }
-    // 跳转到详情页
+    // 跳转到区块高度详情页
     public toBlockInfo = (index: string) => {
         this.props.history.push('/block/' + index)
     }

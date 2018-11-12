@@ -1,5 +1,5 @@
 /**
- * 主页布局
+ * 域名相关统计模块
  */
 import * as React from 'react';
 import './index.less'
