@@ -6,8 +6,10 @@ interface IState
 {
     isShowCode: boolean
 }
-
-export default class Footer extends React.Component<any, IState>
+interface IProps {
+    locale:any
+  }
+export default class Footer extends React.Component<IProps, IState>
 {
     public state = {
         isShowCode: false
@@ -27,7 +29,7 @@ export default class Footer extends React.Component<any, IState>
                 <div className="footer-wrap">
                     <div className="footer-smallbox">
                         <div className="smallbox-title">
-                            <h3>About Us</h3>
+                            <h3>{this.props.locale.aboutUs}</h3>
                         </div>
                         <div className="smallbox-content">
                             <div className="smallbox-logo">
@@ -40,7 +42,7 @@ export default class Footer extends React.Component<any, IState>
                     </div>
                     <div className="footer-smallbox">
                         <div className="smallbox-title">
-                            <h3>Contact Us</h3>
+                            <h3>{this.props.locale.contactUs}</h3>
                         </div>
                         <div className="smallbox-content">
                             <ul>
@@ -54,11 +56,11 @@ export default class Footer extends React.Component<any, IState>
                                 </li>
                                 <li>
                                     <img src={require('@/img/qq.png')} alt="" />
-                                    <a href="https://jq.qq.com/?_wv=1027&k=5SahDHr" target="_blank">QQ Group</a>
+                                    <a href="https://jq.qq.com/?_wv=1027&k=5SahDHr" target="_blank">{this.props.locale.qq}</a>
                                 </li>
                                 <li>
                                     <img src={require('@/img/wechat.png')} alt="" />
-                                    <span onClick={this.isShowWechat}>WeChat Subscription</span>
+                                    <span onClick={this.isShowWechat}>{this.props.locale.wechat}</span>
                                     {
                                         this.state.isShowCode && (
                                             <div className="wechat-code">
@@ -73,7 +75,7 @@ export default class Footer extends React.Component<any, IState>
                     </div>
                     <div className="footer-smallbox">
                         <div className="smallbox-title">
-                            <h3>Other Products</h3>
+                            <h3>{this.props.locale.other}</h3>
                         </div>
                         <div className="smallbox-content">
                             <ul>
@@ -82,7 +84,7 @@ export default class Footer extends React.Component<any, IState>
                                         process.env.REACT_APP_SERVER_ENV === 'DEV' &&
                                         <>
                                             <img src={require('@/img/wallet-t.png')} alt="wallet.png" />
-                                            <a href="https://testwallet.nel.group/#/login" target="_blank">Neo Web Wallet</a>
+                                            <a href="https://testwallet.nel.group/#/login" target="_blank">{this.props.locale.wallet}</a>
                                         </>
 
                                     }
@@ -90,7 +92,7 @@ export default class Footer extends React.Component<any, IState>
                                         process.env.REACT_APP_SERVER_ENV !== 'DEV' &&
                                         <>
                                             <img src={require('@/img/wallet-m.png')} alt="wallet.png" />
-                                            <a href="https://wallet.nel.group/#/login" target="_blank">Neo Web Wallet</a>
+                                            <a href="https://wallet.nel.group/#/login" target="_blank">{this.props.locale.wallet}</a>
                                         </>
                                     }
 
@@ -102,7 +104,7 @@ export default class Footer extends React.Component<any, IState>
                                     {
                                         process.env.REACT_APP_SERVER_ENV !== 'DEV' && <img src={require('@/img/nns-m.png')} alt="nns.png" />
                                     }
-                                    <a href="https://neons.name/index_En.html" target="_blank">NNS Official Website</a>
+                                    <a href="https://neons.name/index_En.html" target="_blank">{this.props.locale.nns}</a>
                                     {/* <a href="https://neons.name/index.html"  target="_blank">NNS Official Website</a> */}
                                 </li>
                                 <li>
@@ -112,7 +114,7 @@ export default class Footer extends React.Component<any, IState>
                                     {
                                         process.env.REACT_APP_SERVER_ENV !== 'DEV' && <img src={require('@/img/neodun-m.png')} alt="neodun.png" />
                                     }
-                                    <a href="http://neodun.com/index-En.html" target="_blank">Neodun Official Website</a>
+                                    <a href="http://neodun.com/index-En.html" target="_blank">{this.props.locale.neodun}</a>
                                     {/* <a href="http://neodun.com/index.html" target="_blank">Neodun Official Website</a> */}
                                 </li>
                             </ul>

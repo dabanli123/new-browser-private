@@ -7,7 +7,7 @@ import zh from 'react-intl/locale-data/zh';
 import en from 'react-intl/locale-data/en';
 import Layout from './containers/layout/index';
 import routes from './routers';
-import store from "./store";;
+import store from "./store";
 import { en_US, zh_CN } from '@/language';
 addLocaleData([...en, ...zh]);
 
@@ -30,7 +30,7 @@ const ObserverRender = observer(() => {
     messages = zh_CN;
     locale = 'zh';
   }
-
+  
   return (
     <IntlProvider
       locale={locale}

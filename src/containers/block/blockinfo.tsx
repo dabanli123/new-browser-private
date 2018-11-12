@@ -20,20 +20,21 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
         pageSize: 15,
         txList: new Array()
     }
+    public intrl = this.props.intl.messages;
     public blockTransTableTh = [
         {
-            name: 'Type',
+            name: this.intrl.tableTh.type,
             key: 'type',
         },
         {
-            name: 'TXID',
+            name: this.intrl.tableTh.txid,
             key: 'txid'
         }, {
-            name: 'Version',
+            name: this.intrl.tableTh.version,
             key: 'version'
         },
         {
-            name: 'Size',
+            name: this.intrl.tableTh.size,
             key: 'size'
         }
     ]

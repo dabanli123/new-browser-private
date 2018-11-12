@@ -4,8 +4,8 @@ import * as PropTypes from 'prop-types';
 import Header from '@/components/header';
 import HeaderMobile from '@/components/header/headerMobile';
 import Footer from '@/components/footer'
-// import {zh_CN, en_US} from '@/language';
-// import store from '@/store/common';
+import {zh_CN, en_US} from '@/language';
+import store from '@/store/common';
 
 import './index.less';
 
@@ -39,12 +39,12 @@ export default class LayoutIndex extends React.Component<any, any> {
   public render() {
     return (
       <div className="layout-container">
-        <Header history={this.context.router.history} />
+        <Header history={this.context.router.history} locale={store.language === 'en' ? en_US.header : zh_CN.header} />
         <HeaderMobile />
         <div className="layout-main">
           {this.props.children}
         </div>
-        <Footer />
+        <Footer locale={store.language === 'en' ? en_US.footer : zh_CN.footer}/>
       </div>
     );
   }

@@ -15,37 +15,38 @@ import { injectIntl } from 'react-intl';
 @observer
 class TableData extends React.Component<IHomeProps, any>
 {
+  public intrl = this.props.intl.messages;
   public blockTableTh = [
     {
-      name: 'Height',
+      name: this.intrl.tableTh.height,
       key: 'index'
     },
     {
-      name: 'Size',
+      name: this.intrl.tableTh.size,
       key: 'size'
     },
     {
-      name: 'Transactions',
+      name: this.intrl.tableTh.transaction,
       key: 'txcount'
     },
     {
-      name: 'Created on',
+      name: this.intrl.tableTh.create,
       key: 'time'
     }
   ]
   public transTableTh = [
     {
-      name: 'Type',
+      name: this.intrl.tableTh.type,
       key: 'type',
     },
     {
-      name: 'TXID',
+      name: this.intrl.tableTh.txid,
       key: 'txid'
     }, {
-      name: 'Height',
+      name: this.intrl.tableTh.height,
       key: 'blockindex'
     }, {
-      name: 'Size',
+      name: this.intrl.tableTh.size,
       key: 'size'
     }
   ]
@@ -130,15 +131,15 @@ class TableData extends React.Component<IHomeProps, any>
       <div className="tabledata-page">
         <div className="block-table">
           <Table tableTh={this.blockTableTh} tableData={this.props.home.blockList} render={this.renderBlock}>
-            <TitleText text="Blocks" isTableTitle={true} img={require('@/img/blocks.png')}>
-              <Button text="View all" onClick={this.onViewBlock} />
+            <TitleText text={this.intrl.home.blocks} isTableTitle={true} img={require('@/img/blocks.png')}>
+              <Button text={this.intrl.btn.viewAll} onClick={this.onViewBlock} />
             </TitleText>
           </Table>
         </div>
         <div className="tran-table">
           <Table tableTh={this.transTableTh} tableData={this.props.home.transList} render={this.renderTran}>
-            <TitleText text="Transactions" isTableTitle={true} img={require('@/img/transactions.png')} >
-              <Button text="View all" onClick={this.onViewTran} />
+            <TitleText text={this.intrl.home.transactions} isTableTitle={true} img={require('@/img/transactions.png')} >
+              <Button text={this.intrl.btn.viewAll} onClick={this.onViewTran} />
             </TitleText>
           </Table>
         </div>

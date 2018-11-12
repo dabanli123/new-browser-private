@@ -8,6 +8,7 @@ import Search from './search';
 import TableData from './tabledata';
 import './index.less';
 import { IHomeProps } from './interface/home.interface';
+import { injectIntl } from 'react-intl';
 
 @inject('home')
 @observer
@@ -25,4 +26,4 @@ class Home extends React.Component<IHomeProps,any> {
   }
 }
 
-export default Home;
+export default injectIntl(Home);

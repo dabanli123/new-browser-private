@@ -8,7 +8,12 @@ import Button from '@/components/Button/Button';
 import { History } from 'history'
 import EventHandler from 'utils/event';
 import * as Neotool from '@/utils/neotool';
+import zh from '@/img/ch.png';
+import en from '@/img/en.png';
+import store from "@/store";
+// import { injectIntl } from 'react-intl';
 import './index.less';
+import { observer } from 'mobx-react';
 
 interface IState {
   isShowSearch: boolean,         // 是否在首页显示search功能
@@ -18,12 +23,15 @@ interface IState {
   isShowBrowse: boolean,         // 是否显示浏览下拉框
   isShowEnv: boolean,            // 是否显示版本下拉框
   isShowLanguage: boolean        // 是否显示语言下拉框
+  languageText:string,
+  languageImg:ImageData
 }
 
 interface IProps {
-  history: History
+  history: History,
+  locale:any
 }
-
+@observer
 export default class Header extends React.Component<IProps, IState>{
   public state = {
     isShowSearch: false,  
@@ -32,7 +40,9 @@ export default class Header extends React.Component<IProps, IState>{
     isShowBrowse: false,
     isShowEnv: false,
     isShowLanguage: false,
-    inputPlaceHolder: 'Search for block height/hash/address or transaction id'
+    inputPlaceHolder: 'Search for block height/hash/address or transaction id',
+    languageText:store['common'].language === 'en'?"En":"中",
+    languageImg:store['common'].language === 'en'?en:zh
   }
   public componentDidMount() {
     if (this.props.history.location.pathname !== '/') {
@@ -167,6 +177,20 @@ export default class Header extends React.Component<IProps, IState>{
     const locations = this.props.history.location;
     window.location.href = `${location.origin}${base || ''}${locations.pathname}${locations.search}${locations.hash}`
   }
+  public onClickEnglish = () =>{
+    store['common'].language = 'en';
+    this.setState({
+      languageText:"En",
+      languageImg:en
+    })
+  }
+  public onClickChinese = () =>{
+    store['common'].language = 'zh';
+    this.setState({
+      languageText:"中",
+      languageImg:zh
+    })
+  }
   public render() {
     return (
       <div className="header-wrap">
@@ -181,7 +205,7 @@ export default class Header extends React.Component<IProps, IState>{
                 <div className="select-box">
                   <div className="select-content">
                     <label onClick={this.toggleEnv}>
-                      <span>{process.env.REACT_APP_SERVER_ENV === 'DEV' ? 'Testnet' : 'Mainnet'}</span>
+                      <span>{process.env.REACT_APP_SERVER_ENV === 'DEV' ? this.props.locale.testnet : this.props.locale.mainnet}</span>
                       <span className="triangle" />
                     </label>
                   </div>
@@ -189,8 +213,8 @@ export default class Header extends React.Component<IProps, IState>{
                     this.state.isShowEnv && (
                       <div className="select-wrap" id="selectlang" onClick={this.toggleEnv}>
                         <ul>
-                          <li><a onClick={this.getPath.bind(this, '')}>Mainnet</a></li>
-                          <li><a onClick={this.getPath.bind(this, '/test')}>Testnet</a></li>
+                          <li><a onClick={this.getPath.bind(this, '')}>{this.props.locale.mainnet}</a></li>
+                          <li><a onClick={this.getPath.bind(this, '/test')}>{this.props.locale.testnet}</a></li>
                         </ul>
                       </div>
                     )
@@ -201,8 +225,8 @@ export default class Header extends React.Component<IProps, IState>{
                 <div className="language-toggle" id="language">
                   <label onClick={this.toggleLanguage}>
                     <div className="language-content">
-                      <span className="lang-text">中</span>
-                      <img src={require('@/img/ch.png')} alt="ch.png" />
+                      <span className="lang-text">{this.state.languageText}</span>
+                      <img src={this.state.languageImg} alt="ch.png" />
                     </div>
                     <span className="middle-line" />
                     <div className="triangle-wrap">
@@ -213,8 +237,8 @@ export default class Header extends React.Component<IProps, IState>{
                     this.state.isShowLanguage && (
                       <div className="select-wrap" id="selectlang" onClick={this.toggleLanguage}>
                         <ul>
-                          <li><a href="#">中文</a></li>
-                          <li><a href="#">English</a></li>
+                          <li><a onClick={this.onClickChinese} href="javascript:;">中文</a></li>
+                          <li><a onClick={this.onClickEnglish} href="javascript:;">English</a></li>
                         </ul>
                       </div>
                     )
@@ -225,12 +249,12 @@ export default class Header extends React.Component<IProps, IState>{
           </div>
           <div className="header-menu">
             <ul>
-              <li><Link to="/">Explorer</Link></li>
+              <li><Link to="/">{this.props.locale.explorer}</Link></li>
               <li>
                 <div className="select-box">
                   <div className="select-content">
                     <label onClick={this.toggleBrowse}>
-                      <span>Browse</span>
+                      <span>{this.props.locale.browse}</span>
                       <span className="triangle" />
                     </label>
                   </div>
@@ -238,20 +262,20 @@ export default class Header extends React.Component<IProps, IState>{
                     this.state.isShowBrowse && (
                       <div className="select-wrap" id="selectlang" onClick={this.toggleBrowse}>
                         <ul>
-                          <li><Link to="/blocks">Blocks</Link></li>
-                          <li><Link to="/transactions">Transactions</Link></li>
-                          <li><Link to="/addresses">Addresses</Link></li>
+                          <li><Link to="/blocks">{this.props.locale.blocks}</Link></li>
+                          <li><Link to="/transactions">{this.props.locale.transactions}</Link></li>
+                          <li><Link to="/addresses">{this.props.locale.addresses}</Link></li>
                         </ul>
                       </div>
                     )
                   }
                 </div>
               </li>
-              <li><Link to="/assets">Assets</Link></li>
-              <li><Link to="/nns">NNS Event</Link></li>
+              <li><Link to="/assets">{this.props.locale.assets}</Link></li>
+              <li><Link to="/nns">{this.props.locale.nnsevent}</Link></li>
               <li>
                 {
-                  process.env.REACT_APP_SERVER_ENV === 'DEV' ? <a href="https://testwallet.nel.group/" target="_blank">Wallet</a> : <a href="https://wallet.nel.group/" target="_blank">Wallet</a>
+                  process.env.REACT_APP_SERVER_ENV === 'DEV' ? <a href="https://testwallet.nel.group/" target="_blank">{this.props.locale.wallet}</a> : <a href="https://wallet.nel.group/" target="_blank">{this.props.locale.wallet}</a>
                 }
               </li>
               {
@@ -286,3 +310,4 @@ export default class Header extends React.Component<IProps, IState>{
     );
   }
 }
+// export default injectIntl(Header);

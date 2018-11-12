@@ -15,21 +15,22 @@ import Page from '@/components/Page';
 @inject('block')
 @observer
 class Block extends React.Component<IBlockProps, any> {
+  public intrl = this.props.intl.messages;
   public blockTableTh = [
     {
-      name: 'Height',
+      name: this.intrl.tableTh.height,
       key: 'index'
     },
     {
-      name: 'Size',
+      name: this.intrl.tableTh.size,
       key: 'size'
     },
     {
-      name: 'Transactions',
+      name: this.intrl.tableTh.transaction,
       key: 'txcount'
     },
     {
-      name: 'Created on',
+      name: this.intrl.tableTh.create,
       key: 'time'
     }
   ]
@@ -77,7 +78,7 @@ class Block extends React.Component<IBlockProps, any> {
     const blockheight = parseInt(this.props.block.blockHeight, 10);
     return (
       <div className="block-page">
-        <TitleText text="Blocks" img={require('@/img/blocks.png')} />
+        <TitleText text={this.intrl.block.title1} img={require('@/img/blocks.png')} />
         <div className="block-table">
           <Table
             tableTh={this.blockTableTh}
