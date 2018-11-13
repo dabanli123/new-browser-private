@@ -14,96 +14,77 @@ class Search extends React.Component<IHomeProps, any> {
     inputValue: '',
     inputPlaceHolder: 'Search for block height/hash/address or transaction id'
   }
-  public onChange = (value: string) =>
-  {
+  public onChange = (value: string) => {
     this.setState({
       inputValue: value
     })
     console.log(value)
-    if (value === '')
-    {
+    if (value === '') {
       this.props.home.searchAssetList = [];
       return
     }
     this.props.home.searchAsset(value);
   }
-  public onFocus = () =>
-  {
+  public onFocus = () => {
     this.setState({
       inputPlaceHolder: ''
     })
   }
-  public onBlur = () =>
-  {
+  public onBlur = () => {
     this.setState({
       inputPlaceHolder: 'Search for block height/hash/address or transaction id'
     })
   }
   // 搜索功能
-  public toSearchInfo = () =>
-  {
+  public toSearchInfo = () => {
     console.log("search");
     let search: string = this.state.inputValue;
     search = search.trim();
-    if (search)
-    {
-      if (search.length === 34)
-      {
-        if (Neotool.verifyPublicKey(search))
-        { // 是否是地址
+    if (search) {
+      if (search.length === 34) {
+        if (Neotool.verifyPublicKey(search)) { // 是否是地址
           this.props.history.push('/address/' + search);
-        } else
-        {
+        } else {
           return false;
         }
         return;
-      } else
-      {
+      } else {
         search = search.replace('0x', '');
-        if (search.length === 64)
-        {
+        if (search.length === 64) {
           this.props.history.push('/transaction/0x' + search);
         }
-        else if (search.length === 40)
-        {
+        else if (search.length === 40) {
           this.props.history.push('/nep5/0x' + search);
         }
-        else if (!isNaN(Number(search)))
-        {
+        else if (!isNaN(Number(search))) {
           this.props.history.push('/block/' + search);
         }
-        else if (search.length > 64)
-        {
+        else if (search.length > 64) {
           // let length = this.searchList.children.length;
           // if (length) {
           // let data = this.searchList.children[this.currentLine - 1].getAttribute("data");
 
           // }
           this.props.history.push('/asset/0x' + search);
-        } else
-        {
+        } else {
           return false;
         }
       }
-    } else
-    {
+    } else {
       return false;
     }
     return;
   }
-  public goAssetInfo = (assetid) =>
-  {
+  public goAssetInfo = (assetid) => {
     console.log(assetid);
     this.props.home.searchAssetList = [];
-    if (assetid.length === 42)
-    {
+    if (assetid.length === 42) {
       this.props.history.push('/nep5/' + assetid);
-    }else{
+    } else {
       this.props.history.push('/asset/' + assetid);
     }
   }
-  public render()
-  {
+  public render() {
     return (
       <div className="search-page">
         <Input
@@ -125,10 +106,11 @@ class Search extends React.Component<IHomeProps, any> {
         {
           this.props.home.searchAssetList.length !== 0 && (
             <div className="search-text">
-              <div className="hint-wrapper" />
+              <div className="hint-wrapper">
+                <div className="arrow" />
+              </div>
               <ul className="search-list">
-                {this.props.home.searchAssetList.map((key, value) =>
-                {
+                {this.props.home.searchAssetList.map((key, value) => {
                   return <li key={value} onClick={this.goAssetInfo.bind(this, key.assetid)}>{key.name}({key.assetid})</li>
                 })}
               </ul>

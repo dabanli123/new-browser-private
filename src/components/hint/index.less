@@ -1,9 +1,11 @@
 .hint-box {
     display: inline-block;
     margin-left: 5px;
-    vertical-align: middle;
+    //vertical-align: middle;
     width: .14rem;
     height: .14rem;
+    position: relative;
+    top:1.5px;
     .hint-msg{
         position: relative; 
         .hint-img {
@@ -19,17 +21,17 @@
         }
         .hint-content {
             display: none;
-            width: 2.8rem; 
+            width: 290px; 
             box-sizing: border-box;   
             background: @text-fff;
             box-shadow: 0 0 6px 0 rgba(162,162,162,0.50);
             border-radius: 3px;
             padding: 25px 15px;
             position: absolute;
-            top: .28rem;
-            right: -1.50rem;
+            top: 50%;
+            right: -310px;
             z-index: 1;
-            transform: translateX(-50%);
+            transform: translateY(-50%);
             p {     
                 text-indent: 2em;
                 font-size: 12px;
@@ -41,23 +43,67 @@
                 text-align: justify;
             }
         }
-        .hint-content:after {
-            content: "";
-            // clip: rect(.2rem,.4rem,.4rem,0);
-            display: block;
-            width: 0;
-            height: 0;
-            border: .1rem solid transparent;
-            border-bottom-color: @text-fff;
-            position: absolute;
-            right: .07rem;
-            top: -.1rem;
-            transform: translateY(-50%);
+        .hint-content {
+            .hint-wrapper {
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                top: 50%;
+                left: -15px;
+                margin-top: -15px;
+                clip: rect(0,15px,30px,0);  
+
+                .arrow {
+                    width:20px;
+                    height:20px;
+                    transform: rotate(-45deg);
+                    background: #fff;
+                    box-shadow: -2px 0 10px 0 rgba(185, 185, 185, 0.5);
+                    margin-left:10px;
+                    margin-top:3px;
+                }
             }
-            &:hover {
+        }
+        &:hover {
             .hint-content {
                 display: block;
             }
         }
     }    
+
 }  
+
+@media screen and (max-width:768px) {
+    .hint-box {
+        .hint-msg {
+            position: relative;
+            .hint-content {
+                top: .25rem;
+                transform: translate(-45%,0);
+                left:50%;
+                right:initial;
+
+                .hint-wrapper {
+                    width: 30px;
+                    height: 30px;
+                    position: absolute;
+                    top: -15px;
+                    left: 50%;
+                    margin-left: -.25rem;
+                    margin-top:0;
+                    clip: rect(0,30px,15px,0);  
+    
+                    .arrow {
+                        width:20px;
+                        height:20px;
+                        transform: rotate(-45deg);
+                        background: #fff;
+                        box-shadow: 0px -2px 10px 0 rgba(185, 185, 185, 0.5);
+                        margin-left:0;
+                        margin-top:10px;
+                    }
+                }    
+            }
+        }
+    }
+}

@@ -21,6 +21,11 @@ addLocaleData([...en, ...zh]);
 
 // 初始化请求
 
+const sessionLanguage = sessionStorage.getItem('language');
+
+if (sessionLanguage) {
+  store['common'].language = sessionLanguage;
+}
 
 const ObserverRender = observer(() => {
   let messages = en_US;
@@ -30,7 +35,7 @@ const ObserverRender = observer(() => {
     messages = zh_CN;
     locale = 'zh';
   }
-  
+
   return (
     <IntlProvider
       locale={locale}

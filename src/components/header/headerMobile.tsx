@@ -5,18 +5,22 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './headerMobile.less';
 import EventHandler from 'utils/event';
+import { observer } from 'mobx-react';
 interface IState {
   isShowMenu: boolean,
   isShowBrowse: boolean,
   isShowEnv: boolean,
+  inputValue: string,
 }
 
 
+@observer
 export default class HeaderMobile extends React.Component<any, IState> {
   public state = {
     isShowMenu: false,
     isShowBrowse: false,
     isShowEnv: false,
+    inputValue: ''
   }
   public toggleMenu = () => {
     this.setState({
@@ -52,6 +56,12 @@ export default class HeaderMobile extends React.Component<any, IState> {
 
   public componentDidMount() {
     EventHandler.add(this.globalClick);
+
+    this.props.history.listen(() => {
+      this.setState({
+        isShowMenu: false
+      })
+    })
   }
   public componentWillUnmount() {
     EventHandler.remove(this.globalClick);
@@ -67,6 +77,31 @@ export default class HeaderMobile extends React.Component<any, IState> {
     const locations = this.props.history.location;
     window.location.href = `${location.origin}${base || ''}${locations.pathname}${locations.search}${locations.hash}`
   }
+
+  // 点击跳转到资产详情
+  public goAssetInfo = (assetid) => {
+    console.log(assetid);
+    // this.props.home.searchAssetList = [];
+    if (assetid.length === 42) {
+      this.props.history.push('/nep5/' + assetid);
+    } else {
+      this.props.history.push('/asset/' + assetid);
+    }
+  }
+  // 输入变化
+  public onChange = (ev: any) => {
+    const value = ev.target.value;
+    this.setState({
+      inputValue: ev.target.value
+    })
+    console.log(value)
+    if (value === '') {
+      this.props.home.searchAssetList = [];
+      return
+    }
+    this.props.home.searchAsset(value);
+  }
+
   public render() {
     return (
       <div className="header-mobile-container">
@@ -130,9 +165,29 @@ export default class HeaderMobile extends React.Component<any, IState> {
 
               <div className="list-box">
                 <div className="search-box">
-                  <input type="text" placeholder="Block height/hash/address or transaction id" />
+                  <input
+                    type="text"
+                    placeholder="Block height/hash/address or transaction id"
+                    value={this.state.inputValue}
+                    onChange={this.onChange} />
                   <img src={require('@/img/search.png')} alt="" />
                 </div>
+
+                {
+                  this.props.home.searchAssetList.length !== 0 && (
+                    <div className="search-text">
+                      <div className="hint-wrapper">
+                        <div className="arrow" />
+                      </div>
+                      <ul className="search-list">
+                        {
+                          this.props.home.searchAssetList.map((key, value) => {
+                            return <li key={value} onClick={this.goAssetInfo.bind(this, key.assetid)}>{key.name}({key.assetid})</li>
+                          })
+                        }
+                      </ul>
+                    </div>
+                  )}
               </div>
             </div>
           )

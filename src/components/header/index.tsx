@@ -13,11 +13,10 @@ import en from '@/img/en.png';
 import store from "@/store";
 // import { injectIntl } from 'react-intl';
 import './index.less';
-import { observer, inject } from 'mobx-react';
-// import { IHomeProps } from '@/containers/home/interface/home.interface';
+import { observer } from 'mobx-react';
+import { IHomeStore } from '@/containers/home/interface/home.interface';
 
-interface IState
-{
+interface IState {
   isShowSearch: boolean,         // 是否在首页显示search功能
   inputValue: string,            // 输入框的输入
   inputPlaceHolder: string,      // 输入框的placeholder
@@ -29,14 +28,13 @@ interface IState
   languageImg: ImageData
 }
 
-interface IProps
-{
-  // home:IHomeProps,
+interface IProps {
+  home: IHomeStore,
   history: History,
   locale: any,
-  btn:any
+  btn: any,
 }
-@inject("home")
+
 @observer
 export default class Header extends React.Component<IProps, IState>{
   public state = {
@@ -50,36 +48,31 @@ export default class Header extends React.Component<IProps, IState>{
     languageText: store['common'].language === 'en' ? "En" : "中",
     languageImg: store['common'].language === 'en' ? en : zh
   }
-  public componentDidMount()
-  {
-    if (this.props.history.location.pathname !== '/')
-    {
+  public componentDidMount() {
+    if (this.props.history.location.pathname !== '/') {
       this.setState({
         isShowSearchBtn: true
       })
     }
 
-    this.props.history.listen(() =>
-    {
-      console.log(this.props.history.location.pathname);
+    this.props.history.listen(() => {
+      let isShowSearchBtn = false;
 
-      if (this.props.history.location.pathname !== '/')
-      {
-        this.setState({
-          isShowSearchBtn: true
-        })
-      } else
-      {
-        this.setState({
-          isShowSearchBtn: false
-        })
+      if (this.props.history.location.pathname !== '/') {
+        isShowSearchBtn = true
       }
+
+      this.setState({
+        isShowSearchBtn,
+        isShowSearch: false
+      })
+
+      this.props.home.searchAssetList = [];
     })
 
     EventHandler.add(this.globalClick);
   }
-  public globalClick = () =>
-  {
+  public globalClick = () => {
     this.setState({
       isShowEnv: false,
       isShowBrowse: false,
@@ -87,81 +80,65 @@ export default class Header extends React.Component<IProps, IState>{
     })
   }
   // 输入变化
-  public onChange = (value: string) =>
-  {
+  public onChange = (value: string) => {
     this.setState({
       inputValue: value
     })
     console.log(value)
-    if (value === '')
-    {
-      // this.props.home.home.searchAssetList = [];
+    if (value === '') {
+      this.props.home.searchAssetList = [];
       return
     }
-    // this.props.home.home.searchAsset(value);
+    this.props.home.searchAsset(value);
   }
   // input获取焦点
-  public onFocus = () =>
-  {
+  public onFocus = () => {
     this.setState({
       inputPlaceHolder: ''
     })
   }
   // 失去焦点
-  public onBlur = () =>
-  {
+  public onBlur = () => {
     this.setState({
       inputPlaceHolder: 'Search for block height/hash/address or transaction id'
     })
   }
   // 搜索功能
-  public toSearchInfo = () =>
-  {
+  public toSearchInfo = () => {
     console.log("search");
     let search: string = this.state.inputValue;
     search = search.trim();
-    if (search)
-    {
-      if (search.length === 34)
-      {
-        if (Neotool.verifyPublicKey(search))
-        { // 是否是地址
+    if (search) {
+      if (search.length === 34) {
+        if (Neotool.verifyPublicKey(search)) { // 是否是地址
           this.props.history.push('/address/' + search);
-        } else
-        {
+        } else {
           return false;
         }
         return;
-      } else
-      {
+      } else {
         search = search.replace('0x', '');
-        if (search.length === 64)
-        {
+        if (search.length === 64) {
           this.props.history.push('/transaction/0x' + search);
         }
-        else if (search.length === 40)
-        {
+        else if (search.length === 40) {
           this.props.history.push('/nep5/0x' + search);
         }
-        else if (!isNaN(Number(search)))
-        {
+        else if (!isNaN(Number(search))) {
           this.props.history.push('/block/' + search);
         }
-        else if (search.length > 64)
-        {
+        else if (search.length > 64) {
           // let length = this.searchList.children.length;
           // if (length) {
           // let data = this.searchList.children[this.currentLine - 1].getAttribute("data");
 
           // }
           this.props.history.push('/asset/0x' + search);
-        } else
-        {
+        } else {
           return false;
         }
       }
-    } else
-    {
+    } else {
       return false;
     }
     this.setState({
@@ -170,87 +147,87 @@ export default class Header extends React.Component<IProps, IState>{
     return;
   }
   // 点击跳转到资产详情
-  public goAssetInfo = (assetid) =>
-  {
+  public goAssetInfo = (assetid) => {
     console.log(assetid);
     // this.props.home.searchAssetList = [];
-    if (assetid.length === 42)
-    {
+    if (assetid.length === 42) {
       this.props.history.push('/nep5/' + assetid);
-    } else
-    {
+    } else {
       this.props.history.push('/asset/' + assetid);
     }
   }
   // 是否显示search
-  public onToggleSearch = () =>
-  {
+  public onToggleSearch = () => {
     this.setState({
       isShowSearch: !this.state.isShowSearch,
       inputValue: ''
-    },()=>{
-      console.log(this.state.isShowSearch);
-      
+    }, () => {
+      if (!this.state.inputValue) {
+        this.props.home.searchAssetList = [];
+      }
     })
-    
+
   }
   // 是否显示版本
-  public toggleEnv = (e) =>
-  {
+  public toggleEnv = (e) => {
     this.setState({
       isShowEnv: !this.state.isShowEnv,
       isShowBrowse: false,
       isShowLanguage: false,
+      isShowSearch: false,
     })
     e.stopPropagation();
   }
   // 是否显示语言
-  public toggleLanguage = (e) =>
-  {
+  public toggleLanguage = (e) => {
     this.setState({
       isShowEnv: false,
       isShowBrowse: false,
-      isShowLanguage: !this.state.isShowLanguage
+      isShowLanguage: !this.state.isShowLanguage,
+      isShowSearch: false,
     })
     e.stopPropagation();
   }
   // 是否显示浏览
-  public toggleBrowse = (e) =>
-  {
+  public toggleBrowse = (e) => {
     this.setState({
       isShowEnv: false,
       isShowBrowse: !this.state.isShowBrowse,
-      isShowLanguage: false
+      isShowLanguage: false,
+      isShowSearch: false,
     })
     e.stopPropagation();
   }
-  public componentWillUnmount()
-  {
+  public componentWillUnmount() {
     EventHandler.remove(this.globalClick);
   }
-  public getPath = (base) =>
-  {
+  public getPath = (base) => {
     const locations = this.props.history.location;
     window.location.href = `${location.origin}${base || ''}${locations.pathname}${locations.search}${locations.hash}`
   }
-  public onClickEnglish = () =>
-  {
+  public onClickEnglish = () => {
     store['common'].language = 'en';
     this.setState({
       languageText: "En",
       languageImg: en
     })
+    sessionStorage.setItem('language', 'en');
+    setTimeout(() => {
+      window.location.reload();
+    })
   }
-  public onClickChinese = () =>
-  {
+  public onClickChinese = () => {
     store['common'].language = 'zh';
     this.setState({
       languageText: "中",
       languageImg: zh
     })
+    sessionStorage.setItem('language', 'zh');
+    setTimeout(() => {
+      window.location.reload();
+    })
   }
-  public render()
-  {
+  public render() {
     return (
       <div className="header-wrap">
         <div className="header-content">
@@ -362,20 +339,21 @@ export default class Header extends React.Component<IProps, IState>{
                 style={{ width: "62.5%", margin: "15px 0 20px 0", minWidth: "631px" }}
               />
               <Button text={this.props.btn.search} onClick={this.toSearchInfo} search={true} style={{ position: "absolute", top: "25px", right: "19%" }} />
-              {/* {
-                this.props.home.searchAssetList.length !== 0 && ( */}
+              {
+                this.props.home.searchAssetList.length !== 0 && (
                   <div className="search-text">
-                    <div className="hint-wrapper" />
+                    <div className="hint-wrapper">
+                      <div className="arrow" />
+                    </div>
                     <ul className="search-list">
-                      {/* {this.props.home.searchAssetList.map((key, value) =>
                       {
-                        return <li key={value} onClick={this.goAssetInfo.bind(this, key.assetid)}>{key.name}({key.assetid})</li>
-                      })} */}
-                      <li>sfasdf</li>
+                        this.props.home.searchAssetList.map((key, value) => {
+                          return <li key={value} onClick={this.goAssetInfo.bind(this, key.assetid)}>{key.name}({key.assetid})</li>
+                        })
+                      }
                     </ul>
                   </div>
-                {/* )
-              } */}
+                )}
             </div>
           )
         }

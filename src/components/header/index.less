@@ -185,7 +185,7 @@
             width: 9rem;
             min-width: 900px;
             position: absolute;
-            top: 90px;
+            top: 70px;
             left: 50%;
             -webkit-transform: translateX(-50%);
             -moz-transform: translateX(-50%);
@@ -205,6 +205,25 @@
                     &:hover{
                         background:#ddd;
                     }
+                }
+            }
+
+            .hint-wrapper {
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                top: -15px;
+                left: 50%;
+                margin-left: -15px;
+                clip: rect(0,30px,15px,0);  
+
+                .arrow {
+                    width:20px;
+                    height:20px;
+                    transform: rotate(-45deg);
+                    background: #fff;
+                    box-shadow: 0 2px 10px 0 rgba(185, 185, 185, 0.5);
+                    margin-top:10px;
                 }
             }
         }
