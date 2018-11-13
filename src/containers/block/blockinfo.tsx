@@ -131,38 +131,38 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
         return (
             <div className="blockinfo-page">
                 <div className="goback-wrapper">
-                    <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  Go back</span>
+                    <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  {this.intrl.btn.goback}</span>
                 </div>
                 <div className="info-content">
-                    <TitleText text="Block information" isInfoTitle={true} />
+                    <TitleText text={this.intrl.block.titleinfo1} isInfoTitle={true} />
                     <div className="info-list">
                         <ul>
                             <li>
-                                <span className="type-name">Block height</span>
+                                <span className="type-name">{this.intrl.block.blockHeight}</span>
                                 <span className="type-content">{this.props.block.blockInfo && this.props.block.blockInfo.index}</span>
                             </li>
                             <li>
-                                <span className="type-name">Hash</span>
+                                <span className="type-name">{this.intrl.block.hash}</span>
                                 <span className="type-content">{this.props.block.blockInfo && this.props.block.blockInfo.hash}</span>
                             </li>
                             <li>
-                                <span className="type-name">Time</span>
+                                <span className="type-name">{this.intrl.block.time}</span>
                                 <span className="type-content">
                                     {this.props.block.blockInfo && formatTime.format('yyyy/MM/dd | hh:mm:ss', this.props.block.blockInfo.time.toString(), this.props.intl.locale)}
                                 </span>
                             </li>
                             <li>
-                                <span className="type-name">Size</span>
+                                <span className="type-name">{this.intrl.block.size}</span>
                                 <span className="type-content">{this.props.block.blockInfo && this.props.block.blockInfo.size}</span>
                             </li>
                             <li>
-                                <span className="type-name">Previous Block</span>
+                                <span className="type-name">{this.intrl.block.previous}</span>
                                 <span className="type-content">
                                     <a onClick={this.goPreviousBlock} href="javascript:;">{this.props.block.blockInfo && this.props.block.blockInfo.index - 1}</a>
                                 </span>
                             </li>
                             <li>
-                                <span className="type-name">Next Block</span>
+                                <span className="type-name">{this.intrl.block.next}</span>
                                 <span className="type-content">
                                     <a onClick={this.goNextBlock} href="javascript:;">{this.props.block.blockInfo && this.props.block.blockInfo.index + 1}</a>
                                 </span>
@@ -170,7 +170,7 @@ class BlockInfo extends React.Component<IBlockProps, IBlockInfoState> {
                         </ul>
                     </div>
                 </div>
-                <TitleText text="Transactions" />
+                <TitleText text={this.intrl.block.titleinfo2} />
                 <div className="blockinfo-tran-table">
                     <Table tableTh={this.blockTransTableTh} tableData={this.blockTranListByPage()} render={this.renderTran} />
                     {/* {(this.props.block.blockInfo && this.props.block.blockInfo.tx.length>=10) &&  */}

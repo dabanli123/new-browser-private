@@ -9,12 +9,14 @@ import { toThousands } from '@/utils/numberTool';
 import './index.less'
 import { ITransactionsProps } from './interface/transaction.interface';
 import { observer, inject } from 'mobx-react';
+import { injectIntl } from 'react-intl';
 import Page from '@/components/Page';
 
 @inject('transaction')
 @observer
 class Transactions extends React.Component<ITransactionsProps, {}>
 {
+  public intrl = this.props.intl.messages;
   public options = [
     {
       id: 'all',
@@ -59,17 +61,17 @@ class Transactions extends React.Component<ITransactionsProps, {}>
   ]
   public transTableTh = [
     {
-      name: 'Type',
+      name: this.intrl.tableTh.type,
       key: 'type',
     },
     {
-      name: 'TXID',
+      name: this.intrl.tableTh.txid,
       key: 'txid'
     }, {
-      name: 'Height',
+      name: this.intrl.tableTh.height,
       key: 'blockindex'
     }, {
-      name: 'Size',
+      name: this.intrl.tableTh.size,
       key: 'size'
     }
   ]
@@ -141,7 +143,7 @@ class Transactions extends React.Component<ITransactionsProps, {}>
 
     return (
       <div className="transaction-page">
-        <TitleText text="Transactions" img={require('@/img/transactions.png')} isInline={true}>
+        <TitleText text={this.intrl.transaction.title1} img={require('@/img/transactions.png')} isInline={true}>
           <Select options={this.options} text="Type" onCallback={this.onCallback} />
         </TitleText>
         {
@@ -166,4 +168,4 @@ class Transactions extends React.Component<ITransactionsProps, {}>
   }
 }
 
-export default Transactions;
+export default injectIntl(Transactions);

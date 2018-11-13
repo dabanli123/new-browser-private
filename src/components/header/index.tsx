@@ -112,7 +112,7 @@ export default class Header extends React.Component<IProps, IState>{
           this.props.history.push('/transaction/0x' + search);
         }
         else if (search.length === 40) {
-          this.props.history.push('/nep5/' + search);
+          this.props.history.push('/nep5/0x' + search);
         }
         else if (!isNaN(Number(search))) {
           this.props.history.push('/block/' + search);
@@ -123,7 +123,7 @@ export default class Header extends React.Component<IProps, IState>{
             // let data = this.searchList.children[this.currentLine - 1].getAttribute("data");
             
           // }
-          this.props.history.push('/asset/' + search);
+          this.props.history.push('/asset/0x' + search);
         } else {
           return false;
         }

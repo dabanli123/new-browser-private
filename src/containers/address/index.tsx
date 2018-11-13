@@ -14,21 +14,22 @@ import { IAddressProps } from './interface/address.interface';
 @inject('address')
 @observer
 class Address extends React.Component<IAddressProps, {}> {
+  public intrl = this.props.intl.messages;
   public addrTableTh = [
     {
-      name: 'Address',
+      name: this.intrl.tableTh.address,
       key: 'addr'
     },
     {
-      name: 'First transaction time',
+      name: this.intrl.tableTh.firsttime,
       key: 'firstuse'
     },
     {
-      name: 'Last transaction time',
+      name: this.intrl.tableTh.lasttime,
       key: 'lastuse'
     },
     {
-      name: 'Transactions',
+      name: this.intrl.tableTh.transaction,
       key: 'txcount'
     }
   ]
@@ -83,7 +84,7 @@ class Address extends React.Component<IAddressProps, {}> {
     console.log(this.props.address.addrCount)
     return (
       <div className="address-page">
-        <TitleText text="Addressses" img={require('@/img/address.png')} />
+        <TitleText text={this.intrl.address.title1} img={require('@/img/address.png')} />
         <div className="address-table-wrapper">
           <Table
             tableTh={this.addrTableTh}

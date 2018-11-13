@@ -15,6 +15,7 @@ import { IAssetProps } from './interface/asset.interface';
 @observer
 class Assets extends React.Component<IAssetProps, {}>
 {
+    public intrl = this.props.intl.messages;
     public options = [
         {
             id: 'asset',
@@ -27,23 +28,23 @@ class Assets extends React.Component<IAssetProps, {}>
     ]
     public AssetTableTh = [
         {
-            name: 'Asset',
+            name: this.intrl.tableTh.asset,
             key: 'asset'
         },
         {
-            name: 'Id',
+            name: this.intrl.tableTh.id,
             key: 'id'
         },
         {
-            name: 'Type',
+            name: this.intrl.tableTh.type,
             key: 'type'
         },
         {
-            name: 'Available',
+            name: this.intrl.tableTh.available,
             key: 'available'
         },
         {
-            name: 'Precision',
+            name: this.intrl.tableTh.precision,
             key: 'precision'
         }
     ]
@@ -147,8 +148,8 @@ class Assets extends React.Component<IAssetProps, {}>
     {
         return (
             <div className="asset-page">
-                <TitleText text="Assets" img={require('@/img/assets.png')} isInline={true}>
-                    <Select options={this.options} text="Type" onCallback={this.onCallback} />
+                <TitleText text={this.intrl.asset.title1} img={require('@/img/assets.png')} isInline={true}>
+                    <Select options={this.options} text={this.intrl.asset.type} onCallback={this.onCallback} />
                 </TitleText>
                 {
                     this.state.type === 'asset' &&

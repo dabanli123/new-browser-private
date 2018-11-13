@@ -11,6 +11,11 @@ export default {
     mainnet: "主网",
     testnet: "测试网",
   },
+  hint:{
+    type1:"确定期为竞拍第一阶段，时长为3天，此期间所有的出价都有效。当确定期最后一天有人出价时将触发最大时长为2天的随机期。否则竞拍即在确定期结束。",
+    type2:"随机期为竞拍第二阶段，最大时长为2天，此期间任意一个出价都有可能触发该域名竞拍的结束从而出价无效，越靠后的出价触发结束的可能性越大，因此请尽早出价以免错失该域名。",
+    type3:"此次出价触发竞拍结束，出价失败。"
+  },
   input: {
     placeholder: "Search for block height/hash/address or transaction id",
     domain: "请输入您想查询的域名"
@@ -56,7 +61,7 @@ export default {
   },
   page: {
     page: "第",
-    total1: "共 ",
+    total1: "，共 ",
     total2: " 页"
   },
   home: {
@@ -120,9 +125,9 @@ export default {
     live: "正在竞拍的域名数量",
     title1: "正在竞拍的域名",
     title2: "最具价值域名排行",
-    titleinfo1: "Domain name information",
-    titleinfo2: "域名信息",
-    titleinfo3: "交易详情",
+    titleinfo1: "域名信息",
+    titleinfo2: "竞拍信息",
+    titleinfo3: "转让信息",
     titleinfo4: "竞价排行",
     titleinfo5: "竞拍信息",
     ordered: "排序",
@@ -130,6 +135,7 @@ export default {
     orderprice: "最高竞价",
     period: "确定期",
     overtime: "随机期",
+    errortip:'域名长度需要在2～32个字节之间，只能是字母和数字。请加上后缀，“例如：XXXXXX.neo”',
     isAuctioned: " 已经成交了。",
     isBeing: " 正在竞拍中。",
     isAvailable: " 可以被竞拍!",
@@ -138,22 +144,29 @@ export default {
     yourWallet: "您的钱包来竞拍此域名!",
     startTime: "竞拍开始时间",
     endTime: "预计结束时间",
+    tips:"( 结束时间并不是确定的，为了避免您错失想要的域名，请尽早出价。 )",
     highestbid: "当前最高价",
     highestbidder: "竞标人",
     stage: "状态",
+    endedTime:"竞拍结束时间",
     startBlock: "开标所属区块",
     hammerPrice: "成交价",
     buyer: "中标人",
     currentOwer: "当前拥有者",
     expiration: "域名过期时间",
     domainName: "域名",
-    txid: "交易ID"
+    txid: "交易ID",
+    openAuction:"开标",
+    raisebid:"加价",
+    endof:"竞拍结束",
+    recover:"领回CGAS",
+    getDomain:"领取域名"
   },
   footer: {
     aboutUs:"关于我们",
     contactUs:"联系我们",
     other:"其他项目",
-    tips:"Making blockchain applications closer to people",
+    tips:"让区块链应用离人们更近",
     wallet:"Neo网页钱包",
     nns:"NNS 官网",
     neodun:"Neodun 官网",

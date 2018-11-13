@@ -15,61 +15,62 @@ import Select from '@/components/select';
 @observer
 class TableData extends React.Component<INNSProps, any>
 {
+  public intrl = this.props.intl.messages;
   public options = [
     {
       id: 'time',
-      name: "Auction-starting time",
+      name: this.intrl.nns.ordertime,
     },
     {
       id: 'price',
-      name: "Highest bid prices",
+      name: this.intrl.nns.orderprice,
     }
   ]
   public auctingTableTh = [
     {
-      name: 'Domain name',
+      name: this.intrl.tableTh.domainName,
       key: 'fulldomain'
     },
     {
-      name: 'TXid',
+      name: this.intrl.tableTh.txid,
       key: 'txid'
     },
     {
-      name: 'Highest bid',
+      name: this.intrl.tableTh.highestBid,
       key: 'maxPrice'
     },
     {
-      name: 'Highest bidder',
+      name: this.intrl.tableTh.highestBidder,
       key: 'maxBuyer'
     },
     {
-      name: 'Stage',
+      name: this.intrl.tableTh.stage,
       key: 'auctionState'
     }
   ]
   public auctedTableTh = [
     {
-      name: 'Rank',
+      name: this.intrl.tableTh.rank,
       key: 'range'
     },
     {
-      name: 'Domain name',
+      name: this.intrl.tableTh.domainName,
       key: 'fulldomain'
     },
     {
-      name: 'Txid',
+      name: this.intrl.tableTh.txid,
       key: 'txid'
     },
     {
-      name: 'Hammer price',
+      name: this.intrl.tableTh.hammerPrice,
       key: 'maxPrice'
     },
     {
-      name: 'Buyer',
+      name: this.intrl.tableTh.buyer,
       key: 'maxBuyer'
     },
     {
-      name: 'Expiration time',
+      name: this.intrl.tableTh.expiration,
       key: 'ttl'
     }
   ]
@@ -104,9 +105,9 @@ class TableData extends React.Component<INNSProps, any>
     }
     if (key === 'auctionState') {
       if (value === '0201') {
-        return <span className="nns-peirod">确定期</span>
+        return <span className="nns-peirod">{this.intrl.nns.period}</span>
       } else if (value === '0301') {
-        return <span className="nns-overtime">随机期</span>
+        return <span className="nns-overtime">{this.intrl.nns.overtime}</span>
       }
     }
     return null;
@@ -157,9 +158,9 @@ class TableData extends React.Component<INNSProps, any>
     return (
       <React.Fragment>
         <div className="being-wrapper">
-          <TitleText text="Live auctions" img={require('@/img/myauction.png')} isTableTitle={true} isInline={true}>
-            <Select defaultValue={this.props.nns.orderBy} options={this.options} text="Ordered by" onCallback={this.onCallback} style={{ minWidth: "186px" }} />
-            <Button text="View all" onClick={this.onViewAucting} />
+          <TitleText text={this.intrl.nns.title1} img={require('@/img/myauction.png')} isTableTitle={true} isInline={true}>
+            <Select defaultValue={this.props.nns.orderBy} options={this.options} text={this.intrl.nns.ordered} onCallback={this.onCallback} style={{ minWidth: "186px" }} />
+            <Button text={this.intrl.btn.viewAll} onClick={this.onViewAucting} />
           </TitleText>
           <Table
             tableTh={this.auctingTableTh}
@@ -168,8 +169,8 @@ class TableData extends React.Component<INNSProps, any>
           />
         </div>
         <div className="rank-wrapper">
-          <TitleText text="Most valuable domain name rank" img={require('@/img/rank.png')} isTableTitle={true} >
-            <Button text="View all" onClick={this.onViewAucted} />
+          <TitleText text={this.intrl.nns.title2} img={require('@/img/rank.png')} isTableTitle={true} >
+            <Button text={this.intrl.btn.viewAll} onClick={this.onViewAucted} />
           </TitleText>
           <Table
             tableTh={this.auctedTableTh}

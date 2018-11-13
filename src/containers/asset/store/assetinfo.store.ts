@@ -7,10 +7,10 @@ class AssetInfo implements IAssetInfoStore
 {
     @observable public assetInfo: IAsset | null;         // 资产详情
     @observable public nep5Info:INep5Asset | null;       // nep5资产详情
-    @observable public balanceRankCount: number = 0;     // 资产排名数量
+    @observable public balanceRankCount: number;     // 资产排名数量
     @observable public balanceRankList: IBalanceRank[];  // 资产排名列表
     @observable public nep5TransList:INep5TransList[];   // nep5的交易列表
-    @observable public nep5TransCount:number = 0;        // nep5的交易总数
+    @observable public nep5TransCount:number;        // nep5的交易总数
 
     /**
      * 获取资产详情

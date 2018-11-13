@@ -13,6 +13,7 @@ import Page from '@/components/Page';
 @inject('nns')
 @observer
 class NNSBeing extends React.Component<INNSProps, {}> {
+  public intrl = this.props.intl.messages;
   public state = {
     currentPage: 1,
     pageSize: 15,
@@ -20,32 +21,32 @@ class NNSBeing extends React.Component<INNSProps, {}> {
   public options = [
     {
       id: 'time',
-      name: "Auction-starting time",
+      name: this.intrl.nns.ordertime,
     },
     {
       id: 'price',
-      name: "Highest bid prices",
+      name: this.intrl.nns.orderprice,
     }
   ]
   public auctingTableTh = [
     {
-      name: 'Domain name',
+      name: this.intrl.tableTh.domainName,
       key: 'fulldomain'
     },
     {
-      name: 'TXid',
+      name: this.intrl.tableTh.txid,
       key: 'txid'
     },
     {
-      name: 'Highest bid',
+      name: this.intrl.tableTh.highestBid,
       key: 'maxPrice'
     },
     {
-      name: 'Highest bidder',
+      name: this.intrl.tableTh.highestBidder,
       key: 'maxBuyer'
     },
     {
-      name: 'Stage',
+      name: this.intrl.tableTh.stage,
       key: 'auctionState'
     }
   ]
@@ -81,9 +82,9 @@ class NNSBeing extends React.Component<INNSProps, {}> {
     }
     if (key === 'auctionState') {
       if (value === '0201') {
-        return <span className="nns-peirod">确定期</span>
+        return <span className="nns-peirod">{this.intrl.nns.period}</span>
       } else if (value === '0301') {
-        return <span className="nns-overtime">随机期</span>
+        return <span className="nns-overtime">{this.intrl.nns.overtime}</span>
       }
     }
     return null;
@@ -111,8 +112,8 @@ class NNSBeing extends React.Component<INNSProps, {}> {
   public render() {
     return (
       <div className="nnsbeing-page">
-        <TitleText text="Live auctions" img={require('@/img/myauction.png')} isInline={true}>
-          <Select defaultValue={this.props.nns.orderBy} options={this.options} text="Ordered by" onCallback={this.onCallback} style={{ minWidth: "186px" }} />
+        <TitleText text={this.intrl.nns.title1} img={require('@/img/myauction.png')} isInline={true}>
+          <Select defaultValue={this.props.nns.orderBy} options={this.options} text={this.intrl.nns.ordered} onCallback={this.onCallback} style={{ minWidth: "186px" }} />
         </TitleText>
         <div className="nnsbeing-table">
           <Table

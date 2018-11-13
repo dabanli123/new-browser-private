@@ -10,6 +10,7 @@ import { INNSInfoProps, IAuctionedInfo } from '@/containers/nns/interface/nnsinf
 @observer
 class DomainInfo extends React.Component<INNSInfoProps, {}>
 {
+    public intrl = this.props.intl.messages;
     // 跳转到地址详情页
     public toAddressInfo(address: string) {
         this.props.history.push('/address/' + address);
@@ -23,19 +24,19 @@ class DomainInfo extends React.Component<INNSInfoProps, {}>
         }
         return (
             <React.Fragment>
-                <TitleText text="Domain name information" isInfoTitle={true} />
+                <TitleText text={this.intrl.nns.titleinfo1} isInfoTitle={true} />
                 <div className="info-list">
                     <ul>
                         <li>
-                            <span className="type-name">Domain name</span>
+                            <span className="type-name">{this.intrl.nns.domainName}</span>
                             <span className="type-content">{domainInfo.fulldomain}</span>
                         </li>
                         <li>
-                            <span className="type-name">Current owner</span>
+                            <span className="type-name">{this.intrl.nns.currentOwer}</span>
                             <span className="type-content"><a onClick={this.toAddressInfo.bind(this, domainInfo.owner)} href="javascript:;">{domainInfo.owner}</a></span>
                         </li>
                         <li>
-                            <span className="type-name">Expiration date</span>
+                            <span className="type-name">{this.intrl.nns.expiration}</span>
                             <span className="type-content">
                             {formatTime.format('yyyy/MM/dd | hh:mm:ss', domainInfo.ttl, this.props.intl.locale)}
                             </span>

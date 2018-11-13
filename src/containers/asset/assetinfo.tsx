@@ -14,16 +14,17 @@ import './index.less'
 @inject('assetinfo')
 @observer
 class AssetInfo extends React.Component<IAssetInfoProps, {}> {
+    public intrl = this.props.intl.messages;
     public balanceRankTableTh = [
         {
-            name: 'Rank',
+            name: this.intrl.tableTh.rank,
             key: 'rank',
         },
         {
-            name: 'Address',
+            name: this.intrl.tableTh.address,
             key: 'addr'
         }, {
-            name: 'Amount',
+            name: this.intrl.tableTh.amount,
             key: 'balance'
         }
     ]
@@ -82,41 +83,41 @@ class AssetInfo extends React.Component<IAssetInfoProps, {}> {
         return (
             <div className="assetinfo-page">
                 <div className="goback-wrapper">
-                    <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  Go back</span>
+                    <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  {this.intrl.btn.goback}</span>
                 </div>
                 <div className="info-content">
-                    <TitleText text="Asset information" isInfoTitle={true} />
+                    <TitleText text={this.intrl.asset.titleinfo1} isInfoTitle={true} />
                     <div className="info-list">
                         <ul>
                             <li>
-                                <span className="type-name">Asset</span>
+                                <span className="type-name">{this.intrl.asset.asset}</span>
                                 <span className="type-content">{this.props.assetinfo.assetInfo && CoinTool.toChangeAssetName(this.props.assetinfo.assetInfo)}</span>
                             </li>
                             <li>
-                                <span className="type-name">Hash</span>
+                                <span className="type-name">{this.intrl.asset.hash}</span>
                                 <span className="type-content">{this.props.assetinfo.assetInfo && this.props.assetinfo.assetInfo.id}</span>
                             </li>
                             <li>
-                                <span className="type-name">Type</span>
+                                <span className="type-name">{this.intrl.asset.type}</span>
                                 <span className="type-content">{this.props.assetinfo.assetInfo && this.props.assetinfo.assetInfo.type}</span>
                             </li>
                             <li>
-                                <span className="type-name"> Available</span>
+                                <span className="type-name"> {this.intrl.asset.available}</span>
                                 <span className="type-content">{this.props.assetinfo.assetInfo && this.props.assetinfo.assetInfo.available}</span>
                             </li>
                             <li>
-                                <span className="type-name">Precision</span>
+                                <span className="type-name">{this.intrl.asset.precision}</span>
                                 <span className="type-content">{this.props.assetinfo.assetInfo && this.props.assetinfo.assetInfo.precision}</span>
                             </li>
                             <li>
-                                <span className="type-name">Admin</span>
+                                <span className="type-name">{this.intrl.asset.admin}</span>
                                 <span className="type-content">{this.props.assetinfo.assetInfo && this.props.assetinfo.assetInfo.admin}</span>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div className="asset-balance-rank">
-                    <TitleText text="Balance rank" />
+                    <TitleText text={this.intrl.asset.titleinfo2} />
                     <div className="assetinfo-balance-table">
                         <Table
                             tableTh={this.balanceRankTableTh}

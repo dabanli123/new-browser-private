@@ -11,6 +11,11 @@ export default {
     mainnet: "MainNet",
     testnet: "TestNet"
   },
+  hint:{
+    type1:"The auction period is the first stage of the auction and its duration is 3 days, during which all bids are valid. An overtime bidding of up to 2 days will be triggered when someone bids on the last day of the auction period. Otherwise the auction ends at the end of the auction period.",
+    type2:"The overtime bidding is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain.",
+    type3:"This bid triggered the closing of the domain auction and was not successful."
+  },
   input: {
     placeholder: "Search for block height/hash/address or transaction id",
     domain: "Search for domain name"
@@ -56,7 +61,7 @@ export default {
   },
   page: {
     page: "Page",
-    total1: "",
+    total1: ",",
     total2: " pages in total"
   },
   home: {
@@ -130,6 +135,7 @@ export default {
     orderprice: "Highest bid prices",
     period: "Auction period",
     overtime: "Overtime bidding",
+    errortip:`Domain names must be English characters or numbers, and can only be 2 to 32 characters in length.  Please don't forget to add ".neo"  suffix to the domain, e.g.“xxx.neo”`,
     isAuctioned: " is already auctioned off.",
     isBeing: " is being auctioned.",
     isAvailable: " is available!",
@@ -138,16 +144,23 @@ export default {
     yourWallet: "your wallet and start an auction!",
     startTime: "Auction start time",
     endTime: "Estimated end time",
+    tips:"( This end time is uncertain. Please bid early to avoid missing domain names. )",
     highestbid: "Highest bid",
     highestbidder: "Highest Bidder",
     stage: "Stage",
+    endedTime:"Auction end time",
     startBlock: "Auction-starting block",
     hammerPrice: "Hammer Price",
     buyer: "Buyer",
     currentOwer: "Current owner",
     expiration: "Expiration date",
     domainName: "Domain name",
-    txid: "TXID"
+    txid: "TXID",
+    openAuction:"Open Auction",
+    raisebid:"Raise Bid",
+    endof:"End of Auction",
+    recover:"Recover CGAS",
+    getDomain:"Get Domain"
   },
   footer: {
     aboutUs:"About Us",

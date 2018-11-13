@@ -13,34 +13,35 @@ import './index.less'
 @inject('assetinfo')
 @observer
 class AssetInfo extends React.Component<IAssetInfoProps, {}> {
+    public intrl = this.props.intl.messages;
     public balanceRankTableTh = [
         {
-            name: 'Rank',
+            name: this.intrl.tableTh.rank,
             key: 'rank',
         },
         {
-            name: 'Address',
+            name: this.intrl.tableTh.address,
             key: 'addr'
         }, {
-            name: 'Amount',
+            name: this.intrl.tableTh.amount,
             key: 'balance'
         }
     ]
     public nep5TransTableTh = [
         {
-            name: 'Txid',
+            name: this.intrl.tableTh.txid,
             key: 'txid',
         },
         {
-            name: 'From',
+            name: this.intrl.tableTh.from,
             key: 'from'
         },
         {
-            name: 'To',
+            name: this.intrl.tableTh.to,
             key: 'to'
         },
         {
-            name: 'Height',
+            name: this.intrl.tableTh.height,
             key: 'blockindex'
         }
     ]
@@ -59,7 +60,7 @@ class AssetInfo extends React.Component<IAssetInfoProps, {}> {
         this.props.assetinfo.getNep5Info(params["nep5id"]);
         this.props.assetinfo.getBalanceRankCount(params["nep5id"]);
         this.getBalanceRankList(params["nep5id"]);
-        this.props.assetinfo.getNep5TransCount("nep5", params["nep5id"]);
+        this.props.assetinfo.getNep5TransCount("asset", params["nep5id"]);
         this.props.assetinfo.getNep5Transaction(params["nep5id"], this.state.pageSize, this.state.currentPage);
     }
     // 返回区块列表
@@ -127,41 +128,41 @@ class AssetInfo extends React.Component<IAssetInfoProps, {}> {
         return (
             <div className="assetinfo-page">
                 <div className="goback-wrapper">
-                    <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  Go back</span>
+                    <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  {this.intrl.btn.goback}</span>
                 </div>
                 <div className="info-content">
-                    <TitleText text="Asset information" isInfoTitle={true} />
+                    <TitleText text={this.intrl.asset.titleinfo1} isInfoTitle={true} />
                     <div className="info-list">
                         <ul>
                             <li>
-                                <span className="type-name">Asset</span>
+                                <span className="type-name">{this.intrl.asset.asset}</span>
                                 <span className="type-content">{this.props.assetinfo.nep5Info && this.props.assetinfo.nep5Info.name}</span>
                             </li>
                             <li>
-                                <span className="type-name">Hash</span>
+                                <span className="type-name">{this.intrl.asset.hash}</span>
                                 <span className="type-content">{this.props.assetinfo.nep5Info && this.props.assetinfo.nep5Info.assetid}</span>
                             </li>
                             <li>
-                                <span className="type-name">Type</span>
+                                <span className="type-name">{this.intrl.asset.type}</span>
                                 <span className="type-content">Nep5</span>
                             </li>
                             <li>
-                                <span className="type-name"> Available</span>
+                                <span className="type-name"> {this.intrl.asset.available}</span>
                                 <span className="type-content">{this.props.assetinfo.nep5Info && this.props.assetinfo.nep5Info.totalsupply}</span>
                             </li>
                             <li>
-                                <span className="type-name">Precision</span>
+                                <span className="type-name">{this.intrl.asset.precision}</span>
                                 <span className="type-content">{this.props.assetinfo.nep5Info && this.props.assetinfo.nep5Info.decimals}</span>
                             </li>
                             <li>
-                                <span className="type-name">Admin</span>
+                                <span className="type-name">{this.intrl.asset.admin}</span>
                                 <span className="type-content">-</span>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div className="asset-balance-rank">
-                    <TitleText text="Balance rank" />
+                    <TitleText text={this.intrl.asset.titleinfo2} />
                     <div className="assetinfo-balance-table">
                         <Table
                             tableTh={this.balanceRankTableTh}
@@ -177,7 +178,7 @@ class AssetInfo extends React.Component<IAssetInfoProps, {}> {
                     </div>
                 </div>
                 <div className="asset-trans-rank">
-                    <TitleText text="Transactions" />
+                    <TitleText text={this.intrl.asset.titleinfo3} />
                     <div className="assetinfo-trans-table">
                         <Table
                             tableTh={this.nep5TransTableTh}
@@ -185,7 +186,7 @@ class AssetInfo extends React.Component<IAssetInfoProps, {}> {
                             render={this.renderTrans}
                         />
                         <Page
-                            totalCount={this.props.assetinfo.balanceRankCount}
+                            totalCount={this.props.assetinfo.nep5TransCount}
                             pageSize={this.state.pageSize}
                             currentPage={this.state.currentPage}
                             onChange={this.onBalancePage}

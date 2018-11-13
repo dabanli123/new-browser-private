@@ -12,12 +12,13 @@ import { INNSProps } from './interface/nns.interface';
 import classNames from 'classnames';
 @observer
 class Search extends React.Component<INNSProps, any> {
+  public intrl = this.props.intl.messages;
   public state = {
     inputValue: '',
-    inputPlaceHolder: 'Search for domain name',
+    inputPlaceHolder: this.intrl.input.domain,
     searchType: 0, // 0为默认无，1为可竞拍，2为竞拍中，3为竞拍结束，4为售卖中,5为输入错误
     recordDomain:''
-  }
+  }  
   public onChange = (value: string) => {
     this.setState({
       inputValue: value.trim(),
@@ -31,7 +32,7 @@ class Search extends React.Component<INNSProps, any> {
   }
   public onBlur = () => {
     this.setState({
-      inputPlaceHolder: 'Search for domain name'
+      inputPlaceHolder: this.intrl.input.domain
     })
   }
   // 检测输入域名是否合法
@@ -122,12 +123,12 @@ class Search extends React.Component<INNSProps, any> {
           this.state.searchType !== 0 && (
             <div className="search-result-wrapper">
               {
-                this.state.searchType === 5 && <p>域名长度需要在2～32个字节之间，只能是字母和数字。请加上后缀，“例如：XXXXXX.neo”</p>
+                this.state.searchType === 5 && <p>{this.intrl.nns.errortip}</p>
               }
               {
                 this.state.searchType === 1 && (
                   <>
-                    <p><strong>{this.state.recordDomain}</strong> is available!</p>
+                    <p><strong>{this.state.recordDomain}</strong>{this.intrl.nns.isAvailable}</p>
                     {
                       <p>You can {process.env.REACT_APP_SERVER_ENV === 'DEV' ? <a href="https://testwallet.nel.group/" target="_blank">login</a> : <a href="https://wallet.nel.group/" target="_blank">login</a>} your wallet and start an auction!</p>
                     }
@@ -140,10 +141,10 @@ class Search extends React.Component<INNSProps, any> {
               {
                 this.state.searchType === 2 && (
                   <>
-                  <p><strong>{this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.fulldomain}</strong> is being auctioned.</p>
+                  <p><strong>{this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.fulldomain}</strong>{this.intrl.nns.isBeing}</p>
                   <ul className="seach-table">
                     <li>
-                      <span className="type-name">Domain name</span>
+                      <span className="type-name">{this.intrl.nns.domainName}</span>
                       <span className="type-content">
                         <a onClick={this.toNNSInfo.bind(this, this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.fulldomain)} href="javascript:;">
                           {this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.fulldomain}
@@ -159,13 +160,13 @@ class Search extends React.Component<INNSProps, any> {
                       </span>
                     </li>
                     <li>
-                      <span className="type-name">Highest bid</span>
+                      <span className="type-name">{this.intrl.nns.highestbid}</span>
                       <span className="type-content">
                         {this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.maxPrice} CGAS
                       </span>
                     </li>
                     <li>
-                      <span className="type-name">Highest bidder</span>
+                      <span className="type-name">{this.intrl.nns.highestbidder}</span>
                       <span className="type-content">
                         <a onClick={this.toAddrInfo.bind(this, this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.maxBuyer)} href="javascript:;">
                           {this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.maxBuyer}
@@ -173,9 +174,9 @@ class Search extends React.Component<INNSProps, any> {
                       </span>
                     </li>
                     <li>
-                      <span className="type-name">Stage</span>
+                      <span className="type-name">{this.intrl.nns.stage}</span>
                       <span className={stageClassName}>
-                        {(this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.auctionState === '0201') ? "确定期" : "随机期"}
+                        {(this.props.nns.searchCanAuction && this.props.nns.searchCanAuction.auctionState === '0201') ? this.intrl.nns.period : this.intrl.nns.overtime}
                       </span>
                     </li>
                   </ul>
@@ -185,10 +186,10 @@ class Search extends React.Component<INNSProps, any> {
               {
                 this.state.searchType === 3 && (
                   <>
-                  <p><strong>{this.props.nns.searchEndAuction && this.props.nns.searchEndAuction.fulldomain}</strong>  is already auctioned off.</p>
+                  <p><strong>{this.props.nns.searchEndAuction && this.props.nns.searchEndAuction.fulldomain}</strong>{this.intrl.nns.isAuctioned}</p>
                   <ul className="seach-table">
                     <li>
-                      <span className="type-name">Domain name</span>
+                      <span className="type-name">{this.intrl.nns.domainName}</span>
                       <span className="type-content">
                         <a onClick={this.toNNSInfo.bind(this, this.props.nns.searchEndAuction && this.props.nns.searchEndAuction.fulldomain)} href="javascript:;">
                           {this.props.nns.searchEndAuction && this.props.nns.searchEndAuction.fulldomain}
@@ -204,7 +205,7 @@ class Search extends React.Component<INNSProps, any> {
                       </span>
                     </li>
                     <li>
-                      <span className="type-name">Current owner</span>
+                      <span className="type-name">{this.intrl.nns.currentOwer}</span>
                       <span className="type-content">
                         <a onClick={this.toAddrInfo.bind(this, this.props.nns.searchEndAuction && this.props.nns.searchEndAuction.owner)} href="javascript:;">
                           {this.props.nns.searchEndAuction && this.props.nns.searchEndAuction.owner}
@@ -212,7 +213,7 @@ class Search extends React.Component<INNSProps, any> {
                       </span>
                     </li>
                     <li>
-                      <span className="type-name">Expiration time</span>
+                      <span className="type-name">{this.intrl.nns.expiration}</span>
                       <span className="type-content">
                         {formatTime.format('yyyy/MM/dd | hh:mm:ss', ttl.toString(), this.props.intl.locale)}
                       </span>

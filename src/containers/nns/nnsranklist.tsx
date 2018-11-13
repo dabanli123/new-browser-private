@@ -17,30 +17,30 @@ class NNSRank extends React.Component<INNSProps, {}> {
     currentPage: 1,
     pageSize: 15,
   }
-
+  public intrl = this.props.intl.messages;
   public auctedTableTh = [
     {
-      name: 'Rank',
+      name: this.intrl.tableTh.rank,
       key: 'range'
     },
     {
-      name: 'Domain name',
+      name: this.intrl.tableTh.domainName,
       key: 'fulldomain'
     },
     {
-      name: 'Txid',
+      name: this.intrl.tableTh.txid,
       key: 'txid'
     },
     {
-      name: 'Hammer price',
+      name: this.intrl.tableTh.hammerPrice,
       key: 'maxPrice'
     },
     {
-      name: 'Buyer',
+      name: this.intrl.tableTh.buyer,
       key: 'maxBuyer'
     },
     {
-      name: 'Expiration time',
+      name: this.intrl.tableTh.expiration,
       key: 'ttl'
     }
   ]
@@ -97,7 +97,7 @@ class NNSRank extends React.Component<INNSProps, {}> {
   public render() {
     return (
       <div className="nnsrank-page">
-        <TitleText text="Most valuable domain name rank" img={require('@/img/rank.png')} />
+        <TitleText text={this.intrl.nns.title2} img={require('@/img/rank.png')} />
         <div className="nnsrank-table">
           <Table
             tableTh={this.auctedTableTh}

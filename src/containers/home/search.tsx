@@ -49,7 +49,7 @@ class Search extends React.Component<IHomeProps,any> {
           this.props.history.push('/transaction/0x' + search);
         }
         else if (search.length === 40) {
-          this.props.history.push('/nep5/' + search);
+          this.props.history.push('/nep5/0x' + search);
         }
         else if (!isNaN(Number(search))) {
           this.props.history.push('/block/' + search);
@@ -60,7 +60,7 @@ class Search extends React.Component<IHomeProps,any> {
           // let data = this.searchList.children[this.currentLine - 1].getAttribute("data");
 
           // }
-          this.props.history.push('/asset/' + search);
+          this.props.history.push('/asset/0x' + search);
         } else {
           return false;
         }

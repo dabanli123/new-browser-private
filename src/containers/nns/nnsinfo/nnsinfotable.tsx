@@ -13,6 +13,7 @@ import { injectIntl } from 'react-intl';
 import { INNSInfoProps } from '@/containers/nns/interface/nnsinfo.interface';
 @observer
 class NNSInfoTable extends React.Component<INNSInfoProps, {}> {
+    public intrl = this.props.intl.messages;
     public state = {
         auctionId: '',
         currentPageBidRank: 1,
@@ -22,37 +23,37 @@ class NNSInfoTable extends React.Component<INNSInfoProps, {}> {
     }
     public bidrankTableTh = [
         {
-            name: 'Rank',
+            name: this.intrl.tableTh.rank,
             key: 'range'
         },
         {
-            name: 'Bidder',
+            name: this.intrl.tableTh.bidder,
             key: 'address'
         },
         {
-            name: 'Bidder Price',
+            name: this.intrl.tableTh.bidderPrice,
             key: 'totalValue'
         }
     ]
     public bidInfoTableTh = [
         {
-            name: 'Txid',
+            name: this.intrl.tableTh.txid,
             key: 'txid'
         },
         {
-            name: 'Type',
+            name: this.intrl.tableTh.type,
             key: 'type'
         },
         {
-            name: 'Address',
+            name: this.intrl.tableTh.address,
             key: 'address'
         },
         {
-            name: 'Amount',
+            name: this.intrl.tableTh.amount,
             key: 'amount'
         },
         {
-            name: 'Time',
+            name: this.intrl.tableTh.time,
             key: 'time'
         }
     ]
@@ -95,15 +96,15 @@ class NNSInfoTable extends React.Component<INNSInfoProps, {}> {
         }
         if (key === 'type') {
             if (value === '4001') {
-                return <span>开标</span>
+                return <span>{this.intrl.nns.openAuction}</span>
             } else if (value === '4002') {
-                return <span>加价</span>
+                return <span>{this.intrl.nns.raisebid}</span>
             }else if (value === '4003') {
-                return <span>竞拍结束<Hint type='3' /></span>
+                return <span>{this.intrl.nns.endof}<Hint type='3' /></span>
             }else if (value === '4004') {
-                return <span>领回CGAS</span>
+                return <span>{this.intrl.nns.recover}</span>
             }else if (value === '4005') {
-                return <span>领取域名</span>
+                return <span>{this.intrl.nns.getDomain}</span>
             }
         }
         if (key === 'address') {
@@ -157,7 +158,7 @@ class NNSInfoTable extends React.Component<INNSInfoProps, {}> {
     public render() {
         return (
             <React.Fragment>
-                <TitleText text="Bid rank" isInline={true} />
+                <TitleText text={this.intrl.nns.titleinfo4} isInline={true} />
                 <div className="bidrank-table">
                     <Table
                         tableTh={this.bidrankTableTh}
@@ -172,7 +173,7 @@ class NNSInfoTable extends React.Component<INNSInfoProps, {}> {
                         onChange={this.onBidRankPage}
                     />
                 </div>
-                <TitleText text="Bid information" isInline={true} />
+                <TitleText text={this.intrl.nns.titleinfo5} isInline={true} />
                 <div className="bidinfo-table">
                     <Table
                         tableTh={this.bidInfoTableTh}

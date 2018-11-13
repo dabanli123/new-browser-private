@@ -17,31 +17,32 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
         vinList: [],
         outList: []
     }
+    public intrl = this.props.intl.messages;
     public transVTableTh = [
         {
-            name: 'Address',
+            name: this.intrl.tableTh.address,
             key: 'address',
         },
         {
-            name: 'Asset',
+            name: this.intrl.tableTh.asset,
             key: 'value'
         }
     ]
     public nep5TransTableTh = [
         {
-            name: 'Asset',
+            name: this.intrl.tableTh.asset,
             key: 'asset',
         },
         {
-            name: 'From',
+            name: this.intrl.tableTh.from,
             key: 'from'
         },
         {
-            name: 'To',
+            name: this.intrl.tableTh.to,
             key: 'to'
         },
         {
-            name: 'Value',
+            name: this.intrl.tableTh.value,
             key: 'value'
         }
     ]
@@ -146,37 +147,37 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
                     <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  Go back</span>
                 </div>
                 <div className="info-content">
-                    <TitleText text="Transaction information" isInfoTitle={true} />
+                    <TitleText text={this.intrl.transaction.titleinfo1} isInfoTitle={true} />
                     <div className="info-list">
                         <ul>
                             <li>
-                                <span className="type-name">TXid</span>
+                                <span className="type-name">{this.intrl.transaction.txid}</span>
                                 <span className="type-content">{this.props.transaction.tranInfo && this.props.transaction.tranInfo.txid}</span>
                             </li>
                             <li>
-                                <span className="type-name">Type</span>
+                                <span className="type-name">{this.intrl.transaction.type}</span>
                                 <span className="type-content">{this.props.transaction.tranInfo && this.props.transaction.tranInfo.type.replace('Transaction', '')}</span>
                             </li>
                             <li>
-                                <span className="type-name">Network Fee</span>
+                                <span className="type-name">{this.intrl.transaction.netFee}</span>
                                 <span className="type-content">{this.props.transaction.tranInfo && this.props.transaction.tranInfo.net_fee} GAS</span>
                             </li>
                             <li>
-                                <span className="type-name">System Fee</span>
+                                <span className="type-name">{this.intrl.transaction.sysFee}</span>
                                 <span className="type-content">{this.props.transaction.tranInfo && this.props.transaction.tranInfo.sys_fee} GAS</span>
                             </li>
                             <li>
-                                <span className="type-name">Size</span>
+                                <span className="type-name">{this.intrl.transaction.size}</span>
                                 <span className="type-content">{this.props.transaction.tranInfo && this.props.transaction.tranInfo.size} bytes</span>
                             </li>
                             <li>
-                                <span className="type-name">Height</span>
+                                <span className="type-name">{this.intrl.transaction.height}</span>
                                 <span className="type-content">
                                     <a href="javascript:;" onClick={this.goBlockInfo.bind(this, this.props.transaction.tranInfo.blockindex)}>{this.props.transaction.tranInfo && this.props.transaction.tranInfo.blockindex}</a>
                                 </span>
                             </li>
                             <li>
-                                <span className="type-name">Time</span>
+                                <span className="type-name">{this.intrl.transaction.time}</span>
                                 <span className="type-content">
                                     {this.props.transaction.tranInfo && formatTime.format('yyyy/MM/dd | hh:mm:ss', this.props.transaction.tranInfo.blocktime.toString(), this.props.intl.locale)}
                                 </span>
@@ -189,18 +190,18 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
                     (
                         <div className="transactioninfo-input-output">
                             <div className="input-wrapper">
-                                <TitleText text="Input" />
+                                <TitleText text={this.intrl.transaction.input} />
                                 <Table tableTh={this.transVTableTh} tableData={this.state.vinList} />
                             </div>
                             <div className="output-wrapper">
-                                <TitleText text="Output" />
+                                <TitleText text={this.intrl.transaction.output} />
                                 <Table tableTh={this.transVTableTh} tableData={this.state.outList} />
                             </div>
                         </div>
                     )
                 }
                 <div className="nep5-trans-wrapper">
-                    <TitleText text="Nep5" />
+                    <TitleText text={this.intrl.transaction.nep5} />
                     <div className="nep5-trans-table">
                         <Table
                             tableTh={this.nep5TransTableTh}

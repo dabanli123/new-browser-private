@@ -36,7 +36,7 @@ export default class Footer extends React.Component<IProps, IState>
                                 <img src={require('@/img/logo2.png')} alt="" />
                             </div>
                             <div className="smallbox-text">
-                                <p>Making blockchain <br />applications closer to people</p>
+                                <p>{this.props.locale.tips}</p>
                             </div>
                         </div>
                     </div>

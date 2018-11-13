@@ -9,10 +9,12 @@ import '../index.less'
 import { INNSInfoProps } from '@/containers/nns/interface/nnsinfo.interface';
 import { inject, observer } from 'mobx-react';
 import NNSInfoTable from '@/containers/nns/nnsinfo/nnsinfotable';
+import { injectIntl } from 'react-intl';
 
 @inject("nnsinfo")
 @observer
 class NNSInfo extends React.Component<INNSInfoProps, {}> {
+  public intrl = this.props.intl.messages;
   public state = {
     isAuctingDomain: true
   }
@@ -43,7 +45,7 @@ class NNSInfo extends React.Component<INNSInfoProps, {}> {
     return (
       <div className="nnsinfo-page">
         <div className="goback-wrapper">
-          <span className="goback-text" onClick={this.onGoBack} >&lt;&lt;  Go back</span>
+          <span className="goback-text" onClick={this.onGoBack} >&lt;&lt;  {this.intrl.btn.goback}</span>
         </div>
         {
           (this.props.nnsinfo.nnsInfo && this.props.nnsinfo.nnsInfo.auctionState === '0401') && (
@@ -52,7 +54,7 @@ class NNSInfo extends React.Component<INNSInfoProps, {}> {
             </div>
           )
         }
-        <TitleText text="Auction information" isInfoTitle={this.state.isAuctingDomain} />
+        <TitleText text={this.intrl.nns.titleinfo2} isInfoTitle={this.state.isAuctingDomain} />
         <div className="info-content">
           <AuctionInfo {...this.props} />
         </div>
@@ -67,4 +69,4 @@ class NNSInfo extends React.Component<INNSInfoProps, {}> {
   }
 }
 
-export default NNSInfo;
+export default injectIntl(NNSInfo);

@@ -21,48 +21,49 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
     transPage: 1,
     transSize: 15,
   }
+  public intrl = this.props.intl.messages;
   // 资产
   public balanceTableTh = [
     {
-      name: 'Asset',
+      name: this.intrl.tableTh.asset,
       key: 'asset'
     },
     {
-      name: 'Amount',
+      name: this.intrl.tableTh.amount,
       key: 'amount'
     }
   ]
   // 交易
   public transTableTh = [
     {
-      name: 'Type',
+      name: this.intrl.tableTh.type,
       key: 'type'
     },
     {
-      name: 'Txid',
+      name: this.intrl.tableTh.txid,
       key: 'txid'
     },
     {
-      name: 'Height',
+      name: this.intrl.tableTh.height,
       key: 'height'
     },
     {
-      name: 'Created on',
+      name: this.intrl.tableTh.create,
       key: 'time'
     }
   ]
   // utxo
   public utxoTableTh = [
     {
-      name: 'Asset',
+      name: this.intrl.tableTh.asset,
       key: 'asset'
     },
     {
-      name: 'Amount',
+      name: this.intrl.tableTh.amount,
       key: 'value'
     },
     {
-      name: 'Txid',
+      name: this.intrl.tableTh.txid,
       key: 'txid'
     }
   ]
@@ -162,31 +163,31 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
     return (
       <div className="addressinfo-page">
         <div className="goback-wrapper">
-          <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  Go back</span>
+          <span className="goback-text" onClick={this.onGoBack}>&lt;&lt;  {this.intrl.btn.goback}</span>
         </div>
         <div className="info-content">
-          <TitleText text="Address information" isInfoTitle={true} />
+          <TitleText text={this.intrl.address.titleinfo1} isInfoTitle={true} />
           <div className="info-list">
             <ul>
               <li>
-                <span className="type-name">Address</span>
+                <span className="type-name">{this.intrl.address.address}</span>
                 <span className="type-content">{this.state.address}</span>
               </li>
               <li>
-                <span className="type-name">Created on</span>
+                <span className="type-name">{this.intrl.address.create}</span>
                 <span className="type-content">
                   {this.props.addressinfo.addrInfo && formatTime.format('yyyy/MM/dd | hh:mm:ss', this.props.addressinfo.addrInfo.firstuse.blocktime.$date.toString(), this.props.intl.locale)}
                 </span>
               </li>
               <li>
-                <span className="type-name">Transactions</span>
+                <span className="type-name">{this.intrl.address.transaction}</span>
                 <span className="type-content">{this.props.addressinfo.addrInfo && this.props.addressinfo.addrInfo.txcount}</span>
               </li>
             </ul>
           </div>
         </div>
         <div className="addressinfo-balance-wrapper">
-          <TitleText text="Balance" />
+          <TitleText text={this.intrl.address.titleinfo2} />
           <div className="address-balance-table">
             <Table
               tableTh={this.balanceTableTh}
@@ -195,7 +196,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
           </div>
         </div>
         <div className="addressinfo-tran-wrapper">
-          <TitleText text="Transactions" />
+          <TitleText text={this.intrl.address.titleinfo3} />
           <div className="address-trans-table">
             <Table
               tableTh={this.transTableTh}
@@ -212,7 +213,7 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
 
         </div>
         <div className="addressinfo-utxo-wrapper">
-          <TitleText text="UTXO" />
+          <TitleText text={this.intrl.address.titleinfo4} />
           <div className="addrinfo-utxo-table">
             <Table
               tableTh={this.utxoTableTh}

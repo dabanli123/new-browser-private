@@ -5,13 +5,15 @@ import * as React from 'react';
 import './index.less'
 import classnames from 'classnames';
 import { observer } from 'mobx-react';
+import { injectIntl } from 'react-intl';
 
 interface IProps
 {
     totalCount: number,  // 总条数
     pageSize: number     // 每页大小
     currentPage: number, // 当前页数
-    onChange: (index: number) => void
+    onChange: (index: number) => void,
+    intl:any
 }
 interface IState
 {
@@ -149,7 +151,7 @@ class Page extends React.Component<IProps, IState>
             
             <div className="page-wrapper">
                 <div className="page-tips">
-                    <span>Page {this.props.currentPage}, {this.state.totalPage} pages in total</span>
+                    <span>{this.props.intl.messages.page.page} {this.props.currentPage}{this.props.intl.messages.page.total1} {this.state.totalPage} {this.props.intl.messages.page.total2}</span>
                 </div>
                 <div className="page-btn-wrapper">
                     <div className={prevClassName} onClick={this.onPrevClick}>
@@ -169,4 +171,4 @@ class Page extends React.Component<IProps, IState>
     }
 }
 
-export default Page;
+export default injectIntl(Page);
