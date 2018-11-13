@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx';
 import * as Api from '../api/home.api'
-import { IHomeStore, IBlock, ITransList } from '../interface/home.interface';
+import { IHomeStore, IBlock, ITransList, ISearchAsset } from '../interface/home.interface';
 import { toThousands } from '@/utils/numberTool'
 
 class Home implements IHomeStore
@@ -10,6 +10,7 @@ class Home implements IHomeStore
     @observable public addrCount: string = '0';   // 地址总数
     @observable public blockList: IBlock[] = [];  // 区块列表
     @observable public transList: ITransList[] = [];   // 交易列表
+    @observable public searchAssetList:ISearchAsset[] = [];
 
     /**
      * 获取区块高度
@@ -98,6 +99,20 @@ class Home implements IHomeStore
         }
 
         this.transList = result || [];
+        return true;
+    }
+
+    @action public async searchAsset(str:string){
+        let result:any = null;
+        try {
+            result = await Api.searchSomething(str);
+            console.log(result);
+            
+        } catch (error) {
+            this.searchAssetList = [];
+            return false
+        }
+        this.searchAssetList = result || [];
         return true;
     }
 }

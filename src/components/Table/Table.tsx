@@ -25,8 +25,6 @@ export default class Table extends React.Component<IProps, {}> {
 
   constructor(props: IProps) {
     super(props);
-    console.log(this.props.tableData);
-
   }
   public render() {
     let tableClassName = "table-wrap";

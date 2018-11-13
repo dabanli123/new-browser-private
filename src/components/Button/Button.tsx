@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';
-import { injectIntl } from 'react-intl';
+// import { injectIntl } from 'react-intl';
 import './button.less';
 
 interface IProps
@@ -16,11 +16,11 @@ interface IProps
 	search?: boolean,
 	mobileBtn?: boolean,
 	bgBtn?:boolean,
-	intl:any
+	// intl:any
 }
 
 @observer
-class Button extends React.Component<IProps, {}> {
+export default class Button extends React.Component<IProps, {}> {
 	constructor(props: IProps)
 	{
 		super(props);
@@ -52,4 +52,3 @@ class Button extends React.Component<IProps, {}> {
 		);
 	}
 }
-export default injectIntl(Button);

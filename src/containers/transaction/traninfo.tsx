@@ -108,16 +108,24 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
         }
     }
     public  getNep5Name = async (asset) => {
+        console.log("qingqiu");
+        
         await this.props.transaction.getNep5Info(asset);   
         return this.props.transaction.nep5Info?this.props.transaction.nep5Info.symbol:""
     }
     // 列表特殊处理
     public renderNep5Trans =  (value, key) =>
     {
+        console.log("打印key");
+        
+        console.log(key);
+        
         if (key === 'asset')
         {
-            // const asset = this.getNep5Name(value);
-            // console.log(asset);
+            const asset = this.getNep5Name(value);
+            console.log("打印value");
+            
+            console.log(asset);
             
             return <span><a href="javascript:;" onClick={this.goNep5Info.bind(this, value)}>{this.props.transaction.nep5Info?this.props.transaction.nep5Info.symbol:""}</a></span>
         }
@@ -185,9 +193,9 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
                         </ul>
                     </div>
                 </div>
-                {
+                {/* {
                     (this.state.vinList.length !== 0 || this.state.outList.length !== 0) &&
-                    (
+                    ( */}
                         <div className="transactioninfo-input-output">
                             <div className="input-wrapper">
                                 <TitleText text={this.intrl.transaction.input} />
@@ -198,8 +206,8 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
                                 <Table tableTh={this.transVTableTh} tableData={this.state.outList} />
                             </div>
                         </div>
-                    )
-                }
+                    {/* )
+                } */}
                 <div className="nep5-trans-wrapper">
                     <TitleText text={this.intrl.transaction.nep5} />
                     <div className="nep5-trans-table">

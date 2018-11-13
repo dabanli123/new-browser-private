@@ -92,9 +92,9 @@ class Transactions extends React.Component<ITransactionsProps, {}>
     type: "all"
   }
   
-  public componentWillUnmount() {
-    this.props.transaction.transList = null;
-  }
+  // public componentWillUnmount() {
+  //   this.props.transaction.transList = null;
+  // }
   // 列表特殊处理
   public renderTran = (value, key) => {
     if (key === 'type') {

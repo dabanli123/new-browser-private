@@ -35,9 +35,6 @@ class Page extends React.Component<IProps, IState>
             inputValue: 0,
             isShowPage: props.totalCount > props.pageSize ? true : false
         }
-        console.log(props.totalCount);
-        console.log(this.state);
-
     }
     public UNSAFE_componentWillReceiveProps = (nextProps) =>
     {
@@ -74,7 +71,6 @@ class Page extends React.Component<IProps, IState>
     public pageTo = (current: number) =>
     {
         current = parseInt('' + current, 10);
-        console.log(current);
 
         // 如果跳转页码小于0或者跳转页码大于页面总数，则中断
         if (current < 0 || current > this.state.totalPage)

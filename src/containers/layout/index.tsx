@@ -39,7 +39,7 @@ export default class LayoutIndex extends React.Component<any, any> {
   public render() {
     return (
       <div className="layout-container">
-        <Header history={this.context.router.history} locale={store.language === 'en' ? en_US.header : zh_CN.header} />
+        <Header history={this.context.router.history} locale={store.language === 'en' ? en_US.header : zh_CN.header} btn={store.language === 'en' ? en_US.btn : zh_CN.btn} />
         <HeaderMobile history={this.context.router.history} />
         <div className="layout-main">
           {this.props.children}

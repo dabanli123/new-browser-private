@@ -64,6 +64,8 @@ class Transaction implements ITransactionsStore {
         let result: any = null;
         try {
             result = await Api.getnep5asset(nep5);
+            console.log(result);
+            
         } catch (error) {
             return false;
         }

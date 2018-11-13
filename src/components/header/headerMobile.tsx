@@ -81,7 +81,7 @@ export default class HeaderMobile extends React.Component<any, IState> {
           this.state.isShowMenu && (
             <div className="menu-wrapper">
               <div className="close" onClick={this.toggleMenu}>
-                <img src={require('@/img/wallet-m.png')} alt="" />
+                <img src={require('@/img/close.png')} alt="" />
               </div>
               <div className="list-box">
                 <div className="list">
