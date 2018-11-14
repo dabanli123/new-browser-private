@@ -57,7 +57,8 @@ export default {
     bidderPrice: "Bidder price",
     time: "Time",
     transfer: "Transfer to",
-    price: "Price"
+    price: "Price",
+    nodata:"There is no data."
   },
   page: {
     page: "Page",

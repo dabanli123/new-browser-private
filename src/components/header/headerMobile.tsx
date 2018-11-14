@@ -6,11 +6,15 @@ import { Link } from 'react-router-dom';
 import './headerMobile.less';
 import EventHandler from 'utils/event';
 import { observer } from 'mobx-react';
-interface IState {
+import * as Neotool from '@/utils/neotool';
+import store from "@/store";
+interface IState
+{
   isShowMenu: boolean,
   isShowBrowse: boolean,
   isShowEnv: boolean,
   inputValue: string,
+  languageText: string,
 }
 
 
@@ -20,21 +24,26 @@ export default class HeaderMobile extends React.Component<any, IState> {
     isShowMenu: false,
     isShowBrowse: false,
     isShowEnv: false,
-    inputValue: ''
+    inputValue: '',
+    languageText: store['common'].language === 'en' ? "中" : "En",
   }
-  public toggleMenu = () => {
+  public toggleMenu = () =>
+  {
     this.setState({
-      isShowMenu: !this.state.isShowMenu
+      isShowMenu: !this.state.isShowMenu,
+      inputValue: ''
     })
   }
-  public toggleEnv = (e) => {
+  public toggleEnv = (e) =>
+  {
     this.setState({
       isShowEnv: !this.state.isShowEnv,
       isShowBrowse: false,
     })
     e.stopPropagation();
   }
-  public toggleBrowse = (e) => {
+  public toggleBrowse = (e) =>
+  {
     this.setState({
       isShowEnv: false,
       isShowBrowse: !this.state.isShowBrowse,
@@ -42,67 +51,149 @@ export default class HeaderMobile extends React.Component<any, IState> {
     e.stopPropagation();
   }
 
-  public toggleBrowse2 = (e) => {
+  public toggleBrowse2 = (e) =>
+  {
     this.toggleBrowse(e);
     this.toggleMenu();
     e.stopPropagation();
   }
 
-  public toggleEnv2 = (e) => {
+  public toggleEnv2 = (e) =>
+  {
     this.toggleEnv(e);
     this.toggleMenu();
     e.stopPropagation();
   }
 
-  public componentDidMount() {
+  public componentDidMount()
+  {
     EventHandler.add(this.globalClick);
 
-    this.props.history.listen(() => {
+    this.props.history.listen(() =>
+    {
       this.setState({
         isShowMenu: false
       })
     })
   }
-  public componentWillUnmount() {
+  public componentWillUnmount()
+  {
     EventHandler.remove(this.globalClick);
   }
 
-  public globalClick = () => {
+  public globalClick = () =>
+  {
     this.setState({
       isShowEnv: false,
       isShowBrowse: false,
     })
   }
-  public getPath = (base) => {
+  public getPath = (base) =>
+  {
     const locations = this.props.history.location;
     window.location.href = `${location.origin}${base || ''}${locations.pathname}${locations.search}${locations.hash}`
   }
 
-  // 点击跳转到资产详情
-  public goAssetInfo = (assetid) => {
-    console.log(assetid);
-    // this.props.home.searchAssetList = [];
-    if (assetid.length === 42) {
-      this.props.history.push('/nep5/' + assetid);
-    } else {
-      this.props.history.push('/asset/' + assetid);
-    }
-  }
   // 输入变化
-  public onChange = (ev: any) => {
+  public onChange = (ev: any) =>
+  {
     const value = ev.target.value;
     this.setState({
-      inputValue: ev.target.value
+      inputValue: value
     })
-    console.log(value)
-    if (value === '') {
-      this.props.home.searchAssetList = [];
-      return
-    }
-    this.props.home.searchAsset(value);
   }
+  public onKeyDown = (ev: any) =>
+  {
+    console.log(ev.keyCode);
+    if (ev.keyCode === 13)
+    {
+      this.toSearchInfo();
+    }
+  }
+  // 搜索功能
+  public toSearchInfo = () =>
+  {
+    console.log("search");
 
-  public render() {
+    let search: string = this.state.inputValue;
+    search = search.trim();
+    if (search)
+    {
+      if (search.length === 34)
+      {
+        if (Neotool.verifyPublicKey(search))
+        { // 是否是地址
+          this.props.history.push('/address/' + search);
+        } else
+        {
+          return false;
+        }
+        return;
+      } else
+      {
+        search = search.replace('0x', '');
+        if (search.length === 64)
+        {
+          window.location.pathname = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/transaction/0x' + search : '/transaction/0x' + search;
+        }
+        else if (search.length === 40)
+        {
+          window.location.pathname = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/nep5/0x' + search : '/nep5/0x' + search;
+        }
+        else if (!isNaN(Number(search)))
+        {
+          window.location.pathname = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/block/' + search : '/block/' + search;
+        }
+        else if (search.length > 64)
+        {
+          window.location.pathname = process.env.REACT_APP_SERVER_ENV === 'DEV' ? '/test/asset/0x' + search : '/asset/0x' + search;
+        } else
+        {
+          return false;
+        }
+      }
+    } else
+    {
+      return false;
+    }
+    this.setState({
+      isShowMenu: false,
+      inputValue: ''
+    })
+    return;
+  }
+ 
+  public onClickTochangeLanguage = () =>
+  {
+    if (this.state.languageText === "中")
+    {
+      console.log(this.state.languageText);
+      
+      store['common'].language = 'zh';
+      this.setState({
+        languageText: "中"
+      })
+      sessionStorage.setItem('language', 'zh');
+      setTimeout(() =>
+      {
+        window.location.reload();
+      })
+    } else
+    {
+      store['common'].language = 'en';
+      this.setState({
+        languageText: "En"
+      })
+      sessionStorage.setItem('language', 'en');
+      setTimeout(() =>
+      {
+        window.location.reload();
+      })
+    }
+
+  }
+  public render()
+  {
     return (
       <div className="header-mobile-container">
         <div className="header-wrapper">
@@ -110,7 +201,7 @@ export default class HeaderMobile extends React.Component<any, IState> {
           <div className="logo">
             <img src={require('@/img/logo.png')} alt="" />
           </div>
-          <div className="language">En</div>
+          <div className="language" onClick={this.onClickTochangeLanguage}>{this.state.languageText}</div>
         </div>
         {
           this.state.isShowMenu && (
@@ -120,40 +211,40 @@ export default class HeaderMobile extends React.Component<any, IState> {
               </div>
               <div className="list-box">
                 <div className="list">
-                  <span><Link to="/">Explorer</Link></span>
+                  <span><Link to="/">{this.props.locale.explorer}</Link></span>
                 </div>
                 <div className="list">
-                  <label onClick={this.toggleBrowse}><span>Browse <em /></span></label>
+                  <label onClick={this.toggleBrowse}><span>{this.props.locale.browse} <em /></span></label>
                   {
                     this.state.isShowBrowse && (
                       <div className="child" onClick={this.toggleBrowse2}>
-                        <span><Link to="/blocks">Blocks</Link></span>
-                        <span><Link to="/transactions">Transaction</Link></span>
-                        <span><Link to="/addresses">Address</Link></span>
+                        <span><Link to="/blocks">{this.props.locale.blocks}</Link></span>
+                        <span><Link to="/transactions">{this.props.locale.transactions}</Link></span>
+                        <span><Link to="/addresses">{this.props.locale.addresses}</Link></span>
                       </div>
                     )
                   }
                 </div>
                 <div className="list">
-                  <span><Link to="/assets">Assets</Link></span>
+                  <span><Link to="/assets">{this.props.locale.assets}</Link></span>
                 </div>
                 <div className="list">
-                  <span><Link to="/nns">NNS Event</Link></span>
+                  <span><Link to="/nns">{this.props.locale.nnsevent}</Link></span>
                 </div>
                 <div className="list">
                   {
-                    process.env.REACT_APP_SERVER_ENV === 'DEV' ? <a href="https://testwallet.nel.group/" target="_blank">Wallet</a> : <a href="https://wallet.nel.group/" target="_blank">Wallet</a>
+                    process.env.REACT_APP_SERVER_ENV === 'DEV' ? <a href="https://testwallet.nel.group/" target="_blank">{this.props.locale.wallet}</a> : <a href="https://wallet.nel.group/" target="_blank">{this.props.locale.wallet}</a>
                   }
                 </div>
               </div>
               <div className="list-box">
                 <div className="list">
-                  <label onClick={this.toggleEnv}><span>Mainnet<em /></span></label>
+                  <label onClick={this.toggleEnv}><span>{process.env.REACT_APP_SERVER_ENV === 'DEV' ? this.props.locale.testnet : this.props.locale.mainnet}<em /></span></label>
                   {
                     this.state.isShowEnv && (
                       <div className="child" onClick={this.toggleEnv2}>
-                        <span><a onClick={this.getPath.bind(this, '')}>Mainnet</a></span>
-                        <span><a onClick={this.getPath.bind(this, '/test')}>Testnet</a></span>
+                        <span><a onClick={this.getPath.bind(this, '')}>{this.props.locale.mainnet}</a></span>
+                        <span><a onClick={this.getPath.bind(this, '/test')}>{this.props.locale.testnet}</a></span>
                       </div>
                     )
                   }
@@ -169,25 +260,11 @@ export default class HeaderMobile extends React.Component<any, IState> {
                     type="text"
                     placeholder="Block height/hash/address or transaction id"
                     value={this.state.inputValue}
-                    onChange={this.onChange} />
-                  <img src={require('@/img/search.png')} alt="" />
+                    onChange={this.onChange}
+                    onKeyDown={this.onKeyDown}
+                  />
+                  <img src={require('@/img/search.png')} alt="" onClick={this.toSearchInfo} />
                 </div>
-
-                {
-                  this.props.home.searchAssetList.length !== 0 && (
-                    <div className="search-text">
-                      <div className="hint-wrapper">
-                        <div className="arrow" />
-                      </div>
-                      <ul className="search-list">
-                        {
-                          this.props.home.searchAssetList.map((key, value) => {
-                            return <li key={value} onClick={this.goAssetInfo.bind(this, key.assetid)}>{key.name}({key.assetid})</li>
-                          })
-                        }
-                      </ul>
-                    </div>
-                  )}
               </div>
             </div>
           )

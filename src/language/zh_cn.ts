@@ -57,7 +57,8 @@ export default {
     bidderPrice: "竞标价格",
     time: "时间",
     transfer: "Transfer to",
-    price: "价格"
+    price: "价格",
+    nodata:"没有数据"
   },
   page: {
     page: "第",
