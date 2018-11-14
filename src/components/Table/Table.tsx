@@ -21,12 +21,14 @@ interface IProps
   totalCount?: number,
   pageSize?: number,
   className?: string,
-  intl:any
+  intl: any
 }
 
 @observer
 class Table extends React.Component<IProps, {}> {
-  private tableThKeys = this.props.tableTh.map(v => v.key)
+  private tableThKeys = this.props.tableTh.map(v => {
+    return {key:v.key,name:v.name}
+  })
 
   constructor(props: IProps)
   {
@@ -39,10 +41,49 @@ class Table extends React.Component<IProps, {}> {
     {
       tableClassName = classnames('table-wrap', { [this.props.className]: !!this.props.className });
     }
-    // if (!!!this.props.tableData)
-    // {
-    //   return null
-    // }
+    if (!!!this.props.tableData)
+    {
+      return (
+        <div className={tableClassName}>
+          {this.props.children}
+          <div className="table-content">
+            <div className="table-th">
+              <ul>
+                {
+                  this.props.tableTh.map((item, index) =>
+                  {
+                    return <li key={index}>{item.name}</li>
+                  })
+                }
+              </ul>
+            </div>
+            <div className="no-data-content">{this.props.intl.messages.tableTh.nodata}</div>
+          </div>
+          {/* 移动端表格 */}
+          <div className="mobile-table-content">
+            <div className="table-body">
+              <ul>
+                <li>
+                  {
+                    this.props.tableTh.map((item, index) =>
+                    {
+                      return (
+                        <div className="table-line" key={index}>
+                          <span className="line-title" >{item.name}</span>
+                          <span className="line-content">
+                            {this.props.intl.messages.tableTh.nodata}
+                          </span>
+                        </div>
+                      )
+                    })
+                  }
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className={tableClassName}>
         {this.props.children}
@@ -57,11 +98,15 @@ class Table extends React.Component<IProps, {}> {
               }
             </ul>
           </div>
-          {(this.props.tableData.length === 0) && (
-            <div className="no-data-content">{this.props.intl.messages.tableTh.nodata}</div>
-          )}
+          {/* 没有数据时 */}
           {
-            this.props.tableData && (
+            this.props.tableData.length === 0 && (
+              <div className="no-data-content">{this.props.intl.messages.tableTh.nodata}</div>
+            )
+          }
+          {/* 有数据时 */}
+          {
+            this.props.tableData.length !== 0 && (
               <div className="table-body">
                 <ul>
                   {
@@ -70,16 +115,16 @@ class Table extends React.Component<IProps, {}> {
                       return (
                         <li key={index}>
                           {
-                            this.tableThKeys.map((k: string, i: number) =>
+                            this.tableThKeys.map((k: object, i: number) =>
                             {
                               if (!this.props.render)
                               {
-                                return <span key={i}>{item[k]}</span>
+                                return <span key={i}>{item[k["key"]]}</span>
                               }
-                              const renderHtml = this.props.render(item[k], k, item);
+                              const renderHtml = this.props.render(item[k["key"]], k["key"], item);
                               if (!renderHtml)
                               {
-                                return <span key={i}>{item[k]}</span>
+                                return <span key={i}>{item[k["key"]]}</span>
                               }
                               return <React.Fragment key={i}>{renderHtml}</React.Fragment>
                             })
@@ -92,41 +137,72 @@ class Table extends React.Component<IProps, {}> {
               </div>
             )
           }
-
         </div>
         {/* 移动端表格 */}
         <div className="mobile-table-content">
-          <div className="table-body">
-            <ul>
-              {
-                this.props.tableData.map((item: object, index: number) =>
-                {
-                  return (
-                    <li key={index}>
+          {/* 没有数据时 */}
+          {
+            this.props.tableData.length === 0 && (
+              <div className="table-body">
+                <ul>
+                  <li>
+                    {
+                      this.props.tableTh.map((item, index) =>
                       {
-                        this.tableThKeys.map((k: string, i: number) =>
-                        {
-                          const renderHtml = this.props.render ? this.props.render(item[k], k, item) : null;
-                          return (
-                            <div className="table-line" key={i}>
-                              <span className="line-title">{k}</span>
-                              <span className="line-content">
-                                {
-                                  !this.props.render ? item[k] : (
-                                    !renderHtml ? item[k] : renderHtml
-                                  )
-                                }
-                              </span>
-                            </div>
-                          )
-                        })
-                      }
-                    </li>
-                  )
-                })
-              }
-            </ul>
-          </div>
+                        return (
+                          <div className="table-line" key={index}>
+                            <span className="line-title" >{item.name}</span>
+                            <span className="line-content">
+                              {this.props.intl.messages.tableTh.nodata}
+                            </span>
+                          </div>
+                        )
+                      })
+                    }
+                  </li>
+                </ul>
+              </div>
+            )
+          }
+          {/* 有数据时 */}
+          {
+            this.props.tableData.length !== 0 && (
+              <div className="table-body">
+                <ul>
+                  {
+                    this.props.tableData.map((item: object, index: number) =>
+                    {
+                      
+                      return (
+                        <li key={index}>
+                          {
+                            this.tableThKeys.map((k: object, i: number) =>
+                            {
+                              console.log(k);
+                              
+                              const renderHtml = this.props.render ? this.props.render(item[k["key"]], k["key"], item) : null;
+                              return (
+                                <div className="table-line" key={i}>
+                                  <span className="line-title">{k["name"]}</span>
+                                  <span className="line-content">
+                                    {
+                                      !this.props.render ? item[k["key"]] : (
+                                        !renderHtml ? item[k["key"]] : renderHtml
+                                      )
+                                    }
+                                  </span>
+                                </div>
+                              )
+                            })
+                          }
+                        </li>
+                      )
+                    })
+                  }
+                </ul>
+              </div>
+            )
+          }
         </div>
       </div>
     );
