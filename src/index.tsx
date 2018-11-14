@@ -9,6 +9,10 @@ import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import en_US from 'antd/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd';
 import storeCommon from '@/store/common';
+import Intl from 'intl';
+
+global.Intl = Intl; 
+window['Intl'] = Intl;
 
 if (process.env.NODE_ENV === "development") {
   ReactDOM.render(
