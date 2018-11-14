@@ -37,7 +37,6 @@ class AddressInfo implements IAddressInfoStore
         try
         {
             result = await Api.getaddrbalance(address);
-            // console.log(result);
         } catch (error)
         {
             return false;
@@ -69,7 +68,6 @@ class AddressInfo implements IAddressInfoStore
         try
         {
             result = await Api.getaddrnep5asset(address);
-            // console.log(result);
         } catch (error)
         {
             return false;
@@ -103,8 +101,6 @@ class AddressInfo implements IAddressInfoStore
         try
         {
             result = await Api.getaddrtxlist(address, page, size);
-            console.log(result);
-
         } catch (error)
         {
             return false;
@@ -115,8 +111,6 @@ class AddressInfo implements IAddressInfoStore
         {
             this.addrTransList = arr.map((key) =>
             {
-                console.log(key);
-
                 const newObject = {
                     type: key.type,
                     txid: key.txid,
@@ -141,8 +135,6 @@ class AddressInfo implements IAddressInfoStore
         try
         {
             result = await Api.getaddrutxolist(address, page, size);
-            console.log(result);
-
         } catch (error)
         {
             return false;

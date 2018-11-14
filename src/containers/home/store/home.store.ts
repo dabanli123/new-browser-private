@@ -72,7 +72,6 @@ class Home implements IHomeStore
         try
         {
             result = await Api.getblocks(size, page);
-            // console.log(result);
         } catch (error)
         {
             return false;
@@ -92,7 +91,6 @@ class Home implements IHomeStore
         try
         {
             result = await Api.getrawtransactions(size, page, type);
-            // console.log(result);
         } catch (error)
         {
             return false;
@@ -105,9 +103,7 @@ class Home implements IHomeStore
     @action public async searchAsset(str:string){
         let result:any = null;
         try {
-            result = await Api.searchSomething(str);
-            console.log(result);
-            
+            result = await Api.searchSomething(str);            
         } catch (error) {
             this.searchAssetList = [];
             return false

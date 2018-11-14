@@ -51,11 +51,8 @@ class NNSBeing extends React.Component<INNSProps, {}> {
     }
   ]
   public onCallback = (item) => {
-    console.log(item)
-
     this.props.nns.orderBy = item.id;
     this.getAuctingList();
-    console.log(this.props.nns.orderBy);
   }
   public getAuctingList = () => {
     if (this.props.nns.orderBy === 'time') {

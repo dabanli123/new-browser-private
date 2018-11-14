@@ -20,8 +20,6 @@ class AssetInfo implements IAssetInfoStore {
         let result: any = null;
         try {
             result = await Api.getassetinfo(assetid);
-            console.log(result);
-
         } catch (error) {
             return false;
         }
@@ -37,8 +35,6 @@ class AssetInfo implements IAssetInfoStore {
         let result: any = null;
         try {
             result = await Api.getnep5info(nep5id);
-            console.log(result);
-
         } catch (error) {
             return false;
         }
@@ -53,8 +49,6 @@ class AssetInfo implements IAssetInfoStore {
         let result: any = null;
         try {
             result = await Api.getrankbyassetcount(assetid);
-            console.log(result);
-
         } catch (error) {
             this.balanceRankCount = 0;
             return false;
@@ -70,8 +64,6 @@ class AssetInfo implements IAssetInfoStore {
         let result: any = null;
         try {
             result = await Api.getrankbyasset(assetid, size, page);
-            console.log(result);
-
         } catch (error) {
             return false;
         }
@@ -99,8 +91,6 @@ class AssetInfo implements IAssetInfoStore {
         let result: any = null;
         try {
             result = await Api.getnep5count(type, nep5id);
-            console.log(result);
-
         } catch (error) {
             this.nep5TransCount = 0;
             return false;
@@ -118,8 +108,6 @@ class AssetInfo implements IAssetInfoStore {
         let result: any = null;
         try {
             result = await Api.getnep5transfersbyasset(nep5id, size, page);
-            console.log(result);
-
         } catch (error) {
             return false;
         }

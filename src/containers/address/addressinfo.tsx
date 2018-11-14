@@ -140,7 +140,6 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
   }
   // trans翻页功能
   public onTransPage = (index: number) => {
-    console.log(index)
     this.setState({
       transPage: index
     }, () => {
@@ -149,7 +148,6 @@ class AddressInfo extends React.Component<IAddressInfoProps, {}> {
   }
   // utxo翻页功能
   public onUtxoPage = (index: number) => {
-    console.log(index)
     this.setState({
       utxoPage: index
     }, () => {

@@ -18,7 +18,6 @@ class Search extends React.Component<IHomeProps, any> {
     this.setState({
       inputValue: value
     })
-    console.log(value)
     if (value === '') {
       this.props.home.searchAssetList = [];
       return
@@ -37,7 +36,6 @@ class Search extends React.Component<IHomeProps, any> {
   }
   // 搜索功能
   public toSearchInfo = () => {
-    console.log("search");
     let search: string = this.state.inputValue;
     search = search.trim();
     if (search) {
@@ -76,7 +74,6 @@ class Search extends React.Component<IHomeProps, any> {
     return;
   }
   public goAssetInfo = (assetid) => {
-    console.log(assetid);
     this.props.home.searchAssetList = [];
     if (assetid.length === 42) {
       this.props.history.push('/nep5/' + assetid);

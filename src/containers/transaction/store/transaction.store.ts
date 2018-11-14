@@ -51,8 +51,7 @@ class Transaction implements ITransactionsStore {
         }
         const trans: INep5Trans[] = result || null;
 
-        this.nep5Trans = trans; // [...this.nep5Trans, ...trans];
-        console.log(this.nep5Trans);
+        this.nep5Trans = trans;
         this.nep5Trans.forEach(async (item: INep5Trans, index: number) => {
             item.asset = await this.getNep5Info(item.asset);
         })
@@ -66,12 +65,9 @@ class Transaction implements ITransactionsStore {
         let result: any = null;
         try {
             result = await Api.getnep5asset(nep5);
-            console.log(result);
-
         } catch (error) {
             return false;
         }
-        // this.nep5Info = result[0] || null;
         return result[0] || null;
     }
 }

@@ -115,7 +115,6 @@ class AssetInfo extends React.Component<IAssetInfoProps, {}> {
     // 翻页功能
     public onBalancePage = (index: number) =>
     {
-        console.log(index)
         this.setState({
             currentPage: index
         }, () =>

@@ -138,8 +138,6 @@ class NNS implements INNSStore
         let result: any = null;
         try {
             result = await Api.searchbydomain(domain);
-            console.log(result);
-            
         } catch (error) {
             this.searchCanAuction = null;
             this.searchEndAuction = null;

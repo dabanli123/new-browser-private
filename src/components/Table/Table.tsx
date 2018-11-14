@@ -178,8 +178,6 @@ class Table extends React.Component<IProps, {}> {
                           {
                             this.tableThKeys.map((k: object, i: number) =>
                             {
-                              console.log(k);
-                              
                               const renderHtml = this.props.render ? this.props.render(item[k["key"]], k["key"], item) : null;
                               return (
                                 <div className="table-line" key={i}>

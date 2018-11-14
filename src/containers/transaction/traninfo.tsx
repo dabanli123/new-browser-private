@@ -50,8 +50,6 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
         const params = this.props.match.params;
         await this.getTransactionInfo(params["txid"]);
         this.doVinVoutList();
-        console.log(this.props.transaction.tranInfo);
-
         await this.props.transaction.getNep5Transbytxid(params["txid"]);
 
 
@@ -98,8 +96,6 @@ class TransactionInfo extends React.Component<ITransactionsProps, ITransInfoStat
         }
     }
     public getNep5Name = async (asset) => {
-        console.log("qingqiu");
-
         await this.props.transaction.getNep5Info(asset);
         return this.props.transaction.nep5Info ? this.props.transaction.nep5Info.symbol : ""
     }

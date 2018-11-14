@@ -104,7 +104,6 @@ export default class HeaderMobile extends React.Component<any, IState> {
   }
   public onKeyDown = (ev: any) =>
   {
-    console.log(ev.keyCode);
     if (ev.keyCode === 13)
     {
       this.toSearchInfo();
@@ -113,8 +112,6 @@ export default class HeaderMobile extends React.Component<any, IState> {
   // 搜索功能
   public toSearchInfo = () =>
   {
-    console.log("search");
-
     let search: string = this.state.inputValue;
     search = search.trim();
     if (search)
@@ -166,9 +163,7 @@ export default class HeaderMobile extends React.Component<any, IState> {
   public onClickTochangeLanguage = () =>
   {
     if (this.state.languageText === "中")
-    {
-      console.log(this.state.languageText);
-      
+    {      
       store['common'].language = 'zh';
       this.setState({
         languageText: "中"

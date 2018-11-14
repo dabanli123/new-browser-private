@@ -69,7 +69,6 @@ class Address extends React.Component<IAddressProps, {}> {
   }
   // 翻页功能
   public onGoPage = (index: number) => {
-    console.log(index)
     this.setState({
       currentPage: index
     }, () => {
@@ -81,7 +80,6 @@ class Address extends React.Component<IAddressProps, {}> {
       return null;
     }
 
-    console.log(this.props.address.addrCount)
     return (
       <div className="address-page">
         <TitleText text={this.intrl.address.title1} img={require('@/img/address.png')} />

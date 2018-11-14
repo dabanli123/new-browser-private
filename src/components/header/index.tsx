@@ -84,7 +84,6 @@ export default class Header extends React.Component<IProps, IState>{
     this.setState({
       inputValue: value
     })
-    console.log(value)
     if (value === '') {
       this.props.home.searchAssetList = [];
       return
@@ -105,7 +104,6 @@ export default class Header extends React.Component<IProps, IState>{
   }
   // 搜索功能
   public toSearchInfo = () => {
-    console.log("search");
     let search: string = this.state.inputValue;
     search = search.trim();
     if (search) {
@@ -148,7 +146,6 @@ export default class Header extends React.Component<IProps, IState>{
   }
   // 点击跳转到资产详情
   public goAssetInfo = (assetid) => {
-    console.log(assetid);
     // this.props.home.searchAssetList = [];
     if (assetid.length === 42) {
       this.props.history.push('/nep5/' + assetid);
